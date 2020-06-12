@@ -9,21 +9,37 @@
 /* Begin PBXBuildFile section */
 		EAA9AE9B2485A76100030907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9A2485A76100030907 /* AppDelegate.swift */; };
 		EAA9AE9D2485A76100030907 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9C2485A76100030907 /* SceneDelegate.swift */; };
-		EAA9AE9F2485A76100030907 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9E2485A76100030907 /* ContentView.swift */; };
+		EAA9AE9F2485A76100030907 /* NowReadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9E2485A76100030907 /* NowReadingList.swift */; };
 		EAA9AEA12485A76200030907 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAA9AEA02485A76200030907 /* Assets.xcassets */; };
 		EAA9AEA42485A76200030907 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAA9AEA32485A76200030907 /* Preview Assets.xcassets */; };
 		EAA9AEA72485A76200030907 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAA9AEA52485A76200030907 /* LaunchScreen.storyboard */; };
+		EAA9AEB02485B77900030907 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AEAF2485B77900030907 /* BookModel.swift */; };
+		EAB2D1862486900300BAB4E2 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D1852486900300BAB4E2 /* BookRow.swift */; };
+		EAB2D1882487E99C00BAB4E2 /* BookDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D1872487E99C00BAB4E2 /* BookDetails.swift */; };
+		EAB2D18A2488574C00BAB4E2 /* EditBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D1892488574C00BAB4E2 /* EditBookView.swift */; };
+		EAB2D18C24885C5D00BAB4E2 /* BookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */; };
+		EAB2D18E248BF23400BAB4E2 /* AddBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18D248BF23400BAB4E2 /* AddBookView.swift */; };
+		EAB2D191248C182700BAB4E2 /* ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D190248C182700BAB4E2 /* ForEach.swift */; };
+		EAB2D193248C183400BAB4E2 /* IndexedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D192248C183400BAB4E2 /* IndexedCollection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EAA9AE972485A76100030907 /* ReadRate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReadRate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAA9AE972485A76100030907 /* Read Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Read Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA9AE9A2485A76100030907 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAA9AE9C2485A76100030907 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EAA9AE9E2485A76100030907 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EAA9AE9E2485A76100030907 /* NowReadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowReadingList.swift; sourceTree = "<group>"; };
 		EAA9AEA02485A76200030907 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EAA9AEA32485A76200030907 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EAA9AEA62485A76200030907 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EAA9AEA82485A76200030907 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAA9AEAF2485B77900030907 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
+		EAB2D1852486900300BAB4E2 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
+		EAB2D1872487E99C00BAB4E2 /* BookDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetails.swift; sourceTree = "<group>"; };
+		EAB2D1892488574C00BAB4E2 /* EditBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookView.swift; sourceTree = "<group>"; };
+		EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStore.swift; sourceTree = "<group>"; };
+		EAB2D18D248BF23400BAB4E2 /* AddBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookView.swift; sourceTree = "<group>"; };
+		EAB2D190248C182700BAB4E2 /* ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEach.swift; sourceTree = "<group>"; };
+		EAB2D192248C183400BAB4E2 /* IndexedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedCollection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +64,7 @@
 		EAA9AE982485A76100030907 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EAA9AE972485A76100030907 /* ReadRate.app */,
+				EAA9AE972485A76100030907 /* Read Rate.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -56,9 +72,15 @@
 		EAA9AE992485A76100030907 /* ReadRate */ = {
 			isa = PBXGroup;
 			children = (
+				EAB2D18F248C180B00BAB4E2 /* Extensions */,
+				EAA9AEAE2485B76900030907 /* Models */,
 				EAA9AE9A2485A76100030907 /* AppDelegate.swift */,
 				EAA9AE9C2485A76100030907 /* SceneDelegate.swift */,
-				EAA9AE9E2485A76100030907 /* ContentView.swift */,
+				EAA9AE9E2485A76100030907 /* NowReadingList.swift */,
+				EAB2D18D248BF23400BAB4E2 /* AddBookView.swift */,
+				EAB2D1892488574C00BAB4E2 /* EditBookView.swift */,
+				EAB2D1852486900300BAB4E2 /* BookRow.swift */,
+				EAB2D1872487E99C00BAB4E2 /* BookDetails.swift */,
 				EAA9AEA02485A76200030907 /* Assets.xcassets */,
 				EAA9AEA52485A76200030907 /* LaunchScreen.storyboard */,
 				EAA9AEA82485A76200030907 /* Info.plist */,
@@ -73,6 +95,24 @@
 				EAA9AEA32485A76200030907 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EAA9AEAE2485B76900030907 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EAA9AEAF2485B77900030907 /* BookModel.swift */,
+				EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EAB2D18F248C180B00BAB4E2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EAB2D190248C182700BAB4E2 /* ForEach.swift */,
+				EAB2D192248C183400BAB4E2 /* IndexedCollection.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -92,7 +132,7 @@
 			);
 			name = ReadRate;
 			productName = ReadRate;
-			productReference = EAA9AE972485A76100030907 /* ReadRate.app */;
+			productReference = EAA9AE972485A76100030907 /* Read Rate.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -146,9 +186,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAA9AEB02485B77900030907 /* BookModel.swift in Sources */,
+				EAB2D18E248BF23400BAB4E2 /* AddBookView.swift in Sources */,
+				EAB2D1862486900300BAB4E2 /* BookRow.swift in Sources */,
+				EAB2D18C24885C5D00BAB4E2 /* BookStore.swift in Sources */,
 				EAA9AE9B2485A76100030907 /* AppDelegate.swift in Sources */,
+				EAB2D193248C183400BAB4E2 /* IndexedCollection.swift in Sources */,
 				EAA9AE9D2485A76100030907 /* SceneDelegate.swift in Sources */,
-				EAA9AE9F2485A76100030907 /* ContentView.swift in Sources */,
+				EAA9AE9F2485A76100030907 /* NowReadingList.swift in Sources */,
+				EAB2D18A2488574C00BAB4E2 /* EditBookView.swift in Sources */,
+				EAB2D191248C182700BAB4E2 /* ForEach.swift in Sources */,
+				EAB2D1882487E99C00BAB4E2 /* BookDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,7 +342,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.evanfreeze.ReadRate;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Read Rate";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -314,7 +362,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.evanfreeze.ReadRate;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Read Rate";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
