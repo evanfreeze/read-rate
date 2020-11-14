@@ -11,8 +11,8 @@ import SwiftUI
 struct BookRow: View {
     @Binding var book: Book
     
-    let progressLength: CGFloat = 180.0
-    let progressHeight: CGFloat = 10.0
+    let circleProgressSize: CGFloat = 52.0
+    let circleLineWidth: CGFloat = 6.0
     
     var pageToReadTo: String {
         String(book.dailyTargets.last?.targetPage ?? book.pageCount)
@@ -39,46 +39,41 @@ struct BookRow: View {
     }
     
     var body: some View {
-        HStack(alignment: .center, spacing: 16.0) {
+        HStack(alignment: .center, spacing: 20.0) {
             ZStack {
                 Circle()
-                    .frame(width: 52.0, height: 52.0)
+                    .stroke(lineWidth: circleLineWidth)
+                    .opacity(0.1)
                     .foregroundColor(progressColor)
+                    .frame(width: circleProgressSize, height: circleProgressSize)
+                Circle()
+                    .trim(from: 0.0, to: CGFloat(getProgressBarFillAmount()))
+                    .stroke(style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round, lineJoin: .round))
+                    .foregroundColor(progressColor)
+                    .frame(width: circleProgressSize, height: circleProgressSize)
+                    .rotationEffect(Angle(degrees: 270.0))
                 if book.currentPage == book.pageCount {
                     Image(systemName: "star.fill")
-                        .foregroundColor(.white)
+                        .foregroundColor(progressColor)
                         .font(Font.system(.body).bold())
                 } else if book.readToday {
                     Image(systemName: "checkmark")
-                        .foregroundColor(.white)
+                        .foregroundColor(progressColor)
                         .font(Font.system(.body).bold())
                 } else {
                     Text(book.pagesRemainingToday)
-                        .foregroundColor(.white)
+                        .foregroundColor(progressColor)
                         .font(Font.system(.body).bold())
                 }
             }
-            VStack(alignment: .leading, spacing: 6.0) {
-                VStack(alignment: .leading, spacing: 2.0) {
+            VStack(alignment: .leading, spacing: 8.0) {
+                VStack(alignment: .leading, spacing: 1.0) {
                     Text(book.title)
-                        .font(Font.system(.title3).bold())
+                        .font(Font.system(.title2).bold())
                         .foregroundColor(.primary)
                     Text(book.author)
                         .font(Font.system(.subheadline).bold())
                         .foregroundColor(.secondary)
-                }
-                HStack(spacing: 6.0) {
-                    ZStack(alignment: .leading) {
-                        Capsule()
-                            .frame(width: progressLength, height: progressHeight)
-                            .foregroundColor(.gray).opacity(0.3)
-                        Capsule()
-                            .frame(width: CGFloat(getProgressBarFillAmount() * Double(progressLength)), height: progressHeight)
-                            .foregroundColor(progressColor)
-                    }
-                    Text(book.percentComplete)
-                        .foregroundColor(.secondary)
-                        .font(.caption)
                 }
                 Text(progressSubtext)
                     .foregroundColor(.secondary)
