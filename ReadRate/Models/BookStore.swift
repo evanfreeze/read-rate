@@ -15,9 +15,7 @@ let bookOne = Book(
     pageCount: 320,
     currentPage: 23,
     startDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -4)),
-    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 10)),
-    todaysTarget: 43,
-    todaysTargetLastUpdated: Date().advanced(by: TimeInterval(60.0 * 60.0 * -2))
+    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 10))
 )
 
 let bookTwo = Book(
@@ -26,9 +24,7 @@ let bookTwo = Book(
     pageCount: 300,
     currentPage: 243,
     startDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -1)),
-    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 5)),
-    todaysTarget: 250,
-    todaysTargetLastUpdated: Date().advanced(by: TimeInterval(60.0 * 60.0 * -3))
+    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 5))
 )
 
 let bookThree = Book(
@@ -37,20 +33,8 @@ let bookThree = Book(
     pageCount: 238,
     currentPage: 70,
     startDate: Date(),
-    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 24)),
-    todaysTarget: 83,
-    todaysTargetLastUpdated: Date().advanced(by: TimeInterval(60.0 * 60.0 * -8))
+    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 24))
 )
-
-func getMockBooks() -> BookStore {
-    let mockBookStore = BookStore()
-    
-    [bookOne, bookTwo, bookThree].forEach { book in
-        mockBookStore.books.append(book)
-    }
-    
-    return mockBookStore
-}
 
 class BookStore: ObservableObject {
     let bookStoreURL = URL(
@@ -58,7 +42,7 @@ class BookStore: ObservableObject {
         relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     ).appendingPathExtension("json")
     
-    @Published var books: [Book] = [] {
+    @Published var books: [Book] = [bookOne, bookTwo, bookThree] {
         didSet {
             saveBookStoreJSON()
         }
@@ -86,7 +70,10 @@ class BookStore: ObservableObject {
     
     private func saveBookStoreJSON() {
         do {
-            let bookStoreJSON = try JSONEncoder().encode(books)
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            
+            let bookStoreJSON = try encoder.encode(books)
             try bookStoreJSON.write(to: bookStoreURL, options: .atomicWrite)
         } catch let error {
             print(error)
@@ -101,9 +88,18 @@ class BookStore: ObservableObject {
         }
         
         for (index, book) in books.enumerated() {
-            if !Calendar.current.isDateInToday(book.todaysTargetLastUpdated) {
-                books[index].todaysTarget = Int(book.nextStoppingPage)!
-                books[index].todaysTargetLastUpdated = Date()
+            let hasNotBeenUpdatedToday = !Calendar.current.isDateInToday(book.dailyTargets.last?.calcTime ?? Date().addingTimeInterval(60 * 60 * -48))
+            let targetDateChangedSinceLastUpdate = book.targetDate != book.dailyTargets.last?.meta.targetDate ?? book.targetDate
+            let isNotComplete = book.currentPage < book.pageCount
+            
+            if isNotComplete && (hasNotBeenUpdatedToday || targetDateChangedSinceLastUpdate) {
+                let targetMeta = DailyTargetMeta(pageCount: books[index].pageCount, currentPage: books[index].currentPage, targetDate: books[index].targetDate)
+                let todaysTarget = DailyTarget(targetPage: Int(book.nextStoppingPage)!, calcTime: Date(), meta: targetMeta)
+                
+                books[index].dailyTargets.append(todaysTarget)
+                print("set target for \(book.title)")
+            } else {
+                print("skipped setting target for \(book.title)")
             }
         }
     }

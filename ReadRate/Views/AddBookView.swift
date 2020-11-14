@@ -37,7 +37,7 @@ struct AddBookView: View {
     
     var body: some View {
         Form {
-            Text("Add a New Book")
+            Text("Start a New Book")
                 .font(.largeTitle).bold().padding(.bottom).padding(.top)
             LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title)
             LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author)
@@ -59,9 +59,7 @@ struct AddBookView: View {
     
     
     
-    func addBook() {
-        let yesterday = Date().addingTimeInterval(TimeInterval(-60 * 60 * 24))
-        
+    func addBook() {        
         // Creates a new book with the data from the form
         let newBook = Book(
             title: self.title,
@@ -69,9 +67,7 @@ struct AddBookView: View {
             pageCount: Int(self.pageCount)!,
             currentPage: Int(self.currentPage)!,
             startDate: Date(),
-            targetDate: self.targetDate,
-            todaysTarget: 0,
-            todaysTargetLastUpdated: yesterday
+            targetDate: self.targetDate
         )
         
         // Adds the new book to the store

@@ -10,16 +10,17 @@ import SwiftUI
 
 struct NowReadingList: View {
     @ObservedObject var bookStore: BookStore
-    
-    @State var showDetails = false
-    @State var isEditing = false
-    @State var isAdding = false
+    @State var showSheet = false
     
     var body: some View {
         NavigationView {
             List {
                 ForEach(bookStore.books) { index in
-                    BookRow(book: self.$bookStore.books[index])
+                    NavigationLink(
+                        destination: EditBookView(book: self.$bookStore.books[index]),
+                        label: {
+                            BookRow(book: self.$bookStore.books[index])
+                    })
                 }
                 .onDelete { indexSet in
                     self.bookStore.books.remove(atOffsets: indexSet)
@@ -34,10 +35,17 @@ struct NowReadingList: View {
             .navigationBarTitle("Now Reading")
             .navigationBarItems(
                 leading: EditButton(),
-                trailing: Button(action: { self.isAdding = true }) { Image(systemName: "plus") }
+                trailing: Button(action: {
+                    self.showSheet = true
+                }) {
+                    HStack {
+                        Image(systemName: "plus")
+                        Image(systemName: "book")
+                    }
+                }
             )
         }
-        .sheet(isPresented: $isAdding) {
+        .sheet(isPresented: $showSheet, onDismiss: { self.bookStore.setTodaysTargets() }) {
             AddBookView(bookStore: self.bookStore)
         }
     }

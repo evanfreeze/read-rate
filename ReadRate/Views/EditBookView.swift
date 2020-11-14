@@ -15,23 +15,23 @@ struct EditBookView: View {
     
     var body: some View {
         Form {
-            Text("What page are you on?")
+            Text("You're on page")
             Picker("", selection: $book.currentPage) {
                 ForEach(0..<book.pageCount + 1) {
                     Text(String($0)).tag($0)
                 }
             }.pickerStyle(WheelPickerStyle())
             DatePicker(
+                "You want to finish by",
                 selection: $book.targetDate,
                 in: book.startDate...,
-                displayedComponents: .date,
-                label: { Text("Change target completion date?")
-                    .font(.callout) }
+                displayedComponents: .date
             )
             Button("Update Reading Progress") {
                 self.presentationMode.wrappedValue.dismiss()
             }
         }
+        .navigationTitle(book.title)
     }
 }
 

@@ -14,13 +14,12 @@
 		EAA9AEA42485A76200030907 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAA9AEA32485A76200030907 /* Preview Assets.xcassets */; };
 		EAA9AEA72485A76200030907 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAA9AEA52485A76200030907 /* LaunchScreen.storyboard */; };
 		EAA9AEB02485B77900030907 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AEAF2485B77900030907 /* BookModel.swift */; };
-		EAB2D1862486900300BAB4E2 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D1852486900300BAB4E2 /* BookRow.swift */; };
-		EAB2D1882487E99C00BAB4E2 /* BookDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D1872487E99C00BAB4E2 /* BookDetails.swift */; };
 		EAB2D18A2488574C00BAB4E2 /* EditBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D1892488574C00BAB4E2 /* EditBookView.swift */; };
 		EAB2D18C24885C5D00BAB4E2 /* BookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */; };
 		EAB2D18E248BF23400BAB4E2 /* AddBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18D248BF23400BAB4E2 /* AddBookView.swift */; };
 		EAB2D191248C182700BAB4E2 /* ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D190248C182700BAB4E2 /* ForEach.swift */; };
 		EAB2D193248C183400BAB4E2 /* IndexedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D192248C183400BAB4E2 /* IndexedCollection.swift */; };
+		EAE64A8224982D7600D8025B /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE64A8124982D7600D8025B /* BookRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,13 +32,12 @@
 		EAA9AEA62485A76200030907 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EAA9AEA82485A76200030907 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EAA9AEAF2485B77900030907 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
-		EAB2D1852486900300BAB4E2 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
-		EAB2D1872487E99C00BAB4E2 /* BookDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetails.swift; sourceTree = "<group>"; };
 		EAB2D1892488574C00BAB4E2 /* EditBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookView.swift; sourceTree = "<group>"; };
 		EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStore.swift; sourceTree = "<group>"; };
 		EAB2D18D248BF23400BAB4E2 /* AddBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookView.swift; sourceTree = "<group>"; };
 		EAB2D190248C182700BAB4E2 /* ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEach.swift; sourceTree = "<group>"; };
 		EAB2D192248C183400BAB4E2 /* IndexedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedCollection.swift; sourceTree = "<group>"; };
+		EAE64A8124982D7600D8025B /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,11 +74,7 @@
 				EAA9AEAE2485B76900030907 /* Models */,
 				EAA9AE9A2485A76100030907 /* AppDelegate.swift */,
 				EAA9AE9C2485A76100030907 /* SceneDelegate.swift */,
-				EAA9AE9E2485A76100030907 /* NowReadingList.swift */,
-				EAB2D18D248BF23400BAB4E2 /* AddBookView.swift */,
-				EAB2D1892488574C00BAB4E2 /* EditBookView.swift */,
-				EAB2D1852486900300BAB4E2 /* BookRow.swift */,
-				EAB2D1872487E99C00BAB4E2 /* BookDetails.swift */,
+				EAE64A832498618100D8025B /* Views */,
 				EAA9AEA02485A76200030907 /* Assets.xcassets */,
 				EAA9AEA52485A76200030907 /* LaunchScreen.storyboard */,
 				EAA9AEA82485A76200030907 /* Info.plist */,
@@ -115,6 +109,17 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		EAE64A832498618100D8025B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EAA9AE9E2485A76100030907 /* NowReadingList.swift */,
+				EAB2D18D248BF23400BAB4E2 /* AddBookView.swift */,
+				EAB2D1892488574C00BAB4E2 /* EditBookView.swift */,
+				EAE64A8124982D7600D8025B /* BookRow.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -142,7 +147,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Evan Freeze";
 				TargetAttributes = {
 					EAA9AE962485A76100030907 = {
@@ -187,8 +192,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAA9AEB02485B77900030907 /* BookModel.swift in Sources */,
+				EAE64A8224982D7600D8025B /* BookRow.swift in Sources */,
 				EAB2D18E248BF23400BAB4E2 /* AddBookView.swift in Sources */,
-				EAB2D1862486900300BAB4E2 /* BookRow.swift in Sources */,
 				EAB2D18C24885C5D00BAB4E2 /* BookStore.swift in Sources */,
 				EAA9AE9B2485A76100030907 /* AppDelegate.swift in Sources */,
 				EAB2D193248C183400BAB4E2 /* IndexedCollection.swift in Sources */,
@@ -196,7 +201,6 @@
 				EAA9AE9F2485A76100030907 /* NowReadingList.swift in Sources */,
 				EAB2D18A2488574C00BAB4E2 /* EditBookView.swift in Sources */,
 				EAB2D191248C182700BAB4E2 /* ForEach.swift in Sources */,
-				EAB2D1882487E99C00BAB4E2 /* BookDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +244,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -264,7 +269,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -300,6 +305,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -318,7 +324,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

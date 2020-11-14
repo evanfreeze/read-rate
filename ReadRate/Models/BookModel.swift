@@ -8,24 +8,35 @@
 
 import Foundation
 
+struct DailyTargetMeta: Codable {
+    var pageCount: Int
+    var currentPage: Int
+    var targetDate: Date
+}
+
+struct DailyTarget: Codable {
+    var targetPage: Int
+    var calcTime: Date
+    var meta: DailyTargetMeta
+}
+
 struct Book: Identifiable, Codable {
     
     // MARK: Defined Properties
-    let id = UUID()
-    var title: String;
-    var author: String;
-    var pageCount: Int;
-    var currentPage: Int;
-    var startDate: Date;
-    var targetDate: Date;
-    var todaysTarget: Int;
-    var todaysTargetLastUpdated: Date
+    var id = UUID()
+    var title: String
+    var author: String
+    var pageCount: Int
+    var currentPage: Int
+    var startDate: Date
+    var targetDate: Date
+    var dailyTargets: [DailyTarget] = []
     
     
     // MARK: Computed Properties
     var readToday: Bool {
         get {
-            currentPage >= todaysTarget
+            currentPage >= dailyTargets.last?.targetPage ?? pageCount
         }
     }
     
@@ -38,6 +49,12 @@ struct Book: Identifiable, Codable {
     var pagesPerDay: String {
         get {
             String(getPagesPerDay())
+        }
+    }
+    
+    var pagesRemainingToday: String {
+        get {
+            String((dailyTargets.last?.targetPage ?? pageCount) - currentPage)
         }
     }
     
