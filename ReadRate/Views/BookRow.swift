@@ -8,6 +8,32 @@
 
 import SwiftUI
 
+struct ProgressCircle<T: View>: View {
+    let progress: Double
+    let progressColor: Color
+    let centerContent: T
+    
+    let circleProgressSize: CGFloat = 52.0
+    let circleLineWidth: CGFloat = 6.0
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(lineWidth: circleLineWidth)
+                .opacity(0.1)
+                .foregroundColor(progressColor)
+                .frame(width: circleProgressSize, height: circleProgressSize)
+            Circle()
+                .trim(from: 0.0, to: CGFloat(progress))
+                .stroke(style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round, lineJoin: .round))
+                .foregroundColor(progressColor)
+                .frame(width: circleProgressSize, height: circleProgressSize)
+                .rotationEffect(Angle(degrees: 270.0))
+            centerContent
+        }
+    }
+}
+
 struct BookRow: View {
     @Binding var book: Book
     
@@ -38,34 +64,41 @@ struct BookRow: View {
         }
     }
     
+    var progressBarFillAmount: Double {
+        let minAmount = 0.06
+        
+        if book.getCompletionPercentage() < minAmount {
+            return minAmount
+        } else {
+            return book.getCompletionPercentage()
+        }
+    }
+    
+    var ProgressIcon: some View {
+        Group {
+            if book.currentPage == book.pageCount {
+                Image(systemName: "star.fill")
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body).bold())
+            } else if book.readToday {
+                Image(systemName: "checkmark")
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body).bold())
+            } else {
+                Text(book.pagesRemainingToday)
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body).bold())
+            }
+        }
+    }
+    
     var body: some View {
         HStack(alignment: .center, spacing: 20.0) {
-            ZStack {
-                Circle()
-                    .stroke(lineWidth: circleLineWidth)
-                    .opacity(0.1)
-                    .foregroundColor(progressColor)
-                    .frame(width: circleProgressSize, height: circleProgressSize)
-                Circle()
-                    .trim(from: 0.0, to: CGFloat(getProgressBarFillAmount()))
-                    .stroke(style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round, lineJoin: .round))
-                    .foregroundColor(progressColor)
-                    .frame(width: circleProgressSize, height: circleProgressSize)
-                    .rotationEffect(Angle(degrees: 270.0))
-                if book.currentPage == book.pageCount {
-                    Image(systemName: "star.fill")
-                        .foregroundColor(progressColor)
-                        .font(Font.system(.body).bold())
-                } else if book.readToday {
-                    Image(systemName: "checkmark")
-                        .foregroundColor(progressColor)
-                        .font(Font.system(.body).bold())
-                } else {
-                    Text(book.pagesRemainingToday)
-                        .foregroundColor(progressColor)
-                        .font(Font.system(.body).bold())
-                }
-            }
+            ProgressCircle(
+                progress: progressBarFillAmount,
+                progressColor: progressColor,
+                centerContent: ProgressIcon
+            )
             VStack(alignment: .leading, spacing: 8.0) {
                 VStack(alignment: .leading, spacing: 1.0) {
                     Text(book.title)
@@ -81,16 +114,6 @@ struct BookRow: View {
             }
         }
         .padding([.top, .bottom], 12.0)
-    }
-    
-    func getProgressBarFillAmount() -> Double {
-        let minAmount = 0.06
-        
-        if book.getCompletionPercentage() < minAmount {
-            return minAmount
-        } else {
-            return book.getCompletionPercentage()
-        }
     }
 }
 
