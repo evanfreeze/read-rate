@@ -120,8 +120,11 @@ struct BookRow: View {
 struct BookRow_v2_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            BookRow(book: .constant(BookStore().books[0])).previewLayout(PreviewLayout.fixed(width: 360, height: 200))
-            BookRow(book: .constant(BookStore().books[1])).previewLayout(PreviewLayout.fixed(width: 360, height: 300)).environment(\.colorScheme, .dark)
+            BookRow(book: .constant(BookStore().books[0]))
+                .previewLayout(PreviewLayout.fixed(width: 360, height: 200))
+            BookRow(book: .constant(BookStore().books[1]))
+                .previewLayout(PreviewLayout.fixed(width: 360, height: 300))
+                .environment(\.colorScheme, .dark)
         }
     }
 }

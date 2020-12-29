@@ -30,10 +30,9 @@ struct ArchiveView: View {
     }
     
     func unarchiveBook(book: Book) {
-        var bookCopy = book
-        bookCopy.archivedAt = nil
-        shelf.books.append(bookCopy)
-        shelf.archivedBooks.removeAll(where: { $0 == book })
+        if let found = shelf.books.firstIndex(of: book) {
+            shelf.books[found].archivedAt = nil
+        }
     }
 }
 

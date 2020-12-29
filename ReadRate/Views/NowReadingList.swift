@@ -16,18 +16,16 @@ struct NowReadingList: View {
         NavigationView {
             VStack {
                 List {
-                    ForEach(bookStore.books) { index in
+                    ForEach(bookStore.activeBooks) { book in
                         NavigationLink(
-                            destination: EditBookView(book: self.$bookStore.books[index], shelf: bookStore),
+                            destination: EditBookView(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
                             label: {
-                                BookRow(book: self.$bookStore.books[index])
+                                BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
                             })
                     }
-                    .onDelete { indexSet in
-                        self.bookStore.books.remove(atOffsets: indexSet)
-                    }
+                    .onDelete(perform: deleteBooks)
                     .onMove { indiciesToMove, destinationIndex in
-                        self.bookStore.books.move(fromOffsets: indiciesToMove, toOffset: destinationIndex)
+                        moveBooks(indexesToMove: indiciesToMove, destinationIndex: destinationIndex)
                     }
                 }
                 Spacer()
@@ -43,7 +41,6 @@ struct NowReadingList: View {
             }
             .onAppear() {
                 self.bookStore.setTodaysTargets()
-                self.bookStore.archiveBooks()
             }
             .navigationBarTitle("Now Reading")
             .navigationBarItems(
@@ -61,6 +58,29 @@ struct NowReadingList: View {
         .sheet(isPresented: $showSheet, onDismiss: { self.bookStore.setTodaysTargets() }) {
             AddBookView(bookStore: self.bookStore)
         }
+    }
+    
+    func bookBindingForIndex(_ index: Int) -> Binding<Book> {
+        if let found = bookStore.books.firstIndex(of: bookStore.activeBooks[index]) {
+            return $bookStore.books[found]
+        } else {
+            fatalError()
+        }
+    }
+    
+    func deleteBooks(_ indexes: IndexSet) {
+        for index in indexes {
+            if let found = bookStore.books.firstIndex(of: bookStore.activeBooks[index]) {
+                bookStore.books.remove(at: found)
+            }
+        }
+    }
+    
+    func moveBooks(indexesToMove: IndexSet, destinationIndex: Int) {
+        let foundIndexes = indexesToMove.map({ bookStore.books.firstIndex(of: bookStore.activeBooks[$0])! })
+        let offsets = IndexSet(foundIndexes)
+        
+        bookStore.books.move(fromOffsets: offsets, toOffset: destinationIndex)
     }
 }
 
