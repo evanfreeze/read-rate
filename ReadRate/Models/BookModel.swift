@@ -63,7 +63,28 @@ struct Book: Identifiable, Codable {
             String(currentPage + Int(pagesPerDay)!)
         }
     }
-
+    
+    var displayCompletionTarget: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter.string(from: targetDate)
+    }
+    
+    var displayStartDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter.string(from: startDate)
+    }
+    
+    var progressDescription: String {
+        if (currentPage == pageCount) {
+            return "You finished the book — congrats!"
+        } else if (readToday) {
+            return "You've read enough today to stay on track"
+        } else {
+            return "Read to page \(dailyTargets.last?.targetPage ?? pageCount) today to stay on track"
+        }
+    }
     
     // MARK: Methods
     func getCompletionPercentage() -> Double {
@@ -74,7 +95,7 @@ struct Book: Identifiable, Codable {
         let pagesRemaining = Double(pageCount - currentPage)
         var pagesPerDay: Double
         
-        if startDate.compare(Date()) == ComparisonResult.orderedAscending {
+        if startDate < Date() {
             // If the start date is in the past, we should use today's date to calculate the pages to read
             pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: Date())
             
@@ -83,7 +104,11 @@ struct Book: Identifiable, Codable {
             pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: startDate)
         }
         
-        return Int(pagesPerDay.rounded())
+        if !pagesPerDay.isNaN && pagesPerDay.isFinite {
+            return Int(pagesPerDay.rounded())
+        }
+        
+        return Int(pagesRemaining)
     }
     
     func getReadingDaysFromDates(start: Date) -> Double {
