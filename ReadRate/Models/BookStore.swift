@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-let bookOne = Book(
+var bookOne = Book(
     title: "The Fault in Our Stars",
     author: "John Green",
     pageCount: 320,
@@ -18,7 +18,7 @@ let bookOne = Book(
     targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 10))
 )
 
-let bookTwo = Book(
+var bookTwo = Book(
     title: "Deep Work",
     author: "Cal Newport",
     pageCount: 300,
@@ -27,7 +27,7 @@ let bookTwo = Book(
     targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 5))
 )
 
-let bookThree = Book(
+var bookThree = Book(
     title: "So You Want to Talk About Race",
     author: "Ijeoma Oluo",
     pageCount: 238,
@@ -42,15 +42,27 @@ class BookStore: ObservableObject {
         relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     ).appendingPathExtension("json")
     
+    let archiveURL = URL(
+        fileURLWithPath: "BookArchive",
+        relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    ).appendingPathExtension("json")
+    
     @Published var books: [Book] = [bookOne, bookTwo, bookThree] {
         didSet {
             saveBookStoreJSON()
         }
     }
     
+    @Published var archivedBooks: [Book] = [] {
+        didSet {
+            saveArchiveJSON()
+        }
+    }
+    
     init() {
         print(bookStoreURL)
         loadBookStoreJSON()
+        loadArchiveJSON()
         migrateBooks()
     }
     
@@ -80,6 +92,32 @@ class BookStore: ObservableObject {
         }
     }
     
+    private func loadArchiveJSON() {
+        guard FileManager.default.fileExists(atPath: archiveURL.path) else {
+            return
+        }
+        
+        do {
+            let archivedBooksData = try Data(contentsOf: archiveURL)
+            archivedBooks = try JSONDecoder().decode([Book].self, from: archivedBooksData)
+            print(archivedBooks)
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    private func saveArchiveJSON() {
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            
+            let archivedBooksJSON = try encoder.encode(archivedBooks)
+            try archivedBooksJSON.write(to: archiveURL, options: .atomicWrite)
+        } catch let error {
+            print(error)
+        }
+    }
+    
     public func setTodaysTargets() {
         print("setting today's target pages")
         
@@ -100,6 +138,15 @@ class BookStore: ObservableObject {
                 print("set target for \(book.title)")
             } else {
                 print("skipped setting target for \(book.title)")
+            }
+        }
+    }
+    
+    public func archiveBooks() {
+        for book in books {
+            if book.archivedAt != nil {
+                archivedBooks.append(book)
+                books.removeAll(where: { $0 == book })
             }
         }
     }

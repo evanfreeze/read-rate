@@ -20,7 +20,9 @@ extension Text {
 }
 
 struct EditBookView: View {
+    @Environment(\.presentationMode) var presentationMode
     @Binding var book: Book
+    @ObservedObject var shelf: BookStore
     
     @State private var editingTargetDate = false
     @State private var editingCurrentPage = false
@@ -91,14 +93,22 @@ struct EditBookView: View {
                 }
             }
             Spacer()
+            Button(action: archiveBook) {
+                Text("Archive Book")
+            }
         }
         .padding()
         .navigationTitle(book.title)
+    }
+    
+    func archiveBook() {
+        book.archivedAt = Date()
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
 struct EditBookView_Previews: PreviewProvider {
     static var previews: some View {
-        EditBookView(book: .constant(BookStore().books[0]))
+        EditBookView(book: .constant(BookStore().books[0]), shelf: BookStore())
     }
 }

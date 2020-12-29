@@ -20,7 +20,7 @@ struct DailyTarget: Codable {
     var meta: DailyTargetMeta
 }
 
-struct Book: Identifiable, Codable {
+struct Book: Identifiable, Codable, Comparable {
     
     // MARK: Defined Properties
     var id = UUID()
@@ -31,6 +31,7 @@ struct Book: Identifiable, Codable {
     var startDate: Date
     var targetDate: Date
     var dailyTargets: [DailyTarget] = []
+    var archivedAt: Date?
     
     
     // MARK: Computed Properties
@@ -114,5 +115,14 @@ struct Book: Identifiable, Codable {
     func getReadingDaysFromDates(start: Date) -> Double {
         let days = Calendar.current.dateComponents([.day], from: start, to: targetDate).day!
         return Double(days + 1)
+    }
+    
+    // MARK: Comparable Conformance
+    static func < (lhs: Book, rhs: Book) -> Bool {
+        lhs.startDate < rhs.startDate
+    }
+    
+    static func == (lhs: Book, rhs: Book) -> Bool {
+        lhs.startDate == rhs.startDate && lhs.title == rhs.title && lhs.author == rhs.author
     }
 }

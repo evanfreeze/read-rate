@@ -14,23 +14,36 @@ struct NowReadingList: View {
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(bookStore.books) { index in
-                    NavigationLink(
-                        destination: EditBookView(book: self.$bookStore.books[index]),
-                        label: {
-                            BookRow(book: self.$bookStore.books[index])
-                    })
+            VStack {
+                List {
+                    ForEach(bookStore.books) { index in
+                        NavigationLink(
+                            destination: EditBookView(book: self.$bookStore.books[index], shelf: bookStore),
+                            label: {
+                                BookRow(book: self.$bookStore.books[index])
+                            })
+                    }
+                    .onDelete { indexSet in
+                        self.bookStore.books.remove(atOffsets: indexSet)
+                    }
+                    .onMove { indiciesToMove, destinationIndex in
+                        self.bookStore.books.move(fromOffsets: indiciesToMove, toOffset: destinationIndex)
+                    }
                 }
-                .onDelete { indexSet in
-                    self.bookStore.books.remove(atOffsets: indexSet)
-                }
-                .onMove { indiciesToMove, destinationIndex in
-                    self.bookStore.books.move(fromOffsets: indiciesToMove, toOffset: destinationIndex)
+                Spacer()
+                if bookStore.archivedBooks.count > 0 {
+                    HStack {
+                        Spacer()
+                        NavigationLink(destination: ArchiveView(shelf: bookStore)) {
+                            Text("View Archived Books")
+                        }
+                        Spacer()
+                    }
                 }
             }
             .onAppear() {
                 self.bookStore.setTodaysTargets()
+                self.bookStore.archiveBooks()
             }
             .navigationBarTitle("Now Reading")
             .navigationBarItems(

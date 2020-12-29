@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA377398259B93F2008E9789 /* ArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA377397259B93F2008E9789 /* ArchiveView.swift */; };
 		EAA9AE9B2485A76100030907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9A2485A76100030907 /* AppDelegate.swift */; };
 		EAA9AE9D2485A76100030907 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9C2485A76100030907 /* SceneDelegate.swift */; };
 		EAA9AE9F2485A76100030907 /* NowReadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9E2485A76100030907 /* NowReadingList.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EA377397259B93F2008E9789 /* ArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveView.swift; sourceTree = "<group>"; };
 		EAA9AE972485A76100030907 /* Read Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Read Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA9AE9A2485A76100030907 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAA9AE9C2485A76100030907 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				EAA9AE9E2485A76100030907 /* NowReadingList.swift */,
 				EAB2D18D248BF23400BAB4E2 /* AddBookView.swift */,
 				EAB2D1892488574C00BAB4E2 /* EditBookView.swift */,
+				EA377397259B93F2008E9789 /* ArchiveView.swift */,
 				EAE64A8124982D7600D8025B /* BookRow.swift */,
 			);
 			path = Views;
@@ -199,6 +202,7 @@
 				EAB2D193248C183400BAB4E2 /* IndexedCollection.swift in Sources */,
 				EAA9AE9D2485A76100030907 /* SceneDelegate.swift in Sources */,
 				EAA9AE9F2485A76100030907 /* NowReadingList.swift in Sources */,
+				EA377398259B93F2008E9789 /* ArchiveView.swift in Sources */,
 				EAB2D18A2488574C00BAB4E2 /* EditBookView.swift in Sources */,
 				EAB2D191248C182700BAB4E2 /* ForEach.swift in Sources */,
 			);
