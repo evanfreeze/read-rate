@@ -87,7 +87,7 @@ struct BookRow: View {
             } else {
                 Text(book.pagesRemainingToday)
                     .foregroundColor(progressColor)
-                    .font(Font.system(.body).bold())
+                    .rounded()
             }
         }
     }
@@ -102,18 +102,22 @@ struct BookRow: View {
             VStack(alignment: .leading, spacing: 8.0) {
                 VStack(alignment: .leading, spacing: 1.0) {
                     Text(book.title)
-                        .font(Font.system(.title2).bold())
+                        .rounded(.title2)
                         .foregroundColor(.primary)
                     Text(book.author)
-                        .font(Font.system(.subheadline).bold())
+                        .rounded(.subheadline)
                         .foregroundColor(.secondary)
                 }
                 Text(progressSubtext)
                     .foregroundColor(.secondary)
-                    .font(.caption)
+                    .rounded(.caption, bold: false)
             }
+            Spacer(minLength: 0)
         }
-        .padding([.top, .bottom], 12.0)
+        .frame(maxWidth: .infinity)
+        .padding(.all, 20.0)
+        .background(Color("BookBG"))
+        .cornerRadius(20.0)
     }
 }
 
@@ -123,8 +127,8 @@ struct BookRow_v2_Previews: PreviewProvider {
             BookRow(book: .constant(BookStore().books[0]))
                 .previewLayout(PreviewLayout.fixed(width: 360, height: 200))
             BookRow(book: .constant(BookStore().books[1]))
-                .previewLayout(PreviewLayout.fixed(width: 360, height: 300))
-                .environment(\.colorScheme, .dark)
+                .preferredColorScheme(.dark)
+                .previewLayout(PreviewLayout.fixed(width: 360, height: 200))
         }
     }
 }

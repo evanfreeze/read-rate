@@ -8,27 +8,46 @@
 
 import SwiftUI
 
+struct RoundedText: ViewModifier {
+    let style: Font.TextStyle
+    let bold: Bool
+    
+    func body(content: Content) -> some View {
+        if bold {
+            return content
+                .font(Font.system(style, design: .rounded).bold())
+        } else {
+            return content
+                .font(Font.system(style, design: .rounded))
+        }
+    }
+}
+
+extension Text {
+    func rounded(_ style: Font.TextStyle = .body, bold: Bool = true) -> some View {
+        self.modifier(RoundedText(style: style, bold: bold))
+    }
+}
+
 struct NowReadingList: View {
     @ObservedObject var bookStore: BookStore
     @State var showSheet = false
     
     var body: some View {
         NavigationView {
-            VStack {
-                List {
-                    ForEach(bookStore.activeBooks) { book in
-                        NavigationLink(
-                            destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
-                            label: {
-                                BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
-                            })
-                    }
-                    .onDelete(perform: deleteBooks)
-                    .onMove { indiciesToMove, destinationIndex in
-                        moveBooks(indexesToMove: indiciesToMove, destinationIndex: destinationIndex)
-                    }
+            VStack(alignment: .leading) {
+                ForEach(bookStore.activeBooks) { book in
+                    NavigationLink(
+                        destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
+                        label: {
+                            BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
+                    })
                 }
+                .padding(.horizontal, 18.0)
+                .padding(.vertical, 2.0)
+                
                 Spacer()
+                
                 if bookStore.archivedBooks.count > 0 {
                     HStack {
                         Spacer()
@@ -42,16 +61,22 @@ struct NowReadingList: View {
             .onAppear() {
                 self.bookStore.setTodaysTargets()
             }
-            .navigationBarTitle("Now Reading")
+            .navigationBarTitle(Text("Now Reading"))
             .navigationBarItems(
-                leading: EditButton(),
                 trailing: Button(action: {
                     self.showSheet = true
                 }) {
                     HStack {
-                        Image(systemName: "plus")
                         Image(systemName: "book")
+                            .foregroundColor(.accentColor)
+                        Text("Add Book")
+                            .foregroundColor(.primary)
+                            .rounded()
                     }
+                    .padding(.vertical, 10.0)
+                    .padding(.horizontal, 14.0)
+                    .background(Color("BookBG"))
+                    .cornerRadius(12.0)
                 }
             )
         }
@@ -59,33 +84,11 @@ struct NowReadingList: View {
             AddBook(bookStore: self.bookStore)
         }
     }
-    
-    func bookBindingForIndex(_ index: Int) -> Binding<Book> {
-        if let found = bookStore.books.firstIndex(of: bookStore.activeBooks[index]) {
-            return $bookStore.books[found]
-        } else {
-            fatalError()
-        }
-    }
-    
-    func deleteBooks(_ indexes: IndexSet) {
-        for index in indexes {
-            if let found = bookStore.books.firstIndex(of: bookStore.activeBooks[index]) {
-                bookStore.books.remove(at: found)
-            }
-        }
-    }
-    
-    func moveBooks(indexesToMove: IndexSet, destinationIndex: Int) {
-        let foundIndexes = indexesToMove.map({ bookStore.books.firstIndex(of: bookStore.activeBooks[$0])! })
-        let offsets = IndexSet(foundIndexes)
-        
-        bookStore.books.move(fromOffsets: offsets, toOffset: destinationIndex)
-    }
 }
 
 struct NowReadingList_Previews: PreviewProvider {
     static var previews: some View {
         NowReadingList(bookStore: BookStore())
+            .preferredColorScheme(.dark)
     }
 }
