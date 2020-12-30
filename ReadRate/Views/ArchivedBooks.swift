@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ArchiveView: View {
+struct ArchivedBooks: View {
     @ObservedObject var shelf: BookStore
     
     var body: some View {
@@ -38,6 +38,6 @@ struct ArchiveView: View {
 
 struct ArchiveView_Previews: PreviewProvider {
     static var previews: some View {
-        ArchiveView(shelf: BookStore())
+        ArchivedBooks(shelf: BookStore())
     }
 }

@@ -19,7 +19,7 @@ extension Text {
     }
 }
 
-struct EditBookView: View {
+struct BookDetail: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var book: Book
     @ObservedObject var shelf: BookStore
@@ -109,6 +109,6 @@ struct EditBookView: View {
 
 struct EditBookView_Previews: PreviewProvider {
     static var previews: some View {
-        EditBookView(book: .constant(BookStore().books[0]), shelf: BookStore())
+        BookDetail(book: .constant(BookStore().books[0]), shelf: BookStore())
     }
 }

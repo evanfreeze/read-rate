@@ -22,7 +22,7 @@ struct LabeledInput: View {
     }
 }
 
-struct AddBookView: View {
+struct AddBook: View {
     var bookStore: BookStore
     
     @Environment(\.presentationMode) var presentationMode
@@ -82,6 +82,6 @@ struct AddBookView: View {
 
 struct AddBookView_Previews: PreviewProvider {
     static var previews: some View {
-        AddBookView(bookStore: BookStore())
+        AddBook(bookStore: BookStore())
     }
 }

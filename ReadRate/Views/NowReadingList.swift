@@ -18,7 +18,7 @@ struct NowReadingList: View {
                 List {
                     ForEach(bookStore.activeBooks) { book in
                         NavigationLink(
-                            destination: EditBookView(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
+                            destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
                             label: {
                                 BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
                             })
@@ -32,7 +32,7 @@ struct NowReadingList: View {
                 if bookStore.archivedBooks.count > 0 {
                     HStack {
                         Spacer()
-                        NavigationLink(destination: ArchiveView(shelf: bookStore)) {
+                        NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
                             Text("View Archived Books")
                         }
                         Spacer()
@@ -56,7 +56,7 @@ struct NowReadingList: View {
             )
         }
         .sheet(isPresented: $showSheet, onDismiss: { self.bookStore.setTodaysTargets() }) {
-            AddBookView(bookStore: self.bookStore)
+            AddBook(bookStore: self.bookStore)
         }
     }
     
