@@ -29,6 +29,25 @@ extension Text {
     }
 }
 
+struct StyledButton: View {
+    let iconName: String
+    let label: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: iconName)
+                .foregroundColor(.accentColor)
+            Text(label)
+                .foregroundColor(.primary)
+                .rounded()
+        }
+        .padding(.vertical, 10.0)
+        .padding(.horizontal, 14.0)
+        .background(Color("BookBG"))
+        .cornerRadius(12.0)
+    }
+}
+
 struct NowReadingList: View {
     @ObservedObject var bookStore: BookStore
     @State var showSheet = false
@@ -41,7 +60,7 @@ struct NowReadingList: View {
                         destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
                         label: {
                             BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
-                    })
+                        })
                 }
                 .padding(.horizontal, 18.0)
                 .padding(.vertical, 2.0)
@@ -52,7 +71,7 @@ struct NowReadingList: View {
                     HStack {
                         Spacer()
                         NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
-                            Text("View Archived Books")
+                            StyledButton(iconName: "archivebox", label: "View Archived Books")
                         }
                         Spacer()
                     }
@@ -66,17 +85,7 @@ struct NowReadingList: View {
                 trailing: Button(action: {
                     self.showSheet = true
                 }) {
-                    HStack {
-                        Image(systemName: "book")
-                            .foregroundColor(.accentColor)
-                        Text("Add Book")
-                            .foregroundColor(.primary)
-                            .rounded()
-                    }
-                    .padding(.vertical, 10.0)
-                    .padding(.horizontal, 14.0)
-                    .background(Color("BookBG"))
-                    .cornerRadius(12.0)
+                    StyledButton(iconName: "book", label: "Add Book")
                 }
             )
         }

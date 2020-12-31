@@ -27,11 +27,22 @@ struct Book: Identifiable, Codable, Comparable {
     var title: String
     var author: String
     var pageCount: Int
-    var currentPage: Int
+    var currentPage: Int {
+        didSet {
+            if currentPage == pageCount {
+                completedAt = Date()
+            } else {
+                if completedAt != nil {
+                    completedAt = nil
+                }
+            }
+        }
+    }
     var startDate: Date
     var targetDate: Date
     var dailyTargets: [DailyTarget] = []
     var archivedAt: Date?
+    var completedAt: Date?
     
     
     // MARK: Computed Properties
@@ -75,6 +86,16 @@ struct Book: Identifiable, Codable, Comparable {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         return formatter.string(from: startDate)
+    }
+    
+    var displayFinishDate: String {
+        if completedAt != nil {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            return formatter.string(from: completedAt!)
+        } else {
+            return "Not completed"
+        }
     }
     
     var progressDescription: String {

@@ -19,6 +19,33 @@ extension Text {
     }
 }
 
+struct Card: View {
+    let title: String
+    let content: String
+    let withEdit: Bool
+    let callback: () -> Void
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Text(title).rounded(.title3)
+                Spacer()
+                if withEdit {
+                    Button(action: callback, label: {
+                        Image(systemName: "pencil.circle")
+                    })
+                }
+            }
+            Text(content).rounded(.body).foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical)
+        .padding(.horizontal, 20)
+        .background(Color("BookBG"))
+        .cornerRadius(20)
+    }
+}
+
 struct BookDetail: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var book: Book
@@ -26,79 +53,62 @@ struct BookDetail: View {
     
     @State private var editingTargetDate = false
     @State private var editingCurrentPage = false
-    @State private var actionsOpacity = 0.0
+    @State private var pagePickerOpacity = 0.0
+    @State private var datePickerOpacity = 0.0
     
     var body: some View {
-        VStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 20) {
-                Text("Your Progress").font(.title).bold()
-                Text("You're on page \(book.currentPage). \(book.progressDescription).")
-                    .font(.headline)
-                Text("You started the book on \(book.displayStartDate). At your current rate, you'll finish on \(book.displayCompletionTarget)")
-                    .font(.headline)
-                Text("You're reading at a rate of roughly \(book.pagesPerDay) pages per day.")
-                    .font(.headline)
-            }
-            .padding(.bottom)
-            
+        HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 12) {
-                Group {
-                    Button(action: {
-                        editingCurrentPage.toggle()
-                        if actionsOpacity == 0 {
-                            actionsOpacity = 100
-                        } else {
-                            actionsOpacity = 0
-                        }
-                    }) {
-                        Text(editingCurrentPage ? "Save Progress" : "Update Progress")
-                            .blueButtonStyle()
-                    }
-                    if editingCurrentPage {
-                        Group {
-                            Text("Select the page you're on now").bold()
-                            Picker("", selection: $book.currentPage) {
-                                ForEach(0..<book.pageCount + 1) {
-                                    Text(String($0)).tag($0)
-                                }
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(book.title).rounded(.title)
+                    Text(book.author).rounded(.title2).foregroundColor(.secondary)
+                }
+                
+                Card(title: "Today's Goal", content: book.progressDescription, withEdit: false) {}
+                
+                Card(title: "Progress", content: "You're on page \(book.currentPage) of \(book.pageCount) (\(book.percentComplete) complete)", withEdit: true) {
+                    editingCurrentPage.toggle()
+                }
+                if editingCurrentPage {
+                    Group {
+                        Picker("", selection: $book.currentPage) {
+                            ForEach(0..<book.pageCount + 1) {
+                                Text(String($0)).tag($0)
                             }
-                            .pickerStyle(WheelPickerStyle())
                         }
-                        .opacity(actionsOpacity)
-                        .animation(.default)
+                        .pickerStyle(WheelPickerStyle())
                     }
                 }
                 
-                Group {
-                    Button(action: {
-                        editingTargetDate.toggle()
-                        if actionsOpacity == 0 {
-                            actionsOpacity = 100
-                        } else {
-                            actionsOpacity = 0
-                        }
-                    }) {
-                        Text(editingTargetDate ? "Save Updated Date" : "Change Target Date")
-                            .blueButtonStyle()
-                    }
-                    if editingTargetDate {
-                        DatePicker(
-                            "Select your target date",
-                            selection: $book.targetDate,
-                            in: book.startDate...,
-                            displayedComponents: .date
-                        )
-                        .opacity(actionsOpacity)
-                    }
+                Card(title: "Target Completion Date", content: book.displayCompletionTarget, withEdit: true) { editingTargetDate.toggle()
                 }
+                if editingTargetDate {
+                    DatePicker(
+                        "Update your target date",
+                        selection: $book.targetDate,
+                        in: book.startDate...,
+                        displayedComponents: .date
+                    )
+                }
+                
+                Card(title: "Start Date", content: book.displayStartDate, withEdit: false) {}
+                
+                Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false) {}
+                
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    Button(action: archiveBook) {
+                        StyledButton(iconName: "archivebox", label: "Archive Book")
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal)
             }
-            Spacer()
-            Button(action: archiveBook) {
-                Text("Archive Book")
-            }
+            .padding()
         }
-        .padding()
-        .navigationTitle(book.title)
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func archiveBook() {
