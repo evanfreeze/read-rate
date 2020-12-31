@@ -11,6 +11,7 @@ import SwiftUI
 struct CalendarIcon: View {
     let month: String
     let day: String
+    let headerColor: Color
     
     var body: some View {
         VStack {
@@ -19,7 +20,7 @@ struct CalendarIcon: View {
                 .frame(width: 40, height: 24)
                 .foregroundColor(.white)
                 .padding(.horizontal, 10)
-                .background(Color.blue)
+                .background(headerColor)
             Text(day)
                 .rounded(.title)
                 .frame(width: 40)
@@ -35,13 +36,13 @@ struct CalendarIcon: View {
 struct CalendarIcon_Previews: PreviewProvider {
     static var previews: some View {
         Group{
-            CalendarIcon(month: "JAN", day: "13")
+            CalendarIcon(month: "JAN", day: "13", headerColor: .blue)
                 .previewLayout(PreviewLayout.fixed(width: 100, height: 100))
-            CalendarIcon(month: "FEB", day: "28")
+            CalendarIcon(month: "FEB", day: "28", headerColor: .red)
                 .previewLayout(PreviewLayout.fixed(width: 100, height: 100))
-            CalendarIcon(month: "MAR", day: "30")
+            CalendarIcon(month: "MAR", day: "30", headerColor: .gray)
                 .previewLayout(PreviewLayout.fixed(width: 100, height: 100))
-            CalendarIcon(month: "OCT", day: "26")
+            CalendarIcon(month: "OCT", day: "26", headerColor: .green)
                 .previewLayout(PreviewLayout.fixed(width: 100, height: 100))
         }
     }
