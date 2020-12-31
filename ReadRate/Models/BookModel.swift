@@ -98,6 +98,25 @@ struct Book: Identifiable, Codable, Comparable {
         }
     }
     
+    var archivedDaysRead: String {
+        if completedAt != nil {
+            let days = Calendar.current.dateComponents([.day], from: startDate, to: completedAt!).day! + 1
+            return "Read in \(days) \(days == 1 ? "day" : "days")"
+        } else {
+            return "Not completed"
+        }
+    }
+    
+    var finishedDateShort: String {
+        if completedAt != nil {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            return formatter.string(from: completedAt!)
+        } else {
+            return "N/A"
+        }
+    }
+    
     var progressDescription: String {
         if (currentPage == pageCount) {
             return "You finished the book — congrats!"

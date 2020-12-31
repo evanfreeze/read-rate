@@ -42,11 +42,6 @@ class BookStore: ObservableObject {
         relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     ).appendingPathExtension("json")
     
-//    let archiveURL = URL(
-//        fileURLWithPath: "BookArchive",
-//        relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//    ).appendingPathExtension("json")
-    
     @Published var books: [Book] = [bookOne, bookTwo, bookThree] {
         didSet {
             saveBookStoreJSON()
@@ -60,17 +55,10 @@ class BookStore: ObservableObject {
     var archivedBooks: [Book] {
         books.filter({ $0.archivedAt != nil })
     }
-//
-//    @Published var archivedBooks: [Book] = [] {
-//        didSet {
-//            saveArchiveJSON()
-//        }
-//    }
     
     init() {
         print(bookStoreURL)
         loadBookStoreJSON()
-//        loadArchiveJSON()
         migrateBooks()
     }
     
@@ -100,32 +88,6 @@ class BookStore: ObservableObject {
         }
     }
     
-//    private func loadArchiveJSON() {
-//        guard FileManager.default.fileExists(atPath: archiveURL.path) else {
-//            return
-//        }
-//
-//        do {
-//            let archivedBooksData = try Data(contentsOf: archiveURL)
-//            archivedBooks = try JSONDecoder().decode([Book].self, from: archivedBooksData)
-//            print(archivedBooks)
-//        } catch let error {
-//            print(error)
-//        }
-//    }
-//
-//    private func saveArchiveJSON() {
-//        do {
-//            let encoder = JSONEncoder()
-//            encoder.outputFormatting = .prettyPrinted
-//
-//            let archivedBooksJSON = try encoder.encode(archivedBooks)
-//            try archivedBooksJSON.write(to: archiveURL, options: .atomicWrite)
-//        } catch let error {
-//            print(error)
-//        }
-//    }
-    
     public func setTodaysTargets() {
         print("setting today's target pages")
         
@@ -149,15 +111,6 @@ class BookStore: ObservableObject {
             }
         }
     }
-    
-//    public func archiveBooks() {
-//        for book in books {
-//            if book.archivedAt != nil {
-//                archivedBooks.append(book)
-//                books.removeAll(where: { $0 == book })
-//            }
-//        }
-//    }
     
     private func migrateBooks() {
 //        for (index, _) in books.enumerated() {

@@ -12,20 +12,36 @@ struct ArchivedBooks: View {
     @ObservedObject var shelf: BookStore
     
     var body: some View {
-        ForEach(shelf.archivedBooks) { book in
-            HStack {
-                VStack {
-                    Text(book.title)
-                        .bold()
-                    Text(book.author)
-                        .foregroundColor(.secondary)
+        VStack {
+            ForEach(shelf.archivedBooks) { book in
+                HStack(alignment: .center, spacing: 20.0) {
+                    Text(book.finishedDateShort)
+                    VStack(alignment: .leading, spacing: 8.0) {
+                        VStack(alignment: .leading, spacing: 1.0) {
+                            Text(book.title)
+                                .rounded(.title2)
+                                .foregroundColor(.primary)
+                            Text(book.author)
+                                .rounded(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        Text(book.archivedDaysRead)
+                            .foregroundColor(.secondary)
+                            .rounded(.caption, bold: false)
+                    }
+                    Spacer(minLength: 0)
+                    Button(action: { unarchiveBook(book: book) }) {
+                        Image(systemName: "arrowshape.turn.up.backward")
+                    }
                 }
-                Spacer()
-                Button(action: { unarchiveBook(book: book) }) {
-                    Text("Unarchive")
-                }
+                .frame(maxWidth: .infinity)
+                .padding(.all, 20.0)
+                .background(Color("BookBG"))
+                .cornerRadius(20.0)
             }
+            Spacer()
         }
+        .padding()
         .navigationBarTitle("Archived Books")
     }
     
