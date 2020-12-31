@@ -101,9 +101,11 @@ struct Book: Identifiable, Codable, Comparable {
     var archivedDaysRead: String {
         if completedAt != nil {
             let daysText = daysBetweenStartAndFinish == 1 ? "day" : "days"
-            return "Read in \(daysBetweenStartAndFinish) \(daysText), averaging about \(archivedPagesReadPerDay) pages per day"
+            return "Read in \(daysBetweenStartAndFinish) \(daysText), about \(archivedPagesReadPerDay) pages per day"
         } else {
-            return "Not completed"
+            let pagesleft = pageCount - currentPage
+            let pageText = pagesleft == 1 ? "page" : "pages"
+            return "Not finished, \(pagesleft) \(pageText) remaining (\(percentComplete) complete)"
         }
     }
     
@@ -139,7 +141,7 @@ struct Book: Identifiable, Codable, Comparable {
             let day = formatter.string(from: completedAt!)
             return (month, day)
         } else {
-            return ("N/A", "N/A")
+            return ("DNF", "--")
         }
     }
     
