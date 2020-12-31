@@ -11,11 +11,19 @@ import SwiftUI
 struct ArchivedBooks: View {
     @ObservedObject var shelf: BookStore
     
+    var dumpedShelf: String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try? encoder.encode(shelf.books)
+        return String(decoding: data!, as: UTF8.self)
+    }
+    
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 12.0) {
+            Text("Archived Books").rounded(.largeTitle)
             ForEach(shelf.archivedBooks) { book in
                 HStack(alignment: .center, spacing: 20.0) {
-                    Text(book.finishedDateShort)
+                    CalendarIcon(month: book.displayCompletedDate.0, day: book.displayCompletedDate.1)
                     VStack(alignment: .leading, spacing: 8.0) {
                         VStack(alignment: .leading, spacing: 1.0) {
                             Text(book.title)
@@ -31,7 +39,8 @@ struct ArchivedBooks: View {
                     }
                     Spacer(minLength: 0)
                     Button(action: { unarchiveBook(book: book) }) {
-                        Image(systemName: "arrowshape.turn.up.backward")
+                        Image(systemName: "arrowshape.turn.up.backward.circle.fill")
+                            .font(.title3)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -42,7 +51,7 @@ struct ArchivedBooks: View {
             Spacer()
         }
         .padding()
-        .navigationBarTitle("Archived Books")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func unarchiveBook(book: Book) {
@@ -54,6 +63,10 @@ struct ArchivedBooks: View {
 
 struct ArchiveView_Previews: PreviewProvider {
     static var previews: some View {
-        ArchivedBooks(shelf: BookStore())
+        Group{
+            ArchivedBooks(shelf: BookStore())
+            ArchivedBooks(shelf: BookStore())
+                .preferredColorScheme(.dark)
+        }
     }
 }

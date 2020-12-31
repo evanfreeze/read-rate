@@ -36,13 +36,24 @@ var bookThree = Book(
     targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 24))
 )
 
+var bookFour = Book(
+    title: "A Promised Land",
+    author: "Barack Obama",
+    pageCount: 750,
+    currentPage: 750,
+    startDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -12)),
+    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -2)),
+    archivedAt: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -3)),
+    completedAt: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -3))
+)
+
 class BookStore: ObservableObject {
     let bookStoreURL = URL(
         fileURLWithPath: "BookStore",
         relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     ).appendingPathExtension("json")
     
-    @Published var books: [Book] = [bookOne, bookTwo, bookThree] {
+    @Published var books: [Book] = [bookOne, bookTwo, bookThree, bookFour] {
         didSet {
             saveBookStoreJSON()
         }

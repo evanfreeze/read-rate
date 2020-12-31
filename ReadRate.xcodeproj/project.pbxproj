@@ -15,6 +15,7 @@
 		EAA9AEA42485A76200030907 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAA9AEA32485A76200030907 /* Preview Assets.xcassets */; };
 		EAA9AEA72485A76200030907 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAA9AEA52485A76200030907 /* LaunchScreen.storyboard */; };
 		EAA9AEB02485B77900030907 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AEAF2485B77900030907 /* BookModel.swift */; };
+		EAB2B39A259E439800CC6024 /* CalendarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2B399259E439800CC6024 /* CalendarIcon.swift */; };
 		EAB2D18A2488574C00BAB4E2 /* BookDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D1892488574C00BAB4E2 /* BookDetails.swift */; };
 		EAB2D18C24885C5D00BAB4E2 /* BookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */; };
 		EAB2D18E248BF23400BAB4E2 /* AddBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18D248BF23400BAB4E2 /* AddBook.swift */; };
@@ -34,6 +35,7 @@
 		EAA9AEA62485A76200030907 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EAA9AEA82485A76200030907 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EAA9AEAF2485B77900030907 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
+		EAB2B399259E439800CC6024 /* CalendarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIcon.swift; sourceTree = "<group>"; };
 		EAB2D1892488574C00BAB4E2 /* BookDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetails.swift; sourceTree = "<group>"; };
 		EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStore.swift; sourceTree = "<group>"; };
 		EAB2D18D248BF23400BAB4E2 /* AddBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBook.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				EAB2D18D248BF23400BAB4E2 /* AddBook.swift */,
 				EAB2D1892488574C00BAB4E2 /* BookDetails.swift */,
 				EA377397259B93F2008E9789 /* ArchivedBooks.swift */,
+				EAB2B399259E439800CC6024 /* CalendarIcon.swift */,
 				EAE64A8124982D7600D8025B /* BookRow.swift */,
 			);
 			path = Views;
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAB2B39A259E439800CC6024 /* CalendarIcon.swift in Sources */,
 				EAA9AEB02485B77900030907 /* BookModel.swift in Sources */,
 				EAE64A8224982D7600D8025B /* BookRow.swift in Sources */,
 				EAB2D18E248BF23400BAB4E2 /* AddBook.swift in Sources */,

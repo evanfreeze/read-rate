@@ -88,6 +88,10 @@ struct AddBook: View {
 
 struct AddBookView_Previews: PreviewProvider {
     static var previews: some View {
-        AddBook(bookStore: BookStore())
+        Group {
+            AddBook(bookStore: BookStore())
+            AddBook(bookStore: BookStore())
+                .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+        }
     }
 }

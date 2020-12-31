@@ -157,6 +157,10 @@ struct BookDetail: View {
 
 struct EditBookView_Previews: PreviewProvider {
     static var previews: some View {
-        BookDetail(book: .constant(BookStore().books[0]), shelf: BookStore())
+        Group {
+            BookDetail(book: .constant(BookStore().books[0]), shelf: BookStore())
+            BookDetail(book: .constant(BookStore().books[0]), shelf: BookStore())
+                .preferredColorScheme(.dark)
+        }
     }
 }

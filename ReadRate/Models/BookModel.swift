@@ -100,10 +100,23 @@ struct Book: Identifiable, Codable, Comparable {
     
     var archivedDaysRead: String {
         if completedAt != nil {
-            let days = Calendar.current.dateComponents([.day], from: startDate, to: completedAt!).day! + 1
-            return "Read in \(days) \(days == 1 ? "day" : "days")"
+            let daysText = daysBetweenStartAndFinish == 1 ? "day" : "days"
+            return "Read in \(daysBetweenStartAndFinish) \(daysText), averaging about \(archivedPagesReadPerDay) pages per day"
         } else {
             return "Not completed"
+        }
+    }
+    
+    var daysBetweenStartAndFinish: Int {
+        let days = Calendar.current.dateComponents([.day], from: startDate, to: completedAt!).day! + 1
+        return days
+    }
+    
+    var archivedPagesReadPerDay: Int {
+        if completedAt != nil {
+            return Int((Double(pageCount) / Double(daysBetweenStartAndFinish)).rounded())
+        } else {
+            return 0
         }
     }
     
@@ -114,6 +127,19 @@ struct Book: Identifiable, Codable, Comparable {
             return formatter.string(from: completedAt!)
         } else {
             return "N/A"
+        }
+    }
+    
+    var displayCompletedDate: (String, String) {
+        if completedAt != nil {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMM"
+            let month = formatter.string(from: completedAt!).uppercased()
+            formatter.dateFormat = "d"
+            let day = formatter.string(from: completedAt!)
+            return (month, day)
+        } else {
+            return ("N/A", "N/A")
         }
     }
     
@@ -153,8 +179,12 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     func getReadingDaysFromDates(start: Date) -> Double {
+        print(title)
+        print("Start date: \(start.description)")
         let days = Calendar.current.dateComponents([.day], from: start, to: targetDate).day!
-        return Double(days + 1)
+        print("days: \(start.description)")
+        print("corrected days: \(Double(days + 2))")
+        return Double(days + 2)
     }
     
     // MARK: Comparable Conformance

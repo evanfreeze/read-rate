@@ -56,6 +56,8 @@ struct NowReadingList: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
+                Text("Now Reading").rounded(.largeTitle)
+                    .padding(.top, 20.0)
                 ForEach(bookStore.activeBooks) { book in
                     NavigationLink(
                         destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
@@ -63,32 +65,32 @@ struct NowReadingList: View {
                             BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
                         })
                 }
-                .padding(.horizontal, 18.0)
                 .padding(.vertical, 2.0)
                 
                 Spacer()
                 
-                if bookStore.archivedBooks.count > 0 {
-                    HStack {
-                        Spacer()
+                HStack {
+                    Spacer()
+                    if bookStore.archivedBooks.count > 0 {
                         NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
-                            StyledButton(iconName: "archivebox", label: "View Archived Books", bgColor: Color("BookBG"))
+                            StyledButton(iconName: "archivebox", label: "Archived Books", bgColor: Color("BookBG"))
                         }
-                        Spacer()
                     }
+                    Spacer()
+                    Button(action: {
+                        self.showSheet = true
+                    }) {
+                        StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
+                    }
+                    Spacer()
                 }
             }
+            .padding(.horizontal, 18.0)
             .onAppear() {
                 self.bookStore.setTodaysTargets()
             }
-            .navigationBarTitle(Text("Now Reading"))
-            .navigationBarItems(
-                trailing: Button(action: {
-                    self.showSheet = true
-                }) {
-                    StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
-                }
-            )
+            .navigationBarHidden(true)
+            .navigationTitle("Now Reading")
         }
         .sheet(isPresented: $showSheet, onDismiss: { self.bookStore.setTodaysTargets() }) {
             AddBook(bookStore: self.bookStore)
@@ -98,7 +100,11 @@ struct NowReadingList: View {
 
 struct NowReadingList_Previews: PreviewProvider {
     static var previews: some View {
-        NowReadingList(bookStore: BookStore())
-            .preferredColorScheme(.dark)
+        Group {
+            NowReadingList(bookStore: BookStore())
+            NowReadingList(bookStore: BookStore())
+                .preferredColorScheme(.dark)
+        }
+            
     }
 }
