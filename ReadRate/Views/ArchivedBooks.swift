@@ -11,44 +11,43 @@ import SwiftUI
 struct ArchivedBooks: View {
     @ObservedObject var shelf: BookStore
     
-    var dumpedShelf: String {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        let data = try? encoder.encode(shelf.books)
-        return String(decoding: data!, as: UTF8.self)
-    }
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 12.0) {
             Text("Archived Books").rounded(.largeTitle)
-            ForEach(shelf.archivedBooks) { book in
-                HStack(alignment: .center, spacing: 20.0) {
-                    CalendarIcon(month: book.displayCompletedDate.0, day: book.displayCompletedDate.1)
-                    VStack(alignment: .leading, spacing: 8.0) {
-                        VStack(alignment: .leading, spacing: 1.0) {
-                            Text(book.title)
-                                .rounded(.title2)
-                                .foregroundColor(.primary)
-                            Text(book.author)
-                                .rounded(.subheadline)
+            ScrollView {
+                ForEach(shelf.archivedBooks) { book in
+                    HStack(alignment: .center, spacing: 20.0) {
+                        CalendarIcon(
+                            month: book.displayCompletedDate.0,
+                            day: book.displayCompletedDate.1,
+                            headerColor: book.completedAt != nil ? .blue : .gray
+                        )
+                        VStack(alignment: .leading, spacing: 8.0) {
+                            VStack(alignment: .leading, spacing: 1.0) {
+                                Text(book.title)
+                                    .rounded(.title2)
+                                    .foregroundColor(.primary)
+                                Text(book.author)
+                                    .rounded(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
+                            Text(book.archivedDaysRead)
                                 .foregroundColor(.secondary)
+                                .rounded(.caption, bold: false)
                         }
-                        Text(book.archivedDaysRead)
-                            .foregroundColor(.secondary)
-                            .rounded(.caption, bold: false)
+                        Spacer(minLength: 0)
+                        Button(action: { unarchiveBook(book: book) }) {
+                            Image(systemName: "arrowshape.turn.up.backward.circle.fill")
+                                .font(.title3)
+                        }
                     }
-                    Spacer(minLength: 0)
-                    Button(action: { unarchiveBook(book: book) }) {
-                        Image(systemName: "arrowshape.turn.up.backward.circle.fill")
-                            .font(.title3)
-                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.all, 20.0)
+                    .background(Color("BookBG"))
+                    .cornerRadius(20.0)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.all, 20.0)
-                .background(Color("BookBG"))
-                .cornerRadius(20.0)
             }
-            Spacer()
+//            Spacer()
         }
         .padding()
         .navigationBarTitleDisplayMode(.inline)

@@ -58,14 +58,16 @@ struct NowReadingList: View {
             VStack(alignment: .leading) {
                 Text("Now Reading").rounded(.largeTitle)
                     .padding(.top, 20.0)
-                ForEach(bookStore.activeBooks) { book in
-                    NavigationLink(
-                        destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
-                        label: {
-                            BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
-                        })
+                ScrollView {
+                    ForEach(bookStore.activeBooks) { book in
+                        NavigationLink(
+                            destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
+                            label: {
+                                BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
+                            })
+                    }
+                    .padding(.vertical, 2.0)
                 }
-                .padding(.vertical, 2.0)
                 
                 Spacer()
                 
