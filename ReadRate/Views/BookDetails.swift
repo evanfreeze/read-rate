@@ -133,16 +133,15 @@ struct BookDetail: View {
                     }
                 }
                 
-                if book.completedAt != nil {
-                    HStack {
-                        Spacer()
-                        Button(action: archiveBook) {
-                            StyledButton(iconName: "archivebox", label: "Archive Book", bgColor: Color("BookBG"))
-                        }
-                        Spacer()
+                HStack {
+                    Spacer()
+                    Button(action: archiveBook) {
+                        StyledButton(iconName: "archivebox", label: "Archive Book", bgColor: Color("BookBG"))
                     }
-                    .padding(.horizontal)
+                    Spacer()
                 }
+                .padding(.horizontal)
+                
             }
             .padding()
         }
