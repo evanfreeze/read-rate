@@ -179,11 +179,7 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     func getReadingDaysFromDates(start: Date) -> Double {
-        print(title)
-        print("Start date: \(start.description)")
         let days = Calendar.current.dateComponents([.day], from: start, to: targetDate).day!
-        print("days: \(start.description)")
-        print("corrected days: \(Double(days + 2))")
         return Double(days + 2)
     }
     
