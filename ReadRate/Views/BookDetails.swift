@@ -25,18 +25,33 @@ struct Card: View {
     let withEdit: Bool
     let callback: () -> Void
     
+    @State private var rotationAngle = Angle(degrees: 0)
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Text(title).rounded(.title3)
-                Spacer()
-                if withEdit {
-                    Button(action: callback, label: {
-                        Image(systemName: "pencil.circle")
-                    })
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(title).rounded(.title3)
+                    Spacer()
+                    
+                }
+                Text(content).rounded(.body).foregroundColor(.secondary)
+            }
+            Spacer(minLength: 1)
+            if withEdit {
+                Button(action: {
+                    if rotationAngle.degrees == 0 {
+                        rotationAngle.degrees += 90
+                    } else {
+                        rotationAngle.degrees = 0
+                    }
+                    callback()
+                }) {
+                    Image(systemName: "chevron.forward")
+                        .rotationEffect(rotationAngle)
+                        .animation(.easeInOut, value: true)
                 }
             }
-            Text(content).rounded(.body).foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical)
@@ -53,8 +68,6 @@ struct BookDetail: View {
     
     @State private var editingTargetDate = false
     @State private var editingCurrentPage = false
-    @State private var pagePickerOpacity = 0.0
-    @State private var datePickerOpacity = 0.0
     
     var body: some View {
         HStack(alignment: .top) {
@@ -64,47 +77,72 @@ struct BookDetail: View {
                     Text(book.author).rounded(.title2).foregroundColor(.secondary)
                 }
                 
-                Card(title: "Today's Goal", content: book.progressDescription, withEdit: false) {}
-                
-                Card(title: "Progress", content: "You're on page \(book.currentPage) of \(book.pageCount) (\(book.percentComplete) complete)", withEdit: true) {
-                    editingCurrentPage.toggle()
-                }
-                if editingCurrentPage {
-                    Group {
-                        Picker("", selection: $book.currentPage) {
-                            ForEach(0..<book.pageCount + 1) {
-                                Text(String($0)).tag($0)
-                            }
+                ScrollView {
+                    Card(title: "Today's Goal", content: book.progressDescription, withEdit: false) {}
+                    
+                    VStack {
+                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.percentComplete) complete)", withEdit: true) {
+                            editingCurrentPage.toggle()
                         }
-                        .pickerStyle(WheelPickerStyle())
+                        .shadow(radius: editingCurrentPage ? 3.0 : 0.0)
+                        
+                        if editingCurrentPage {
+                            Group {
+                                Picker("", selection: $book.currentPage) {
+                                    ForEach(0..<book.pageCount + 1) {
+                                        Text(String($0)).tag($0)
+                                    }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                Button(action: {
+                                    book.currentPage = book.pageCount
+                                    editingCurrentPage = false
+                                }) {
+                                    StyledButton(iconName: "checkmark.circle", label: "Mark Complete", bgColor: Color("BookBG"))
+                                }
+                            }
+                            .padding(.bottom, 10.0)
+                        }
+                    }
+                    .background(Color("AltBG"))
+                    .cornerRadius(20.0)
+                    
+                    VStack {
+                        Card(title: "Target Completion Date", content: book.displayCompletionTarget, withEdit: true) { editingTargetDate.toggle()
+                        }
+                        .shadow(radius: editingTargetDate ? 3.0 : 0.0)
+                        
+                        if editingTargetDate {
+                            DatePicker(
+                                "Update your target date",
+                                selection: $book.targetDate,
+                                in: book.startDate...,
+                                displayedComponents: .date
+                            )
+                            .padding([.horizontal, .bottom])
+                            .padding(.top, 6.0)
+                        }
+                    }
+                    .background(Color("AltBG"))
+                    .cornerRadius(20.0)
+                    
+                    Card(title: "Start Date", content: book.displayStartDate, withEdit: false) {}
+                    
+                    if book.completedAt != nil {
+                        Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false) {}
                     }
                 }
                 
-                Card(title: "Target Completion Date", content: book.displayCompletionTarget, withEdit: true) { editingTargetDate.toggle()
-                }
-                if editingTargetDate {
-                    DatePicker(
-                        "Update your target date",
-                        selection: $book.targetDate,
-                        in: book.startDate...,
-                        displayedComponents: .date
-                    )
-                }
-                
-                Card(title: "Start Date", content: book.displayStartDate, withEdit: false) {}
-                
-                Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false) {}
-                
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    Button(action: archiveBook) {
-                        StyledButton(iconName: "archivebox", label: "Archive Book")
+                if book.completedAt != nil {
+                    HStack {
+                        Spacer()
+                        Button(action: archiveBook) {
+                            StyledButton(iconName: "archivebox", label: "Archive Book", bgColor: Color("BookBG"))
+                        }
+                        Spacer()
                     }
-                    Spacer()
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
             .padding()
         }

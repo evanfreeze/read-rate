@@ -56,7 +56,7 @@ struct AddBook: View {
             }
 
             Button(action: addBook) {
-                StyledButton(iconName: "book", label: "Add Book")
+                StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
             }
             .disabled(shouldBeDisabled())
 

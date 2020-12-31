@@ -32,6 +32,7 @@ extension Text {
 struct StyledButton: View {
     let iconName: String
     let label: String
+    let bgColor: Color
     
     var body: some View {
         HStack {
@@ -43,7 +44,7 @@ struct StyledButton: View {
         }
         .padding(.vertical, 10.0)
         .padding(.horizontal, 14.0)
-        .background(Color("BookBG"))
+        .background(bgColor)
         .cornerRadius(12.0)
     }
 }
@@ -71,7 +72,7 @@ struct NowReadingList: View {
                     HStack {
                         Spacer()
                         NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
-                            StyledButton(iconName: "archivebox", label: "View Archived Books")
+                            StyledButton(iconName: "archivebox", label: "View Archived Books", bgColor: Color("BookBG"))
                         }
                         Spacer()
                     }
@@ -85,7 +86,7 @@ struct NowReadingList: View {
                 trailing: Button(action: {
                     self.showSheet = true
                 }) {
-                    StyledButton(iconName: "book", label: "Add Book")
+                    StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
                 }
             )
         }

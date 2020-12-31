@@ -12,7 +12,7 @@ struct ArchivedBooks: View {
     @ObservedObject var shelf: BookStore
     
     var body: some View {
-        List(shelf.archivedBooks) { book in
+        ForEach(shelf.archivedBooks) { book in
             HStack {
                 VStack {
                     Text(book.title)
