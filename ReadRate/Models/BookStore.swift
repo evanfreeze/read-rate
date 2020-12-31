@@ -107,6 +107,11 @@ class BookStore: ObservableObject {
         }
         
         for (index, book) in books.enumerated() {
+            if book.completedAt != nil || book.archivedAt != nil {
+                print("skipping \(book.title) because it's either archived or completed")
+                continue
+            }
+            
             let hasNotBeenUpdatedToday = !Calendar.current.isDateInToday(book.dailyTargets.last?.calcTime ?? Date().addingTimeInterval(60 * 60 * -48))
             let targetDateChangedSinceLastUpdate = book.targetDate != book.dailyTargets.last?.meta.targetDate ?? book.targetDate
             let isNotComplete = book.currentPage < book.pageCount
