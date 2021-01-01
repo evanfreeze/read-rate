@@ -20,7 +20,7 @@ struct ArchivedBooks: View {
                         CalendarIcon(
                             month: book.displayCompletedDate.0,
                             day: book.displayCompletedDate.1,
-                            headerColor: book.completedAt != nil ? .blue : .gray
+                            headerColor: book.completedAt != nil ? .accentColor : .gray
                         )
                         VStack(alignment: .leading, spacing: 8.0) {
                             VStack(alignment: .leading, spacing: 1.0) {

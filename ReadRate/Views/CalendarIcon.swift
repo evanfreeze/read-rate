@@ -36,7 +36,7 @@ struct CalendarIcon: View {
 struct CalendarIcon_Previews: PreviewProvider {
     static var previews: some View {
         Group{
-            CalendarIcon(month: "JAN", day: "13", headerColor: .blue)
+            CalendarIcon(month: "JAN", day: "13", headerColor: .accentColor)
                 .previewLayout(PreviewLayout.fixed(width: 100, height: 100))
             CalendarIcon(month: "FEB", day: "28", headerColor: .red)
                 .previewLayout(PreviewLayout.fixed(width: 100, height: 100))

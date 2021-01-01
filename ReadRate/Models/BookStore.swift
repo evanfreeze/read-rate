@@ -53,7 +53,7 @@ class BookStore: ObservableObject {
         relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     ).appendingPathExtension("json")
     
-    @Published var books: [Book] = [bookOne, bookTwo, bookThree, bookFour] {
+    @Published var books: [Book] = [] {
         didSet {
             saveBookStoreJSON()
         }

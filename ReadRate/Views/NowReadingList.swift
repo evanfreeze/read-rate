@@ -58,15 +58,36 @@ struct NowReadingList: View {
             VStack(alignment: .leading) {
                 Text("Now Reading").rounded(.largeTitle)
                     .padding(.top, 20.0)
-                ScrollView {
-                    ForEach(bookStore.activeBooks) { book in
-                        NavigationLink(
-                            destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
-                            label: {
-                                BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
-                            })
+                if bookStore.activeBooks.count > 0 {
+                    ScrollView {
+                        ForEach(bookStore.activeBooks) { book in
+                            NavigationLink(
+                                destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
+                                label: {
+                                    BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
+                                })
+                        }
+                        .padding(.vertical, 2.0)
                     }
-                    .padding(.vertical, 2.0)
+                } else {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        VStack(alignment: .center, spacing: 12) {
+                            Image(systemName: "books.vertical").font(.largeTitle).foregroundColor(.secondary)
+                            Text("No Active Books")
+                                .rounded(.title3)
+                                .foregroundColor(.secondary)
+                                
+                        }
+                        .frame(width: 160)
+                        .padding(30)
+                        .background(Color("BookBG"))
+                        .cornerRadius(20)
+                        
+                        Spacer()
+                    }
+                    Spacer()
                 }
                 
                 Spacer()
@@ -77,8 +98,8 @@ struct NowReadingList: View {
                         NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
                             StyledButton(iconName: "archivebox", label: "Archived Books", bgColor: Color("BookBG"))
                         }
+                        Spacer()
                     }
-                    Spacer()
                     Button(action: {
                         self.showSheet = true
                     }) {
@@ -86,6 +107,7 @@ struct NowReadingList: View {
                     }
                     Spacer()
                 }
+                .padding(.bottom)
             }
             .padding(.horizontal, 18.0)
             .onAppear() {

@@ -8,17 +8,6 @@
 
 import SwiftUI
 
-extension Text {
-    func blueButtonStyle() -> some View {
-        self.fontWeight(.bold)
-            .padding()
-            .frame(maxWidth: CGFloat.infinity)
-            .background(Color.blue)
-            .foregroundColor(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
-}
-
 struct Card: View {
     let title: String
     let content: String
@@ -48,6 +37,7 @@ struct Card: View {
                     callback()
                 }) {
                     Image(systemName: "chevron.forward")
+                        .font(.headline)
                         .rotationEffect(rotationAngle)
                         .animation(.easeInOut, value: true)
                 }

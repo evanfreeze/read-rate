@@ -60,7 +60,7 @@ struct BookRow: View {
         } else if (book.readToday) {
             return .green
         } else {
-            return .blue
+            return .accentColor
         }
     }
     
