@@ -59,6 +59,8 @@ struct BookDetail: View {
     @State private var editingTargetDate = false
     @State private var editingCurrentPage = false
     
+    @State private var showingDeleteAlert = false
+    
     var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 12) {
@@ -136,10 +138,27 @@ struct BookDetail: View {
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(trailing: Button(action: {
+            showingDeleteAlert = true
+        }) {
+            Image(systemName: "trash")
+                .foregroundColor(.red)
+        })
+        .alert(isPresented: $showingDeleteAlert) {
+            Alert(title: Text("Delete Book"), message: Text("Are you sure you want to delete this book? There's no undo."), primaryButton: .destructive(Text("Yes, delete it")) {
+                deleteBook()
+                
+            }, secondaryButton: .cancel())
+        }
     }
     
     func archiveBook() {
         book.archivedAt = Date()
+        presentationMode.wrappedValue.dismiss()
+    }
+    
+    func deleteBook() {
+        book.deletedAt = Date()
         presentationMode.wrappedValue.dismiss()
     }
 }

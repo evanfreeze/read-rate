@@ -43,7 +43,7 @@ struct Book: Identifiable, Codable, Comparable {
     var dailyTargets: [DailyTarget] = []
     var archivedAt: Date?
     var completedAt: Date?
-    
+    var deletedAt: Date?
     
     // MARK: Computed Properties
     var readToday: Bool {
@@ -152,6 +152,14 @@ struct Book: Identifiable, Codable, Comparable {
             return "You've read enough today to stay on track"
         } else {
             return "Read to page \(dailyTargets.last?.targetPage ?? pageCount) today to stay on track"
+        }
+    }
+    
+    var isDeleted: Bool {
+        if deletedAt != nil {
+            return true
+        } else {
+            return false
         }
     }
     
