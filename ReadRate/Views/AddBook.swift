@@ -59,6 +59,7 @@ struct AddBook: View {
                 StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
             }
             .disabled(shouldBeDisabled())
+            .padding(.bottom, 8.0)
 
         }
     }
