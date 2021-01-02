@@ -60,6 +60,7 @@ struct BookDetail: View {
     @State private var editingCurrentPage = false
     
     @State private var showingDeleteAlert = false
+    @State private var showingEditSheet = false
     
     var body: some View {
         HStack(alignment: .top) {
@@ -126,11 +127,14 @@ struct BookDetail: View {
                 }
                 
                 HStack {
-                    Spacer()
+                    Spacer(minLength: 0)
                     Button(action: archiveBook) {
                         StyledButton(iconName: "archivebox", label: "Archive Book", bgColor: Color("BookBG"))
                     }
-                    Spacer()
+                    Button(action: { showingEditSheet = true }) {
+                        StyledButton(iconName: "pencil.circle", label: "Edit Details", bgColor: Color("BookBG"))
+                    }
+                    Spacer(minLength: 0)
                 }
                 .padding(.horizontal)
                 
@@ -149,6 +153,28 @@ struct BookDetail: View {
                 deleteBook()
                 
             }, secondaryButton: .cancel())
+        }
+        .sheet(isPresented: $showingEditSheet) {
+            VStack {
+                Form {
+                    Text("Edit Book")
+                        .rounded(.title2)
+                    LabeledInput(label: "Title", placeholder: "The name of the book", value: $book.title)
+                    LabeledInput(label: "Author", placeholder: "Who wrote the book", value: $book.author)
+                    DatePicker(
+                        selection: $book.startDate,
+                        displayedComponents: .date,
+                        label: { Text("Start Date")
+                            .rounded(.callout) }
+                    )
+                    .padding(.vertical, 10)
+                }
+            }
+            Button(action: {
+                showingEditSheet = false
+            }) {
+                StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("BookBG"))
+            }
         }
     }
     
