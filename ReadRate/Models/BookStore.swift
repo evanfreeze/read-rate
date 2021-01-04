@@ -64,7 +64,7 @@ class BookStore: ObservableObject {
     }
     
     var archivedBooks: [Book] {
-        books.filter({ $0.archivedAt != nil && !$0.isDeleted })
+        books.filter({ $0.archivedAt != nil && !$0.isDeleted }).sorted(by: { $0.archivedAt! > $1.archivedAt! })
     }
     
     init() {
