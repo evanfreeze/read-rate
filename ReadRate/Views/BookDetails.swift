@@ -129,10 +129,10 @@ struct BookDetail: View {
                 HStack {
                     Spacer(minLength: 0)
                     Button(action: archiveBook) {
-                        StyledButton(iconName: "archivebox", label: "Archive Book", bgColor: Color("BookBG"))
+                        StyledButton(iconName: "archivebox", label: "Archive", bgColor: Color("BookBG"))
                     }
                     Button(action: { showingEditSheet = true }) {
-                        StyledButton(iconName: "pencil.circle", label: "Edit Details", bgColor: Color("BookBG"))
+                        StyledButton(iconName: "pencil.circle", label: "Edit", bgColor: Color("BookBG"))
                     }
                     Spacer(minLength: 0)
                 }
