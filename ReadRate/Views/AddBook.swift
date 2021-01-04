@@ -41,7 +41,7 @@ struct AddBook: View {
             Form {
                 Text("Start a New Book")
                     .rounded(.title).padding(.bottom).padding(.top)
-                LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title).autocapitalization(.words)
+                LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title).autocapitalization(.sentences)
                 LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author).autocapitalization(.words)
                 LabeledInput(label: "How many pages are in it?", placeholder: "Total page count", value: $pageCount).keyboardType(.numberPad)
                 LabeledInput(label: "Which page are you starting on?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)

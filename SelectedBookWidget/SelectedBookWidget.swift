@@ -127,27 +127,58 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct SelectedBookWidgetEntryView : View {
+    @Environment(\.widgetFamily) var family
+    
     var entry: Provider.Entry
 
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                ProgressCircle(progress: entry.book.progressBarFillAmount, progressColor: entry.book.progressColor, centerContent: entry.book.progressIcon)
-                Spacer()
-                Text(entry.book.title)
-                    .rounded(.subheadline)
-                Text(entry.book.author)
-                    .rounded(.caption)
-                    .foregroundColor(.secondary)
-                    .padding(.bottom, 1.0)
-                Text(entry.book.progressDescription)
-                    .rounded(.caption2, bold: false)
-                    .foregroundColor(.secondary)
-                    .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+        Group {
+            switch family {
+            case .systemSmall:
+                HStack {
+                    VStack(alignment: .leading) {
+                        ProgressCircle(progress: entry.book.progressBarFillAmount, progressColor: entry.book.progressColor, centerContent: entry.book.progressIcon)
+                        Spacer()
+                        Text(entry.book.title)
+                            .rounded(.subheadline)
+                        Text(entry.book.author)
+                            .rounded(.caption)
+                            .foregroundColor(.secondary)
+                            .padding(.bottom, 1.0)
+                        Text(entry.book.progressDescription)
+                            .rounded(.caption2, bold: false)
+                            .foregroundColor(.secondary)
+                            .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+                    }
+                    Spacer(minLength: 0)
+                }
+                .padding()
+            case .systemMedium:
+                HStack {
+                    ProgressCircle(progress: entry.book.progressBarFillAmount, progressColor: entry.book.progressColor, centerContent: entry.book.progressIcon)
+                    VStack(alignment: .leading, spacing: 4.0) {
+                        VStack(alignment: .leading) {
+                            Text(entry.book.title)
+                                .rounded(.title3)
+                            Text(entry.book.author)
+                                .rounded(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        Text(entry.book.progressDescription)
+                            .rounded(.caption, bold: false)
+                            .foregroundColor(.secondary)
+                            .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+                    }
+                    .padding(.leading, 10)
+                    Spacer()
+                }
+                .padding()
+            default:
+                HStack {
+                    
+                }
             }
-            Spacer(minLength: 0)
         }
-        .padding()
     }
 }
 
@@ -167,7 +198,12 @@ struct SelectedBookWidget: Widget {
 
 struct SelectedBookWidget_Previews: PreviewProvider {
     static var previews: some View {
-        SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), book: bookTwo))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        Group {
+            SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), book: bookTwo))
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+            
+            SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), book: bookTwo))
+                .previewContext(WidgetPreviewContext(family: .systemMedium))
+        }
     }
 }
