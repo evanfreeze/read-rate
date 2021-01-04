@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct DailyTargetMeta: Codable {
     var pageCount: Int
@@ -160,6 +161,45 @@ struct Book: Identifiable, Codable, Comparable {
             return true
         } else {
             return false
+        }
+    }
+    
+    var progressBarFillAmount: Double {
+        let minAmount = 0.06
+        let completionPercentage = getCompletionPercentage()
+        
+        if completionPercentage < minAmount {
+            return minAmount
+        } else {
+            return completionPercentage
+        }
+    }
+    
+    var progressColor: Color {
+        if (currentPage == pageCount) {
+            return .yellow
+        } else if (readToday) {
+            return .green
+        } else {
+            return .accentColor
+        }
+    }
+    
+    var progressIcon: some View {
+        Group {
+            if currentPage == pageCount {
+                Image(systemName: "star.fill")
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body).bold())
+            } else if readToday {
+                Image(systemName: "checkmark")
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body).bold())
+            } else {
+                Text(pagesRemainingToday)
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body, design: Font.Design.rounded).bold())
+            }
         }
     }
     

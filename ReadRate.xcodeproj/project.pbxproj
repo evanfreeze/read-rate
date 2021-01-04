@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA2CEDF625A2C7E400EDE3AF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2CEDF525A2C7E400EDE3AF /* WidgetKit.framework */; };
+		EA2CEDF825A2C7E400EDE3AF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2CEDF725A2C7E400EDE3AF /* SwiftUI.framework */; };
+		EA2CEDFB25A2C7E400EDE3AF /* SelectedBookWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFA25A2C7E400EDE3AF /* SelectedBookWidget.swift */; };
+		EA2CEDFE25A2C7E400EDE3AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA2CEDFD25A2C7E400EDE3AF /* Assets.xcassets */; };
+		EA2CEE0025A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFC25A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition */; };
+		EA2CEE0125A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFC25A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition */; };
+		EA2CEE0425A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EA2CEDF325A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EA2CEE0B25A2C80900EDE3AF /* BookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */; };
+		EA2CEE0C25A2C80900EDE3AF /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AEAF2485B77900030907 /* BookModel.swift */; };
+		EA2CEE1725A2C94700EDE3AF /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2CEE1625A2C94700EDE3AF /* Intents.framework */; };
+		EA2CEE1A25A2C94700EDE3AF /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */; };
+		EA2CEE1E25A2C94700EDE3AF /* SelectedBookIntentsExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EA2CEE1525A2C94700EDE3AF /* SelectedBookIntentsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EA2CEE2525A2C95200EDE3AF /* SelectedBookIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFC25A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition */; };
+		EA2CEE2925A2CF3F00EDE3AF /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */; };
+		EA2CEE2D25A2CF3F00EDE3AF /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */; };
 		EA377398259B93F2008E9789 /* ArchivedBooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA377397259B93F2008E9789 /* ArchivedBooks.swift */; };
 		EAA9AE9B2485A76100030907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9A2485A76100030907 /* AppDelegate.swift */; };
 		EAA9AE9D2485A76100030907 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AE9C2485A76100030907 /* SceneDelegate.swift */; };
@@ -21,10 +36,55 @@
 		EAB2D18E248BF23400BAB4E2 /* AddBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18D248BF23400BAB4E2 /* AddBook.swift */; };
 		EAB2D191248C182700BAB4E2 /* ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D190248C182700BAB4E2 /* ForEach.swift */; };
 		EAB2D193248C183400BAB4E2 /* IndexedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D192248C183400BAB4E2 /* IndexedCollection.swift */; };
+		EACB80FD25A2D3540077873A /* BookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */; };
+		EACB80FE25A2D3540077873A /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AEAF2485B77900030907 /* BookModel.swift */; };
 		EAE64A8224982D7600D8025B /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE64A8124982D7600D8025B /* BookRow.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EA2CEE0225A2C7E400EDE3AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAA9AE8F2485A76100030907 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA2CEDF225A2C7E400EDE3AF;
+			remoteInfo = SelectedBookWidgetExtension;
+		};
+		EA2CEE1C25A2C94700EDE3AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAA9AE8F2485A76100030907 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA2CEE1425A2C94700EDE3AF;
+			remoteInfo = SelectedBookIntentsExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EA2CEE0525A2C7E400EDE3AF /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EA2CEE1E25A2C94700EDE3AF /* SelectedBookIntentsExtension.appex in Embed App Extensions */,
+				EA2CEE0425A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		EA2CEDF325A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectedBookWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA2CEDF525A2C7E400EDE3AF /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		EA2CEDF725A2C7E400EDE3AF /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		EA2CEDFA25A2C7E400EDE3AF /* SelectedBookWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedBookWidget.swift; sourceTree = "<group>"; };
+		EA2CEDFC25A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = SelectedBookIntent.intentdefinition; sourceTree = "<group>"; };
+		EA2CEDFD25A2C7E400EDE3AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EA2CEDFF25A2C7E400EDE3AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA2CEE1525A2C94700EDE3AF /* SelectedBookIntentsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectedBookIntentsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA2CEE1625A2C94700EDE3AF /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		EA2CEE1B25A2C94700EDE3AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA377397259B93F2008E9789 /* ArchivedBooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedBooks.swift; sourceTree = "<group>"; };
 		EAA9AE972485A76100030907 /* Read Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Read Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA9AE9A2485A76100030907 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -41,10 +101,30 @@
 		EAB2D18D248BF23400BAB4E2 /* AddBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBook.swift; sourceTree = "<group>"; };
 		EAB2D190248C182700BAB4E2 /* ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEach.swift; sourceTree = "<group>"; };
 		EAB2D192248C183400BAB4E2 /* IndexedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedCollection.swift; sourceTree = "<group>"; };
+		EACB810A25A363050077873A /* Read Rate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Read Rate.entitlements"; sourceTree = "<group>"; };
+		EACB810E25A363530077873A /* SelectedBookWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectedBookWidgetExtension.entitlements; sourceTree = "<group>"; };
+		EACB811225A3636A0077873A /* SelectedBookIntentsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectedBookIntentsExtension.entitlements; sourceTree = "<group>"; };
 		EAE64A8124982D7600D8025B /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EA2CEDF025A2C7E400EDE3AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA2CEDF825A2C7E400EDE3AF /* SwiftUI.framework in Frameworks */,
+				EA2CEDF625A2C7E400EDE3AF /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2CEE1225A2C94700EDE3AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA2CEE1725A2C94700EDE3AF /* Intents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EAA9AE942485A76100030907 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -55,10 +135,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA2CEDF425A2C7E400EDE3AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA2CEDF525A2C7E400EDE3AF /* WidgetKit.framework */,
+				EA2CEDF725A2C7E400EDE3AF /* SwiftUI.framework */,
+				EA2CEE1625A2C94700EDE3AF /* Intents.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA2CEDF925A2C7E400EDE3AF /* SelectedBookWidget */ = {
+			isa = PBXGroup;
+			children = (
+				EA2CEDFA25A2C7E400EDE3AF /* SelectedBookWidget.swift */,
+				EA2CEDFC25A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition */,
+				EA2CEDFD25A2C7E400EDE3AF /* Assets.xcassets */,
+				EA2CEDFF25A2C7E400EDE3AF /* Info.plist */,
+			);
+			path = SelectedBookWidget;
+			sourceTree = "<group>";
+		};
+		EA2CEE1825A2C94700EDE3AF /* SelectedBookIntentsExtension */ = {
+			isa = PBXGroup;
+			children = (
+				EACB811225A3636A0077873A /* SelectedBookIntentsExtension.entitlements */,
+				EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */,
+				EA2CEE1B25A2C94700EDE3AF /* Info.plist */,
+			);
+			path = SelectedBookIntentsExtension;
+			sourceTree = "<group>";
+		};
 		EAA9AE8E2485A76100030907 = {
 			isa = PBXGroup;
 			children = (
+				EACB810E25A363530077873A /* SelectedBookWidgetExtension.entitlements */,
 				EAA9AE992485A76100030907 /* ReadRate */,
+				EA2CEDF925A2C7E400EDE3AF /* SelectedBookWidget */,
+				EA2CEE1825A2C94700EDE3AF /* SelectedBookIntentsExtension */,
+				EA2CEDF425A2C7E400EDE3AF /* Frameworks */,
 				EAA9AE982485A76100030907 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,6 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				EAA9AE972485A76100030907 /* Read Rate.app */,
+				EA2CEDF325A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex */,
+				EA2CEE1525A2C94700EDE3AF /* SelectedBookIntentsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -74,6 +191,7 @@
 		EAA9AE992485A76100030907 /* ReadRate */ = {
 			isa = PBXGroup;
 			children = (
+				EACB810A25A363050077873A /* Read Rate.entitlements */,
 				EAB2D18F248C180B00BAB4E2 /* Extensions */,
 				EAA9AEAE2485B76900030907 /* Models */,
 				EAA9AE9A2485A76100030907 /* AppDelegate.swift */,
@@ -129,6 +247,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EA2CEDF225A2C7E400EDE3AF /* SelectedBookWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA2CEE0825A2C7E400EDE3AF /* Build configuration list for PBXNativeTarget "SelectedBookWidgetExtension" */;
+			buildPhases = (
+				EA2CEDEF25A2C7E400EDE3AF /* Sources */,
+				EA2CEDF025A2C7E400EDE3AF /* Frameworks */,
+				EA2CEDF125A2C7E400EDE3AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SelectedBookWidgetExtension;
+			productName = SelectedBookWidgetExtension;
+			productReference = EA2CEDF325A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		EA2CEE1425A2C94700EDE3AF /* SelectedBookIntentsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA2CEE1F25A2C94700EDE3AF /* Build configuration list for PBXNativeTarget "SelectedBookIntentsExtension" */;
+			buildPhases = (
+				EA2CEE1125A2C94700EDE3AF /* Sources */,
+				EA2CEE1225A2C94700EDE3AF /* Frameworks */,
+				EA2CEE1325A2C94700EDE3AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SelectedBookIntentsExtension;
+			productName = SelectedBookIntentsExtension;
+			productReference = EA2CEE1525A2C94700EDE3AF /* SelectedBookIntentsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		EAA9AE962485A76100030907 /* ReadRate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EAA9AEAB2485A76200030907 /* Build configuration list for PBXNativeTarget "ReadRate" */;
@@ -136,10 +288,13 @@
 				EAA9AE932485A76100030907 /* Sources */,
 				EAA9AE942485A76100030907 /* Frameworks */,
 				EAA9AE952485A76100030907 /* Resources */,
+				EA2CEE0525A2C7E400EDE3AF /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EA2CEE0325A2C7E400EDE3AF /* PBXTargetDependency */,
+				EA2CEE1D25A2C94700EDE3AF /* PBXTargetDependency */,
 			);
 			name = ReadRate;
 			productName = ReadRate;
@@ -152,10 +307,16 @@
 		EAA9AE8F2485A76100030907 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Evan Freeze";
 				TargetAttributes = {
+					EA2CEDF225A2C7E400EDE3AF = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					EA2CEE1425A2C94700EDE3AF = {
+						CreatedOnToolsVersion = 12.3;
+					};
 					EAA9AE962485A76100030907 = {
 						CreatedOnToolsVersion = 11.5;
 					};
@@ -175,11 +336,28 @@
 			projectRoot = "";
 			targets = (
 				EAA9AE962485A76100030907 /* ReadRate */,
+				EA2CEDF225A2C7E400EDE3AF /* SelectedBookWidgetExtension */,
+				EA2CEE1425A2C94700EDE3AF /* SelectedBookIntentsExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EA2CEDF125A2C7E400EDE3AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA2CEDFE25A2C7E400EDE3AF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2CEE1325A2C94700EDE3AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EAA9AE952485A76100030907 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,13 +371,38 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EA2CEDEF25A2C7E400EDE3AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA2CEE0025A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition in Sources */,
+				EA2CEE2925A2CF3F00EDE3AF /* IntentHandler.swift in Sources */,
+				EA2CEDFB25A2C7E400EDE3AF /* SelectedBookWidget.swift in Sources */,
+				EA2CEE0C25A2C80900EDE3AF /* BookModel.swift in Sources */,
+				EA2CEE0B25A2C80900EDE3AF /* BookStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA2CEE1125A2C94700EDE3AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA2CEE2525A2C95200EDE3AF /* SelectedBookIntent.intentdefinition in Sources */,
+				EA2CEE1A25A2C94700EDE3AF /* IntentHandler.swift in Sources */,
+				EACB80FE25A2D3540077873A /* BookModel.swift in Sources */,
+				EACB80FD25A2D3540077873A /* BookStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EAA9AE932485A76100030907 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				EAB2B39A259E439800CC6024 /* CalendarIcon.swift in Sources */,
+				EA2CEE0125A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition in Sources */,
 				EAA9AEB02485B77900030907 /* BookModel.swift in Sources */,
 				EAE64A8224982D7600D8025B /* BookRow.swift in Sources */,
+				EA2CEE2D25A2CF3F00EDE3AF /* IntentHandler.swift in Sources */,
 				EAB2D18E248BF23400BAB4E2 /* AddBook.swift in Sources */,
 				EAB2D18C24885C5D00BAB4E2 /* BookStore.swift in Sources */,
 				EAA9AE9B2485A76100030907 /* AppDelegate.swift in Sources */,
@@ -214,6 +417,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		EA2CEE0325A2C7E400EDE3AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA2CEDF225A2C7E400EDE3AF /* SelectedBookWidgetExtension */;
+			targetProxy = EA2CEE0225A2C7E400EDE3AF /* PBXContainerItemProxy */;
+		};
+		EA2CEE1D25A2C94700EDE3AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA2CEE1425A2C94700EDE3AF /* SelectedBookIntentsExtension */;
+			targetProxy = EA2CEE1C25A2C94700EDE3AF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		EAA9AEA52485A76200030907 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -226,6 +442,102 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		EA2CEE0625A2C7E400EDE3AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SelectedBookWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = 4BSVL8X5HC;
+				INFOPLIST_FILE = SelectedBookWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.evanfreeze.ReadRate.SelectedBookWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		EA2CEE0725A2C7E400EDE3AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SelectedBookWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = 4BSVL8X5HC;
+				INFOPLIST_FILE = SelectedBookWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.evanfreeze.ReadRate.SelectedBookWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		EA2CEE2025A2C94700EDE3AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelectedBookIntentsExtension/SelectedBookIntentsExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = 4BSVL8X5HC;
+				INFOPLIST_FILE = SelectedBookIntentsExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.evanfreeze.ReadRate.SelectedBookIntentsExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		EA2CEE2125A2C94700EDE3AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelectedBookIntentsExtension/SelectedBookIntentsExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = 4BSVL8X5HC;
+				INFOPLIST_FILE = SelectedBookIntentsExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.evanfreeze.ReadRate.SelectedBookIntentsExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		EAA9AEA92485A76200030907 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -345,10 +657,12 @@
 		EAA9AEAC2485A76200030907 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ReadRate/Read Rate.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"ReadRate/Preview Content\"";
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				ENABLE_PREVIEWS = YES;
@@ -368,10 +682,12 @@
 		EAA9AEAD2485A76200030907 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ReadRate/Read Rate.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"ReadRate/Preview Content\"";
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				ENABLE_PREVIEWS = YES;
@@ -391,6 +707,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EA2CEE0825A2C7E400EDE3AF /* Build configuration list for PBXNativeTarget "SelectedBookWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA2CEE0625A2C7E400EDE3AF /* Debug */,
+				EA2CEE0725A2C7E400EDE3AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA2CEE1F25A2C94700EDE3AF /* Build configuration list for PBXNativeTarget "SelectedBookIntentsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA2CEE2025A2C94700EDE3AF /* Debug */,
+				EA2CEE2125A2C94700EDE3AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EAA9AE922485A76100030907 /* Build configuration list for PBXProject "ReadRate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
