@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import WidgetKit
 
 var bookOne = Book(
     title: "The Fault in Our Stars",
@@ -53,9 +54,12 @@ class BookStore: ObservableObject {
         relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     ).appendingPathExtension("json")
     
+    let appGroupURL = URL(fileURLWithPath: "BookStore", relativeTo: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.evanfreeze.ReadRate")).appendingPathExtension("json")
+    
     @Published var books: [Book] = [] {
         didSet {
             saveBookStoreJSON()
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
     
@@ -69,16 +73,29 @@ class BookStore: ObservableObject {
     
     init() {
         print(bookStoreURL)
+        print(appGroupURL)
         loadBookStoreJSON()
         migrateBooks()
     }
     
     private func loadBookStoreJSON() {
+        if FileManager.default.fileExists(atPath: appGroupURL.path) {
+            do {
+                print("loading from app group...")
+                let bookStoreData = try Data(contentsOf: appGroupURL)
+                books = try JSONDecoder().decode([Book].self, from: bookStoreData)
+                return
+            } catch let error {
+                print(error)
+            }
+        }
+        
         guard FileManager.default.fileExists(atPath: bookStoreURL.path) else {
             return
         }
         
         do {
+            print("loading from document directory")
             let bookStoreData = try Data(contentsOf: bookStoreURL)
             books = try JSONDecoder().decode([Book].self, from: bookStoreData)
             print(books)
@@ -94,6 +111,7 @@ class BookStore: ObservableObject {
             
             let bookStoreJSON = try encoder.encode(books)
             try bookStoreJSON.write(to: bookStoreURL, options: .atomicWrite)
+            try bookStoreJSON.write(to: appGroupURL, options: .atomicWrite)
         } catch let error {
             print(error)
         }
