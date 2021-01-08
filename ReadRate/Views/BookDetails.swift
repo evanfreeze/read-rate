@@ -12,6 +12,7 @@ struct Card: View {
     let title: String
     let content: String
     let withEdit: Bool
+    let subtitle: String?
     let callback: () -> Void
     
     @State private var rotationAngle = Angle(degrees: 0)
@@ -19,12 +20,19 @@ struct Card: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                HStack {
+                HStack(alignment: .center) {
                     Text(title).rounded(.title3)
                     Spacer()
-                    
                 }
                 Text(content).rounded(.body).foregroundColor(.secondary)
+                if subtitle != nil {
+                    Divider()
+                        .padding(.top, 8)
+                    Text(subtitle!)
+                        .rounded(.caption2, bold: false)
+                        .foregroundColor(.secondary)
+                        .padding(.top, 4)
+                }
             }
             Spacer(minLength: 1)
             if withEdit {
@@ -62,6 +70,14 @@ struct BookDetail: View {
     @State private var showingDeleteAlert = false
     @State private var showingEditSheet = false
     
+    var goalSubtitle: String? {
+        if book.readToday || book.completedAt != nil {
+            return nil
+        } else {
+            return "Goal last updated at \(book.displayLastGoalCalculatedDate)"
+        }
+    }
+    
     var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 12) {
@@ -71,10 +87,10 @@ struct BookDetail: View {
                 }
                 
                 ScrollView {
-                    Card(title: "Today's Goal", content: book.progressDescription, withEdit: false) {}
+                    Card(title: "Today's Goal", content: book.progressDescription, withEdit: false, subtitle: goalSubtitle) {}
                     
                     VStack {
-                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.percentComplete) complete)", withEdit: true) {
+                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.percentComplete) complete)", withEdit: true, subtitle: nil) {
                             editingCurrentPage.toggle()
                         }
                         .shadow(radius: editingCurrentPage ? 3.0 : 0.0)
@@ -101,7 +117,7 @@ struct BookDetail: View {
                     .cornerRadius(20.0)
                     
                     VStack {
-                        Card(title: "Target Completion Date", content: book.displayCompletionTarget, withEdit: true) { editingTargetDate.toggle()
+                        Card(title: "Target Completion Date", content: book.displayCompletionTarget, withEdit: true, subtitle: nil) { editingTargetDate.toggle()
                         }
                         .shadow(radius: editingTargetDate ? 3.0 : 0.0)
                         
@@ -119,10 +135,10 @@ struct BookDetail: View {
                     .background(Color("AltBG"))
                     .cornerRadius(20.0)
                     
-                    Card(title: "Start Date", content: book.displayStartDate, withEdit: false) {}
+                    Card(title: "Start Date", content: book.displayStartDate, withEdit: false, subtitle: nil) {}
                     
                     if book.completedAt != nil {
-                        Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false) {}
+                        Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false, subtitle: nil) {}
                     }
                 }
                 
