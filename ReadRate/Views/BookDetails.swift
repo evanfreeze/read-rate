@@ -74,7 +74,7 @@ struct BookDetail: View {
         if book.readToday || book.completedAt != nil {
             return nil
         } else {
-            return "Goal last updated at \(book.displayLastGoalCalculatedDate)"
+            return "Goal last calculated at \(book.displayLastGoalCalculatedDate)"
         }
     }
     
