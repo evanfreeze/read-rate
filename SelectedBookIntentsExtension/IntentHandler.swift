@@ -9,11 +9,15 @@
 import Intents
 
 class IntentHandler: INExtension, SelectedBookIntentHandling {
-    func resolveParameter(for intent: SelectedBookIntent, with completion: @escaping (BookSelectionResolutionResult) -> Void) {
-        
+    func resolveSelectedBook(for intent: SelectedBookIntent, with completion: @escaping (BookSelectionResolutionResult) -> Void) {
+        // only needed for protocol conformance
     }
     
-    func provideParameterOptionsCollection(for intent: SelectedBookIntent, with completion: @escaping (INObjectCollection<BookSelection>?, Error?) -> Void) {
+    func resolveDetails(for intent: SelectedBookIntent, with completion: @escaping (WidgetDetailsResolutionResult) -> Void) {
+        // only needed for protocol conformance
+    }
+    
+    func provideSelectedBookOptionsCollection(for intent: SelectedBookIntent, with completion: @escaping (INObjectCollection<BookSelection>?, Error?) -> Void) {
         let bookOptions: [BookSelection] = BookStore().activeBooks.map { book in
             BookSelection(identifier: book.title, display: book.title)
         }
@@ -22,7 +26,6 @@ class IntentHandler: INExtension, SelectedBookIntentHandling {
         
         completion(collection, nil)
     }
-    
     
     override func handler(for intent: INIntent) -> Any {
         // This is the default implementation.  If you want different objects to handle different intents,
