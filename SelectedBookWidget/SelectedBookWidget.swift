@@ -64,7 +64,7 @@ struct ProgressCircle<T: View>: View {
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         if let firstBook = BookStore().activeBooks.first {
-            return SimpleEntry(date: Date(), book: firstBook)
+            return SimpleEntry(date: Date(), book: firstBook, details: firstBook.progressDescription)
         } else {
             let tomorrow = Date().advanced(by: TimeInterval(60 * 60 * 24))
             
@@ -84,7 +84,7 @@ struct Provider: IntentTimelineProvider {
                 )
             )
             
-            return SimpleEntry(date: Date(), book: placeholderBook)
+            return SimpleEntry(date: Date(), book: placeholderBook, details: placeholderBook.progressDescription)
         }
         
     }
@@ -93,11 +93,12 @@ struct Provider: IntentTimelineProvider {
         
         var entry: SimpleEntry
         
-        if let selectedBook = BookStore().books.first(where: { $0.title == configuration.parameter?.displayString }) {
-            entry = SimpleEntry(date: Date(), book: selectedBook)
+        if let selectedBook = BookStore().books.first(where: { $0.title == configuration.selectedBook?.displayString }) {
+            
+            entry = SimpleEntry(date: Date(), book: selectedBook, details: selectedBook.progressDescription)
         } else {
             let firstBook = BookStore().activeBooks.first
-            entry = SimpleEntry(date: Date(), book: firstBook!)
+            entry = SimpleEntry(date: Date(), book: firstBook!, details: firstBook!.progressDescription)
         }
         
         completion(entry)
@@ -107,23 +108,41 @@ struct Provider: IntentTimelineProvider {
         
         var entries: [SimpleEntry] = []
         
-        if let selectedBook = BookStore().books.first(where: { $0.title == configuration.parameter?.displayString }) {
-            let entry = SimpleEntry(date: Date(), book: selectedBook)
+        if let selectedBook = BookStore().books.first(where: { $0.title == configuration.selectedBook?.displayString }) {
+            let details = getWidgetDetails(for: configuration.details, book: selectedBook)
+            let entry = SimpleEntry(date: Date(), book: selectedBook, details: details)
             entries.append(entry)
         } else {
-            let firstBook = BookStore().activeBooks.first
-            let entry = SimpleEntry(date: Date(), book: firstBook!)
+            let firstBook = BookStore().activeBooks.first!
+            let details = getWidgetDetails(for: configuration.details, book: firstBook)
+            let entry = SimpleEntry(date: Date(), book: firstBook, details: details)
             entries.append(entry)
         }
         
         let timeline = Timeline(entries: entries, policy: .never)
         completion(timeline)
     }
+    
+    func getWidgetDetails(for detailsEnum: WidgetDetails, book: Book) -> String {
+        switch detailsEnum {
+        case .currentPage:
+            return "You're on page \(book.currentPage)"
+        case .percentage:
+            return "You've read \(book.percentComplete)"
+        case .todaysTarget:
+            return "Read to page \(book.dailyTargets.last?.targetPage ?? book.pageCount)"
+        case .pagesLeft:
+            return "\(book.pagesRemainingToday) pages left today"
+        case .unknown:
+            return "Read to page \(book.dailyTargets.last?.targetPage ?? book.pageCount)"
+        }
+    }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let book: Book
+    let details: String
 }
 
 struct SelectedBookWidgetEntryView : View {
@@ -145,7 +164,7 @@ struct SelectedBookWidgetEntryView : View {
                             .rounded(.caption)
                             .foregroundColor(.secondary)
                             .padding(.bottom, 1.0)
-                        Text(entry.book.progressDescription)
+                        Text(entry.details)
                             .rounded(.caption2, bold: false)
                             .foregroundColor(.secondary)
                             .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
@@ -199,10 +218,10 @@ struct SelectedBookWidget: Widget {
 struct SelectedBookWidget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), book: bookTwo))
+            SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), book: bookTwo, details: bookTwo.progressDescription))
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
             
-            SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), book: bookTwo))
+            SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), book: bookTwo, details: bookTwo.progressDescription))
                 .previewContext(WidgetPreviewContext(family: .systemMedium))
         }
     }

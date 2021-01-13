@@ -146,6 +146,17 @@ struct Book: Identifiable, Codable, Comparable {
         }
     }
     
+    var displayLastGoalCalculatedDate: String {
+        if let lastCalculatedDate = dailyTargets.last?.calcTime {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .none
+            formatter.timeStyle = .short
+            return formatter.string(from: lastCalculatedDate)
+        } else {
+            return "N/A"
+        }
+    }
+    
     var progressDescription: String {
         if (currentPage == pageCount) {
             return "You finished the book — congrats!"
