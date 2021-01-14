@@ -83,6 +83,7 @@ struct SearchView: View {
                 .padding()
                 .background(Color("SheetButton"))
                 .cornerRadius(20.0)
+                Text("Data from by OpenLibrary.org").rounded(.footnote, bold: false).foregroundColor(.secondary)
             case .failure:
                 Divider().padding()
                 Text("Hmm 🤔").rounded(.title2)
