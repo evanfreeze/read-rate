@@ -198,7 +198,6 @@
 			isa = PBXGroup;
 			children = (
 				EACB810A25A363050077873A /* Read Rate.entitlements */,
-				EAA1B69D25AE927F005D6374 /* ISBNSearcher.swift */,
 				EAB2D18F248C180B00BAB4E2 /* Extensions */,
 				EAA9AEAE2485B76900030907 /* Models */,
 				EAA9AE9A2485A76100030907 /* AppDelegate.swift */,
@@ -224,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				EAA9AEAF2485B77900030907 /* BookModel.swift */,
+				EAA1B69D25AE927F005D6374 /* ISBNSearcher.swift */,
 				EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */,
 			);
 			path = Models;

@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 class ISBNSearcher {
-    func findBook(for isbn: String, completion: @escaping ([String: ISBNBook]) -> Void) {
+    func findBook(for isbn: String, success: @escaping ([String: ISBNBook]) -> Void, failure: @escaping (String) -> Void) {
         guard let url = URL(string: "https://openlibrary.org/api/books?bibkeys=ISBN:\(isbn)&format=json&jscmd=data") else {
             print("Invalid url")
             return
@@ -23,17 +23,22 @@ class ISBNSearcher {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 if let decodedData = try? decoder.decode([String: ISBNBook].self, from: data) {
                     DispatchQueue.main.async {
-                        print(decodedData)
-                        completion(decodedData)
+                        if !decodedData.isEmpty {
+                            success(decodedData)
+                        } else {
+                            failure("Couldn't find a book for that ISBN")
+                        }
                     }
                     return
                 } else {
                     print("failed to decode data")
+                    failure("There was an issue formatting the data for this book")
                 }
             }
             
             if let error = error {
                 print(error.localizedDescription)
+                failure(error.localizedDescription)
             }
         }.resume()
     }

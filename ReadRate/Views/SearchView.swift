@@ -9,6 +9,10 @@
 import SwiftUI
 
 struct SearchView: View {
+    enum Status {
+        case idle, loading, success, failure
+    }
+    
     @Environment(\.presentationMode) var presentationMode
     @Binding var title: String
     @Binding var author: String
@@ -16,6 +20,8 @@ struct SearchView: View {
     
     @State private var searchTerm = ""
     @State private var result: ISBNBook? = nil
+    @State private var status: Status = .idle
+    @State private var errorText = ""
     
     var body: some View {
         VStack {
@@ -27,7 +33,16 @@ struct SearchView: View {
                 StyledButton(iconName: "magnifyingglass", label: "Search", bgColor: Color("SheetButton"))
             }
             
-            if result != nil && searchTerm.count > 0 {
+            switch status {
+            case .idle:
+                Divider().padding()
+            case .loading:
+                Divider().padding()
+                Text("Searching...").rounded(.title2)
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .padding()
+            case .success:
                 Divider()
                     .padding()
                 Text("Found a match!").rounded(.title2)
@@ -45,7 +60,7 @@ struct SearchView: View {
                                 .rounded()
                                 .foregroundColor(.secondary)
                                 .padding(.bottom, 6.0)
-                            HStack(spacing: 1) {
+                            HStack(spacing: 3) {
                                 Text("\(result?.numberOfPages ?? 0) pages")
                                     .rounded(.caption)
                                     .foregroundColor(.secondary)
@@ -68,7 +83,13 @@ struct SearchView: View {
                 .padding()
                 .background(Color("SheetButton"))
                 .cornerRadius(20.0)
-                
+            case .failure:
+                Divider().padding()
+                Text("Hmm 🤔").rounded(.title2)
+                    .padding(.bottom, 6)
+                Text(errorText)
+                    .rounded(.subheadline, bold: false)
+                    .foregroundColor(.secondary)
             }
             Spacer()
         }
@@ -76,11 +97,16 @@ struct SearchView: View {
     }
     
     func search() {
+        status = .loading
         let searcher = ISBNSearcher()
         let normalizedSearchTerm = searchTerm.trimmingCharacters(in: .whitespacesAndNewlines)
-        searcher.findBook(for: normalizedSearchTerm) {
+        searcher.findBook(for: normalizedSearchTerm, success: {
             result = $0["ISBN:\(normalizedSearchTerm)"]
-        }
+            status = .success
+        }, failure: {
+            errorText = $0
+            status = .failure
+        })
     }
     
     func addBook() {
