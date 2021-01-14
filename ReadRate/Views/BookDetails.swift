@@ -174,7 +174,7 @@ struct BookDetail: View {
             VStack {
                 Form {
                     Text("Edit Book")
-                        .rounded(.title2)
+                        .rounded(.title).padding(.bottom).padding(.top)
                     LabeledInput(label: "Title", placeholder: "The name of the book", value: $book.title)
                     LabeledInput(label: "Author", placeholder: "Who wrote the book", value: $book.author)
                     DatePicker(
@@ -189,7 +189,7 @@ struct BookDetail: View {
             Button(action: {
                 showingEditSheet = false
             }) {
-                StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("BookBG"))
+                StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("SheetButton"))
             }
         }
     }
