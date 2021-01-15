@@ -46,9 +46,9 @@ class ISBNSearcher {
 
 struct ISBNBook: Codable {
     let title: String
-    let authors: [ISBNAuthor]
-    let numberOfPages: Int
-    let publishDate: String
+    let authors: [ISBNAuthor]?
+    let numberOfPages: Int?
+    let publishDate: String?
     let cover: ISBNCover?
     
     struct ISBNAuthor: Codable {

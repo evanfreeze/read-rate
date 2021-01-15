@@ -56,7 +56,7 @@ struct SearchView: View {
                         VStack(alignment: .leading, spacing: 1.0) {
                             Text(result?.title ?? "Unknown Title")
                                 .rounded(.title3)
-                            Text(result?.authors.first?.name ?? "Unknown Author")
+                            Text(result?.authors?.first?.name ?? "Unknown Author")
                                 .rounded()
                                 .foregroundColor(.secondary)
                                 .padding(.bottom, 6.0)
@@ -112,7 +112,7 @@ struct SearchView: View {
     
     func addBook() {
         title = result?.title ?? ""
-        author = result?.authors.first?.name ?? ""
+        author = result?.authors?.first?.name ?? ""
         pageCount = "\(result?.numberOfPages ?? 0)"
         presentationMode.wrappedValue.dismiss()
     }
