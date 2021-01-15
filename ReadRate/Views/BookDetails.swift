@@ -105,16 +105,16 @@ struct BookDetail: View {
                                 .pickerStyle(WheelPickerStyle())
                                 HStack {
                                     Button(action: {
-                                        book.currentPage = book.dailyTargets.last?.targetPage ?? book.currentPage
-                                        editingCurrentPage = false
-                                    }) {
-                                        StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
-                                    }
-                                    Button(action: {
                                         book.currentPage = book.pageCount
                                         editingCurrentPage = false
                                     }) {
                                         StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color("BookBG"))
+                                    }
+                                    Button(action: {
+                                        book.currentPage = book.dailyTargets.last?.targetPage ?? book.currentPage
+                                        editingCurrentPage = false
+                                    }) {
+                                        StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
                                     }
                                 }
                             }
