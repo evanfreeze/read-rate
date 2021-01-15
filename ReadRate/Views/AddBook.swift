@@ -35,12 +35,20 @@ struct AddBook: View {
     @State var readingDays = ""
     @State var startDate = Date()
     @State var targetDate = Date()
+    @State var showingSearch = false
     
     var body: some View {
         VStack {
             Form {
-                Text("Start a New Book")
-                    .rounded(.title).padding(.bottom).padding(.top)
+                HStack {
+                    Text("Start a New Book")
+                        .rounded(.title).padding(.bottom).padding(.top)
+                    Spacer()
+                    Button(action: { showingSearch = true }) {
+                        Image(systemName: "magnifyingglass.circle.fill")
+                            .font(.title2)
+                    }
+                }
                 LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title).autocapitalization(.sentences)
                 LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author).autocapitalization(.words)
                 LabeledInput(label: "How many pages are in it?", placeholder: "Total page count", value: $pageCount).keyboardType(.numberPad)
@@ -56,11 +64,14 @@ struct AddBook: View {
             }
 
             Button(action: addBook) {
-                StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
+                StyledButton(iconName: "book", label: "Add Book", bgColor: Color("SheetButton"))
             }
             .disabled(shouldBeDisabled())
             .padding(.bottom, 8.0)
 
+        }
+        .sheet(isPresented: $showingSearch) {
+            SearchView(title: $title, author: $author, pageCount: $pageCount)
         }
     }
     

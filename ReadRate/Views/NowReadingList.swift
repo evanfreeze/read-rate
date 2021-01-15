@@ -94,11 +94,8 @@ struct NowReadingList: View {
                 
                 HStack {
                     Spacer()
-                    if bookStore.archivedBooks.count > 0 {
-                        NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
-                            StyledButton(iconName: "archivebox", label: "Archived Books", bgColor: Color("BookBG"))
-                        }
-                        Spacer()
+                    NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
+                        StyledButton(iconName: "archivebox", label: "Archived Books", bgColor: Color("BookBG"))
                     }
                     Button(action: {
                         self.showSheet = true

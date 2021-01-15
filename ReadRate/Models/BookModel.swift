@@ -248,7 +248,7 @@ struct Book: Identifiable, Codable, Comparable {
     static func < (lhs: Book, rhs: Book) -> Bool {
         lhs.startDate < rhs.startDate
     }
-    
+
     static func == (lhs: Book, rhs: Book) -> Bool {
         lhs.startDate == rhs.startDate && lhs.title == rhs.title && lhs.author == rhs.author
     }

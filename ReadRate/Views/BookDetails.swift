@@ -103,11 +103,19 @@ struct BookDetail: View {
                                     }
                                 }
                                 .pickerStyle(WheelPickerStyle())
-                                Button(action: {
-                                    book.currentPage = book.pageCount
-                                    editingCurrentPage = false
-                                }) {
-                                    StyledButton(iconName: "checkmark.circle", label: "Mark Complete", bgColor: Color("BookBG"))
+                                HStack {
+                                    Button(action: {
+                                        book.currentPage = book.pageCount
+                                        editingCurrentPage = false
+                                    }) {
+                                        StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color("BookBG"))
+                                    }
+                                    Button(action: {
+                                        book.currentPage = book.dailyTargets.last?.targetPage ?? book.currentPage
+                                        editingCurrentPage = false
+                                    }) {
+                                        StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
+                                    }
                                 }
                             }
                             .padding(.bottom, 10.0)
@@ -174,7 +182,7 @@ struct BookDetail: View {
             VStack {
                 Form {
                     Text("Edit Book")
-                        .rounded(.title2)
+                        .rounded(.title).padding(.bottom).padding(.top)
                     LabeledInput(label: "Title", placeholder: "The name of the book", value: $book.title)
                     LabeledInput(label: "Author", placeholder: "Who wrote the book", value: $book.author)
                     DatePicker(
@@ -189,7 +197,7 @@ struct BookDetail: View {
             Button(action: {
                 showingEditSheet = false
             }) {
-                StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("BookBG"))
+                StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("SheetButton"))
             }
         }
     }
