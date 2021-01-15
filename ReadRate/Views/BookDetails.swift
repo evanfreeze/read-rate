@@ -79,11 +79,21 @@ struct BookDetail: View {
     }
     
     var body: some View {
-        HStack(alignment: .top) {
+        let bookISBN = Binding<String>(
+            get: {
+                book.ISBN ?? ""
+            },
+            set: {
+                book.ISBN = $0
+            }
+        )
+        
+        return HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 12) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(book.title).rounded(.title)
                     Text(book.author).rounded(.title2).foregroundColor(.secondary)
+                    Text("ISBN: \(book.ISBN ?? "Unknown")").rounded(.title3, bold: false).foregroundColor(.secondary)
                 }
                 
                 ScrollView {
@@ -185,6 +195,7 @@ struct BookDetail: View {
                         .rounded(.title).padding(.bottom).padding(.top)
                     LabeledInput(label: "Title", placeholder: "The name of the book", value: $book.title)
                     LabeledInput(label: "Author", placeholder: "Who wrote the book", value: $book.author)
+                    LabeledInput(label: "ISBN", placeholder: "The book's ISBN", value: bookISBN)
                     DatePicker(
                         selection: $book.startDate,
                         displayedComponents: .date,
