@@ -56,6 +56,7 @@ struct WebImage: View {
             case .failed:
                 failureImage
                     .resizable()
+                    .foregroundColor(Color("AltBG"))
             default:
                 if let image = UIImage(data: loader.data) {
                     Image(uiImage: image).resizable()

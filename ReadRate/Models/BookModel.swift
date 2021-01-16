@@ -45,6 +45,8 @@ struct Book: Identifiable, Codable, Comparable {
     var archivedAt: Date?
     var completedAt: Date?
     var deletedAt: Date?
+    var ISBN: String?
+    var covers: ISBNBook.ISBNCover?
     
     // MARK: Computed Properties
     var readToday: Bool {

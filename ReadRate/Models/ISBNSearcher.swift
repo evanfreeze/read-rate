@@ -11,8 +11,8 @@ import SwiftUI
 
 class ISBNSearcher {
     func findBook(for isbn: String, success: @escaping ([String: ISBNBook]) -> Void, failure: @escaping (String) -> Void) {
-        guard let url = URL(string: "https://openlibrary.org/api/books?bibkeys=ISBN:\(isbn)&format=json&jscmd=data") else {
-            print("Invalid url")
+        guard let url = URL(string: "https://openlibrary.org/api/books?bibkeys=ISBN:\(isbn.trimmingCharacters(in: .whitespacesAndNewlines))&format=json&jscmd=data") else {
+            print("Invalid url: \(isbn)")
             return
         }
         
