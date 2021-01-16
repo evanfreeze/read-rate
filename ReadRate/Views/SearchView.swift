@@ -8,19 +8,20 @@
 
 import SwiftUI
 
+enum FetchStatus {
+    case idle, loading, success, failure
+}
+
 struct SearchView: View {
-    enum Status {
-        case idle, loading, success, failure
-    }
-    
     @Environment(\.presentationMode) var presentationMode
     @Binding var title: String
     @Binding var author: String
     @Binding var pageCount: String
+    @Binding var isbn: String
     
     @State private var searchTerm = ""
     @State private var result: ISBNBook? = nil
-    @State private var status: Status = .idle
+    @State private var status: FetchStatus = .idle
     @State private var errorText = ""
     
     var body: some View {
@@ -114,12 +115,13 @@ struct SearchView: View {
         title = result?.title ?? ""
         author = result?.authors?.first?.name ?? ""
         pageCount = "\(result?.numberOfPages ?? 0)"
+        isbn = searchTerm.trimmingCharacters(in: .whitespacesAndNewlines)
         presentationMode.wrappedValue.dismiss()
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(title: .constant(""), author: .constant(""), pageCount: .constant(""))
+        SearchView(title: .constant(""), author: .constant(""), pageCount: .constant(""), isbn: .constant(""))
     }
 }

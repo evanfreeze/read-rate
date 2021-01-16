@@ -70,6 +70,8 @@ struct BookDetail: View {
     @State private var showingDeleteAlert = false
     @State private var showingEditSheet = false
     
+    @State private var fetchStatus: FetchStatus = .idle
+    
     var goalSubtitle: String? {
         if book.readToday || book.completedAt != nil {
             return nil
@@ -90,10 +92,17 @@ struct BookDetail: View {
         
         return HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 12) {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(book.title).rounded(.title)
-                    Text(book.author).rounded(.title2).foregroundColor(.secondary)
-                    Text("ISBN: \(book.ISBN ?? "Unknown")").rounded(.title3, bold: false).foregroundColor(.secondary)
+                HStack {
+                    WebImage(url: book.covers?.medium ?? "")
+                        .scaledToFit()
+                        .frame(width: 80)
+                        .padding()
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(book.title).rounded(.title)
+                        Text(book.author).rounded(.title2).foregroundColor(.secondary)
+                        Text("ISBN: \(book.ISBN ?? "Unknown")").rounded(.caption, bold: false).foregroundColor(.secondary)
+                            .padding(.top, 8)
+                    }
                 }
                 
                 ScrollView {
@@ -195,7 +204,7 @@ struct BookDetail: View {
                         .rounded(.title).padding(.bottom).padding(.top)
                     LabeledInput(label: "Title", placeholder: "The name of the book", value: $book.title)
                     LabeledInput(label: "Author", placeholder: "Who wrote the book", value: $book.author)
-                    LabeledInput(label: "ISBN", placeholder: "The book's ISBN", value: bookISBN)
+                    LabeledInput(label: "The book's ISBN", placeholder: "ISBN (used to find cover art)", value: bookISBN).keyboardType(.numberPad)
                     DatePicker(
                         selection: $book.startDate,
                         displayedComponents: .date,
@@ -206,9 +215,28 @@ struct BookDetail: View {
                 }
             }
             Button(action: {
-                showingEditSheet = false
+                if book.ISBN != nil {
+                    fetchStatus = .loading
+                    ISBNSearcher().findBook(for: book.ISBN!, success: {
+                        book.covers = $0["ISBN:\(book.ISBN!)"]?.cover
+                        fetchStatus = .success
+                        showingEditSheet = false
+                    }, failure: {
+                        print($0)
+                        fetchStatus = .failure
+                        showingEditSheet = false
+                    })
+                } else {
+                    showingEditSheet = false
+                }
             }) {
-                StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("SheetButton"))
+                if fetchStatus == .loading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding(10)
+                } else {
+                    StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("SheetButton"))
+                }
             }
         }
     }

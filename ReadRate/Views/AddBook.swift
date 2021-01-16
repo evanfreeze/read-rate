@@ -35,7 +35,10 @@ struct AddBook: View {
     @State var readingDays = ""
     @State var startDate = Date()
     @State var targetDate = Date()
+    @State var isbn = ""
+    
     @State var showingSearch = false
+    @State var fetchStatus: FetchStatus = .idle
     
     var body: some View {
         VStack {
@@ -61,17 +64,24 @@ struct AddBook: View {
                         .rounded(.callout) }
                 )
                 .padding(.vertical, 10)
+                LabeledInput(label: "What's the book's ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
             }
 
-            Button(action: addBook) {
-                StyledButton(iconName: "book", label: "Add Book", bgColor: Color("SheetButton"))
+            if fetchStatus == .loading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .padding(10)
+            } else {
+                Button(action: addBook) {
+                    StyledButton(iconName: "book", label: "Add Book", bgColor: Color("SheetButton"))
+                }
+                .disabled(shouldBeDisabled())
+                .padding(.bottom, 8.0)
             }
-            .disabled(shouldBeDisabled())
-            .padding(.bottom, 8.0)
 
         }
         .sheet(isPresented: $showingSearch) {
-            SearchView(title: $title, author: $author, pageCount: $pageCount)
+            SearchView(title: $title, author: $author, pageCount: $pageCount, isbn: $isbn)
         }
     }
     
@@ -79,18 +89,35 @@ struct AddBook: View {
     
     func addBook() {        
         // Creates a new book with the data from the form
-        let newBook = Book(
+        var newBook = Book(
             title: self.title,
             author: self.author,
             pageCount: Int(self.pageCount)!,
             currentPage: Int(self.currentPage)!,
             startDate: Date(),
-            targetDate: self.targetDate
+            targetDate: self.targetDate,
+            ISBN: isbn
         )
         
-        // Adds the new book to the store
-        self.bookStore.books.append(newBook)
-        self.presentationMode.wrappedValue.dismiss()
+        if newBook.ISBN != nil && newBook.ISBN!.count > 0 {
+            fetchStatus = .loading
+            ISBNSearcher().findBook(for: newBook.ISBN!, success: {
+                newBook.covers = $0["ISBN:\(newBook.ISBN!)"]?.cover
+                fetchStatus = .success
+                // Adds the new book to the store
+                self.bookStore.books.append(newBook)
+                self.presentationMode.wrappedValue.dismiss()
+            }, failure: {
+                print($0)
+                fetchStatus = .failure
+                // Adds the new book to the store
+                self.bookStore.books.append(newBook)
+                self.presentationMode.wrappedValue.dismiss()
+            })
+        } else {
+            self.bookStore.books.append(newBook)
+            self.presentationMode.wrappedValue.dismiss()
+        }
     }
     
     func shouldBeDisabled() -> Bool {
