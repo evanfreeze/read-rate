@@ -100,7 +100,7 @@ struct BookDetail: View {
                     VStack(alignment: .leading, spacing: 0) {
                         Text(book.title).rounded(.title)
                         Text(book.author).rounded(.title2).foregroundColor(.secondary)
-                        Text("ISBN: \(book.ISBN ?? "Unknown")").rounded(.caption, bold: false).foregroundColor(.secondary)
+                        Text(book.ISBN != "" && book.ISBN != nil ? "ISBN: \(book.ISBN!)" : "Unknown ISBN").rounded(.caption, bold: false).foregroundColor(.secondary)
                             .padding(.top, 8)
                     }
                 }
