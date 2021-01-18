@@ -218,7 +218,11 @@ struct Book: Identifiable, Codable, Comparable {
     
     // MARK: Methods
     func getCompletionPercentage() -> Double {
-        return Double(currentPage) / Double(pageCount)
+        if pageCount > 0 {
+            return Double(currentPage) / Double(pageCount)
+        } else {
+            return 0
+        }
     }
 
     func getPagesPerDay() -> Int {
@@ -243,7 +247,7 @@ struct Book: Identifiable, Codable, Comparable {
     
     func getReadingDaysFromDates(start: Date) -> Double {
         let days = Calendar.current.dateComponents([.day], from: start, to: targetDate).day!
-        return Double(days + 2)
+        return Double(days + 1)
     }
     
     // MARK: Comparable Conformance

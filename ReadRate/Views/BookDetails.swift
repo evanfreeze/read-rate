@@ -90,6 +90,15 @@ struct BookDetail: View {
             }
         )
         
+        let bookPageCount = Binding<String>(
+            get: {
+                "\(book.pageCount)"
+            },
+            set: {
+                book.pageCount = Int($0)!
+            }
+        )
+        
         return HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
@@ -205,6 +214,8 @@ struct BookDetail: View {
                     LabeledInput(label: "Title", placeholder: "The name of the book", value: $book.title)
                     LabeledInput(label: "Author", placeholder: "Who wrote the book", value: $book.author)
                     LabeledInput(label: "The book's ISBN", placeholder: "ISBN (used to find cover art)", value: bookISBN).keyboardType(.numberPad)
+                    LabeledInput(label: "Page Count", placeholder: "Total number of pages in the book", value: bookPageCount)
+                        .keyboardType(.numberPad)
                     DatePicker(
                         selection: $book.startDate,
                         displayedComponents: .date,
