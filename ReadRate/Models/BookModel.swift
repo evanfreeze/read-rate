@@ -243,7 +243,7 @@ struct Book: Identifiable, Codable, Comparable {
     
     func getReadingDaysFromDates(start: Date) -> Double {
         let days = Calendar.current.dateComponents([.day], from: start, to: targetDate).day!
-        return Double(days + 2)
+        return Double(days + 1)
     }
     
     // MARK: Comparable Conformance
