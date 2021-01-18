@@ -218,7 +218,11 @@ struct Book: Identifiable, Codable, Comparable {
     
     // MARK: Methods
     func getCompletionPercentage() -> Double {
-        return Double(currentPage) / Double(pageCount)
+        if pageCount > 0 {
+            return Double(currentPage) / Double(pageCount)
+        } else {
+            return 0
+        }
     }
 
     func getPagesPerDay() -> Int {
