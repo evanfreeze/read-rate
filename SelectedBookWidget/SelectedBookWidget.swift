@@ -66,42 +66,36 @@ struct Provider: IntentTimelineProvider {
         if BookStore().activeBooks.count > 0 {
             return SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: BookStore().activeBooks)
         } else {
-            let tomorrow = Date().advanced(by: TimeInterval(60 * 60 * 24))
-            
-            var placeholderBook = Book(
-                title: "The Great Gatsby",
-                author: "F. Scott Fitzgerald",
-                pageCount: 30,
-                currentPage: 15,
-                startDate: Date(),
-                targetDate: tomorrow
-            )
-            placeholderBook.dailyTargets.append(
-                DailyTarget(
-                    targetPage: 30,
-                    calcTime: Date(),
-                    meta: DailyTargetMeta(pageCount: 30, currentPage: 15, targetDate: tomorrow)
-                )
-            )
-            
-            return SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: [placeholderBook, bookThree])
+            return SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: BookStore.generateRandomSampleBooks())
         }
         
     }
 
     func getSnapshot(for configuration: SelectedBookIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        var selectedBooks: [Book]
+        var selectedBooks = [Book]()
         
         if let selectedTitles = configuration.selectedBook?.map({ $0.displayString }) {
             selectedBooks = BookStore().books.filter({ selectedTitles.contains($0.title) })
         } else {
             switch context.family {
             case .systemSmall:
-                selectedBooks = [BookStore().activeBooks.first!]
+                selectedBooks = [BookStore().activeBooks.first ?? BookStore.generateRandomSampleBooks().first!]
             case .systemMedium:
-                selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 2))
+                if BookStore().activeBooks.count >= 2 {
+                    selectedBooks = Array(BookStore().activeBooks.prefix(2))
+                } else {
+                    selectedBooks += BookStore().activeBooks
+                    let placeholdersNeeded = 2 - BookStore().activeBooks.count
+                    selectedBooks += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
+                }
             case .systemLarge:
-                selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 4))
+                if BookStore().activeBooks.count >= 4 {
+                    selectedBooks = Array(BookStore().activeBooks.prefix(4))
+                } else {
+                    let placeholdersNeeded = 4 - BookStore().activeBooks.count
+                    selectedBooks += BookStore().activeBooks
+                    selectedBooks += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
+                }
             @unknown default:
                 selectedBooks = BookStore().activeBooks
             }
@@ -130,9 +124,17 @@ struct Provider: IntentTimelineProvider {
                 case .systemSmall:
                     selectedBooks = [BookStore().activeBooks.first!]
                 case .systemMedium:
-                    selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 2))
+                    if BookStore().activeBooks.count >= 2 {
+                        selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 2))
+                    } else {
+                        selectedBooks = BookStore().activeBooks
+                    }
                 case .systemLarge:
-                    selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 4))
+                    if BookStore().activeBooks.count >= 4 {
+                        selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 4))
+                    } else {
+                        selectedBooks = BookStore().activeBooks
+                    }
                 @unknown default:
                     selectedBooks = BookStore().activeBooks
                 }
@@ -265,8 +267,8 @@ struct SelectedBookWidget: Widget {
         IntentConfiguration(kind: kind, intent: SelectedBookIntent.self, provider: Provider()) { entry in
             SelectedBookWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Track Your Books")
-        .description("Track any books on your homescreen and choose which information you want to see")
+        .configurationDisplayName("Book Progress")
+        .description("Track a book's progress and choose which information appears")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
