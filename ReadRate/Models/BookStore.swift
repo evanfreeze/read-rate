@@ -10,43 +10,13 @@ import Foundation
 import Combine
 import WidgetKit
 
-var bookOne = Book(
-    title: "The Fault in Our Stars",
-    author: "John Green",
-    pageCount: 320,
-    currentPage: 23,
-    startDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -4)),
-    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 10))
-)
+var bookOne = Book(id: UUID(), title: "The Great Gatsby", author: "F. Scott Fitzgerald", pageCount: 320, currentPage: 23, startDate: Date(), targetDate: Date().advanced(by: TimeInterval(60*60*24*20)), dailyTargets: [DailyTarget(targetPage: 38, calcTime: Date(), meta: DailyTargetMeta(pageCount: 320, currentPage: 23, targetDate: Date().advanced(by: TimeInterval(60*60*24*20))))], archivedAt: nil, completedAt: nil, deletedAt: nil, ISBN: nil, covers: nil)
 
-var bookTwo = Book(
-    title: "Deep Work",
-    author: "Cal Newport",
-    pageCount: 300,
-    currentPage: 243,
-    startDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -1)),
-    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 5))
-)
+var bookTwo = Book(id: UUID(), title: "Jane Eyre", author: "Charlotte Brontë", pageCount: 320, currentPage: 233, startDate: Date(), targetDate: Date().advanced(by: TimeInterval(60*60*24*12)), dailyTargets: [DailyTarget(targetPage: 241, calcTime: Date(), meta: DailyTargetMeta(pageCount: 320, currentPage: 1, targetDate: Date().advanced(by: TimeInterval(60*60*24*12))))], archivedAt: nil, completedAt: nil, deletedAt: nil, ISBN: nil, covers: nil)
 
-var bookThree = Book(
-    title: "So You Want to Talk About Race",
-    author: "Ijeoma Oluo",
-    pageCount: 238,
-    currentPage: 70,
-    startDate: Date(),
-    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * 24))
-)
+var bookThree = Book(id: UUID(), title: "Frankenstein", author: "Mary Shelley", pageCount: 320, currentPage: 120, startDate: Date(), targetDate: Date().advanced(by: TimeInterval(60*60*24*18)), dailyTargets: [DailyTarget(targetPage: 142, calcTime: Date(), meta: DailyTargetMeta(pageCount: 10, currentPage: 1, targetDate: Date().advanced(by: TimeInterval(60*60*24*18))))], archivedAt: nil, completedAt: nil, deletedAt: nil, ISBN: nil, covers: nil)
 
-var bookFour = Book(
-    title: "A Promised Land",
-    author: "Barack Obama",
-    pageCount: 750,
-    currentPage: 750,
-    startDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -12)),
-    targetDate: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -2)),
-    archivedAt: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -3)),
-    completedAt: Date().advanced(by: TimeInterval(60.0 * 60.0 * 24 * -3))
-)
+var bookFour = Book(id: UUID(), title: "Little Women", author: "Louisa May Alcott", pageCount: 320, currentPage: 190, startDate: Date(), targetDate: Date().advanced(by: TimeInterval(60*60*24*4)), dailyTargets: [DailyTarget(targetPage: 222, calcTime: Date(), meta: DailyTargetMeta(pageCount: 10, currentPage: 1, targetDate: Date().advanced(by: TimeInterval(60*60*24*2))))], archivedAt: nil, completedAt: nil, deletedAt: nil, ISBN: nil, covers: nil)
 
 class BookStore: ObservableObject {
     let bookStoreURL = URL(
@@ -145,5 +115,8 @@ class BookStore: ObservableObject {
     private func migrateBooks() {
 
     }
+    
+    static func generateRandomSampleBooks() -> [Book] {
+        [bookOne, bookFour, bookTwo, bookThree]
+    }
 }
-
