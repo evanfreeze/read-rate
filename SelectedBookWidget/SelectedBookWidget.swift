@@ -115,21 +115,27 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: SelectedBookIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var selectedBooks = [Book]()
         
-        if let selectedTitles = configuration.selectedBook?.map({ $0.displayString }) {
-            for title in selectedTitles {
-                let book = BookStore().activeBooks.first(where: { title == $0.title })!
+        if let legacyBook = configuration.selectedBook as Any as? BookSelection  {
+            if let book = BookStore().activeBooks.first(where: { legacyBook.displayString == $0.title }) {
                 selectedBooks.append(book)
             }
         } else {
-            switch context.family {
-            case .systemSmall:
-                selectedBooks = [BookStore().activeBooks.first!]
-            case .systemMedium:
-                selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 2))
-            case .systemLarge:
-                selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 4))
-            @unknown default:
-                selectedBooks = BookStore().activeBooks
+            if let selectedTitles = configuration.selectedBook?.map({ $0.displayString }) {
+                for title in selectedTitles {
+                    let book = BookStore().activeBooks.first(where: { title == $0.title })!
+                    selectedBooks.append(book)
+                }
+            } else {
+                switch context.family {
+                case .systemSmall:
+                    selectedBooks = [BookStore().activeBooks.first!]
+                case .systemMedium:
+                    selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 2))
+                case .systemLarge:
+                    selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 4))
+                @unknown default:
+                    selectedBooks = BookStore().activeBooks
+                }
             }
         }
         
@@ -259,8 +265,8 @@ struct SelectedBookWidget: Widget {
         IntentConfiguration(kind: kind, intent: SelectedBookIntent.self, provider: Provider()) { entry in
             SelectedBookWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Today's Target")
-        .description("Displays your daily target for the chosen book")
+        .configurationDisplayName("Track Your Books")
+        .description("Track any books on your homescreen and choose which information you want to see")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
