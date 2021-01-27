@@ -2,7 +2,7 @@
 //  RoundedText.swift
 //  ReadRate
 //
-//  Created by Evan Freeze on 1/3/21.
+//  Created by Evan Freeze on 1/27/21.
 //  Copyright © 2021 Evan Freeze. All rights reserved.
 //
 

@@ -8,32 +8,6 @@
 
 import SwiftUI
 
-struct ProgressCircle<T: View>: View {
-    let progress: Double
-    let progressColor: Color
-    let centerContent: T
-    
-    let circleProgressSize: CGFloat = 52.0
-    let circleLineWidth: CGFloat = 6.0
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(lineWidth: circleLineWidth)
-                .opacity(0.1)
-                .foregroundColor(progressColor)
-                .frame(width: circleProgressSize, height: circleProgressSize)
-            Circle()
-                .trim(from: 0.0, to: CGFloat(progress))
-                .stroke(style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round, lineJoin: .round))
-                .foregroundColor(progressColor)
-                .frame(width: circleProgressSize, height: circleProgressSize)
-                .rotationEffect(Angle(degrees: 270.0))
-            centerContent
-        }
-    }
-}
-
 struct BookRow: View {
     @Binding var book: Book
     

@@ -10,57 +10,6 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-struct RoundedText: ViewModifier {
-    let style: Font.TextStyle
-    let bold: Bool
-    
-    func body(content: Content) -> some View {
-        if bold {
-            return content
-                .font(Font.system(style, design: .rounded).bold())
-        } else {
-            return content
-                .font(Font.system(style, design: .rounded))
-        }
-    }
-}
-
-public extension Text {
-    func rounded(_ style: Font.TextStyle = .body, bold: Bool = true) -> some View {
-        self.modifier(RoundedText(style: style, bold: bold))
-    }
-}
-
-struct ProgressCircle<T: View>: View {
-    let progress: Double
-    let progressColor: Color
-    let centerContent: T
-    
-    let circleProgressSize: CGFloat = 52.0
-    let circleLineWidth: CGFloat = 6.0
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(lineWidth: circleLineWidth)
-                .opacity(0.1)
-                .foregroundColor(progressColor)
-                .frame( width: circleProgressSize, height: circleProgressSize)
-            Circle()
-                .trim(from: 0.0, to: CGFloat(progress))
-                .stroke(style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round, lineJoin: .round))
-                .foregroundColor(progressColor)
-                .frame(width: circleProgressSize, height: circleProgressSize)
-                .rotationEffect(Angle(degrees: 270.0))
-            centerContent
-        }
-    }
-}
-
-
-
-// JUST WIDGET STUFF
-
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         if BookStore().activeBooks.count > 0 {

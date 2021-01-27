@@ -8,21 +8,6 @@
 
 import SwiftUI
 
-struct LabeledInput: View {
-    var label: String
-    var placeholder: String
-    var value: Binding<String>
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(label)
-                .rounded(.callout)
-            TextField(placeholder, text: value)
-        }
-        .padding(.vertical, 10.0)
-    }
-}
-
 struct AddBook: View {
     var bookStore: BookStore
     
@@ -39,6 +24,10 @@ struct AddBook: View {
     
     @State var showingSearch = false
     @State var fetchStatus: FetchStatus = .idle
+    
+    var addButtonIsDisabled: Bool {
+        title.isEmpty || author.isEmpty || pageCount.isEmpty || currentPage.isEmpty
+    }
     
     var body: some View {
         VStack {
@@ -75,7 +64,7 @@ struct AddBook: View {
                 Button(action: addBook) {
                     StyledButton(iconName: "book", label: "Add Book", bgColor: Color("SheetButton"))
                 }
-                .disabled(shouldBeDisabled())
+                .disabled(addButtonIsDisabled)
                 .padding(.bottom, 8.0)
             }
 
@@ -84,8 +73,6 @@ struct AddBook: View {
             SearchView(title: $title, author: $author, pageCount: $pageCount, isbn: $isbn)
         }
     }
-    
-    
     
     func addBook() {        
         // Creates a new book with the data from the form
@@ -118,10 +105,6 @@ struct AddBook: View {
             self.bookStore.books.append(newBook)
             self.presentationMode.wrappedValue.dismiss()
         }
-    }
-    
-    func shouldBeDisabled() -> Bool {
-        return title.isEmpty || author.isEmpty || pageCount.isEmpty || currentPage.isEmpty
     }
 }
 
