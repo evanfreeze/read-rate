@@ -95,7 +95,7 @@ struct BookDetail: View {
                 "\(book.pageCount)"
             },
             set: {
-                book.pageCount = Int($0)!
+                book.pageCount = Int($0) ?? 0
             }
         )
         
