@@ -91,6 +91,12 @@ struct Book: Identifiable, Codable, Comparable {
         return formatter.string(from: startDate)
     }
     
+    var displayStartDateShort: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter.string(from: startDate)
+    }
+    
     var displayFinishDate: String {
         if completedAt != nil {
             let formatter = DateFormatter()
@@ -160,12 +166,26 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var progressDescription: String {
-        if (currentPage == pageCount) {
+        if isNotStarted {
+            return "Start reading on \(displayStartDate)"
+        } else if currentPage == pageCount {
             return "You finished the book — congrats!"
-        } else if (readToday) {
+        } else if readToday {
             return "You've read enough today to stay on track"
         } else {
             return "Read to page \(dailyTargets.last?.targetPage ?? pageCount) today to stay on track"
+        }
+    }
+    
+    var progressDescriptionShort: String {
+        if isNotStarted {
+            return "Starting \(displayStartDateShort)"
+        } else if currentPage >= pageCount {
+            return "You finished the book!"
+        } else if readToday {
+            return "Read enough today"
+        } else {
+            return "Read to page \(dailyTargets.last?.targetPage ?? pageCount)"
         }
     }
     
@@ -178,7 +198,7 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var progressBarFillAmount: Double {
-        let minAmount = 0.06
+        let minAmount = 0.01
         let completionPercentage = getCompletionPercentage()
         
         if completionPercentage < minAmount {
@@ -189,9 +209,11 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var progressColor: Color {
-        if (currentPage == pageCount) {
+        if isNotStarted {
+            return .gray
+        } else if currentPage == pageCount {
             return .yellow
-        } else if (readToday) {
+        } else if readToday {
             return .green
         } else {
             return .accentColor
@@ -200,7 +222,11 @@ struct Book: Identifiable, Codable, Comparable {
     
     var progressIcon: some View {
         Group {
-            if currentPage == pageCount {
+            if isNotStarted {
+                Image(systemName: "calendar")
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body).bold())
+            } else if currentPage == pageCount {
                 Image(systemName: "star.fill")
                     .foregroundColor(progressColor)
                     .font(Font.system(.body).bold())
@@ -214,6 +240,10 @@ struct Book: Identifiable, Codable, Comparable {
                     .font(Font.system(.body, design: Font.Design.rounded).bold())
             }
         }
+    }
+    
+    var isNotStarted: Bool {
+        Date() < startDate
     }
     
     // MARK: Methods
@@ -234,8 +264,8 @@ struct Book: Identifiable, Codable, Comparable {
             pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: Date())
             
         } else {
-            // If the start date is in the future, we should use it to calculate the pages to read
-            pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: startDate)
+            // If the start date is in the future, no pages need to be read today
+            pagesPerDay = 0
         }
         
         if !pagesPerDay.isNaN && pagesPerDay.isFinite {

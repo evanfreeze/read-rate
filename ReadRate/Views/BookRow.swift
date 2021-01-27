@@ -37,67 +37,12 @@ struct ProgressCircle<T: View>: View {
 struct BookRow: View {
     @Binding var book: Book
     
-    let circleProgressSize: CGFloat = 52.0
-    let circleLineWidth: CGFloat = 6.0
-    
-    var pageToReadTo: String {
-        String(book.dailyTargets.last?.targetPage ?? book.pageCount)
-    }
-    
-    var progressSubtext: String {
-        if (book.currentPage == book.pageCount) {
-            return "You finished the book — congrats!"
-        } else if (book.readToday) {
-            return "You've read enough today to stay on track"
-        } else {
-            return "Read to page \(pageToReadTo) today to stay on track"
-        }
-    }
-    
-    var progressColor: Color {
-        if (book.currentPage == book.pageCount) {
-            return .yellow
-        } else if (book.readToday) {
-            return .green
-        } else {
-            return .accentColor
-        }
-    }
-    
-    var progressBarFillAmount: Double {
-        let minAmount = 0.06
-        
-        if book.getCompletionPercentage() < minAmount {
-            return minAmount
-        } else {
-            return book.getCompletionPercentage()
-        }
-    }
-    
-    var ProgressIcon: some View {
-        Group {
-            if book.currentPage == book.pageCount {
-                Image(systemName: "star.fill")
-                    .foregroundColor(progressColor)
-                    .font(Font.system(.body).bold())
-            } else if book.readToday {
-                Image(systemName: "checkmark")
-                    .foregroundColor(progressColor)
-                    .font(Font.system(.body).bold())
-            } else {
-                Text(book.pagesRemainingToday)
-                    .foregroundColor(progressColor)
-                    .rounded()
-            }
-        }
-    }
-    
     var body: some View {
         HStack(alignment: .center, spacing: 20.0) {
             ProgressCircle(
-                progress: progressBarFillAmount,
-                progressColor: progressColor,
-                centerContent: ProgressIcon
+                progress: book.progressBarFillAmount,
+                progressColor: book.progressColor,
+                centerContent: book.progressIcon
             )
             VStack(alignment: .leading, spacing: 8.0) {
                 VStack(alignment: .leading, spacing: 1.0) {
@@ -108,7 +53,7 @@ struct BookRow: View {
                         .rounded(.subheadline)
                         .foregroundColor(.secondary)
                 }
-                Text(progressSubtext)
+                Text(book.progressDescription)
                     .foregroundColor(.secondary)
                     .rounded(.caption, bold: false)
             }

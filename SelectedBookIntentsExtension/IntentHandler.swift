@@ -9,6 +9,10 @@
 import Intents
 
 class IntentHandler: INExtension, SelectedBookIntentHandling {
+    func resolveSelectedBook(for intent: SelectedBookIntent, with completion: @escaping ([BookSelectionResolutionResult]) -> Void) {
+        // only needed for protocol conformance
+    }
+    
     func resolveSelectedBook(for intent: SelectedBookIntent, with completion: @escaping (BookSelectionResolutionResult) -> Void) {
         // only needed for protocol conformance
     }
