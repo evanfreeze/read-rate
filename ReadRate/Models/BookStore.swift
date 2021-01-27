@@ -125,8 +125,7 @@ class BookStore: ObservableObject {
         }
         
         for (index, book) in books.enumerated() {
-            if book.completedAt != nil || book.archivedAt != nil {
-                print("skipping \(book.title) because it's either archived or completed")
+            if book.completedAt != nil || book.archivedAt != nil || book.isNotStarted {
                 continue
             }
             
@@ -139,17 +138,12 @@ class BookStore: ObservableObject {
                 let todaysTarget = DailyTarget(targetPage: Int(book.nextStoppingPage)!, calcTime: Date(), meta: targetMeta)
                 
                 books[index].dailyTargets.append(todaysTarget)
-                print("set target for \(book.title)")
-            } else {
-                print("skipped setting target for \(book.title)")
             }
         }
     }
     
     private func migrateBooks() {
-//        for (index, _) in books.enumerated() {
-//            books[index].todaysTargetLastUpdated = Date().addingTimeInterval(TimeInterval(-60 * 60 * 24))
-//        }
+
     }
 }
 
