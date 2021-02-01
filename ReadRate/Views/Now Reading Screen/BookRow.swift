@@ -43,9 +43,9 @@ struct BookRow: View {
 struct BookRow_v2_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            BookRow(book: .constant(BookStore().books[0]))
+            BookRow(book: .constant(BookStore.generateRandomSampleBooks()[0]))
                 .previewLayout(PreviewLayout.fixed(width: 360, height: 200))
-            BookRow(book: .constant(BookStore().books[1]))
+            BookRow(book: .constant(BookStore.generateRandomSampleBooks()[1]))
                 .preferredColorScheme(.dark)
                 .previewLayout(PreviewLayout.fixed(width: 360, height: 200))
         }
