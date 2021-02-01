@@ -243,7 +243,8 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var isNotStarted: Bool {
-        Date() < startDate
+        // In the future and also not in the current day
+        Date() < startDate && !Calendar.current.isDateInToday(startDate)
     }
     
     // MARK: Methods
@@ -259,13 +260,10 @@ struct Book: Identifiable, Codable, Comparable {
         let pagesRemaining = Double(pageCount - currentPage)
         var pagesPerDay: Double
         
-        if startDate < Date() {
-            // If the start date is in the past, we should use today's date to calculate the pages to read
-            pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: Date())
-            
-        } else {
-            // If the start date is in the future, no pages need to be read today
+        if isNotStarted {
             pagesPerDay = 0
+        } else {
+            pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: Date())
         }
         
         if !pagesPerDay.isNaN && pagesPerDay.isFinite {
