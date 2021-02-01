@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		EA0DC0DD25C22FAA00EA958F /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */; };
-		EA0DC0E125C2308800EA958F /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */; };
-		EA0DC0E525C2308800EA958F /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */; };
 		EA0DC0EA25C230FC00EA958F /* RoundedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0E925C230FC00EA958F /* RoundedText.swift */; };
 		EA0DC0EB25C230FC00EA958F /* RoundedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0E925C230FC00EA958F /* RoundedText.swift */; };
 		EA0DC0EC25C230FC00EA958F /* RoundedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0E925C230FC00EA958F /* RoundedText.swift */; };
 		EA160ED125AE9AC8003F6CC6 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA160ED025AE9AC8003F6CC6 /* SearchView.swift */; };
+		EA1944B225C6322300C07D42 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */; };
+		EA1944B625C6322400C07D42 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */; };
 		EA2CEDF625A2C7E400EDE3AF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2CEDF525A2C7E400EDE3AF /* WidgetKit.framework */; };
 		EA2CEDF825A2C7E400EDE3AF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2CEDF725A2C7E400EDE3AF /* SwiftUI.framework */; };
 		EA2CEDFB25A2C7E400EDE3AF /* SelectedBookWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFA25A2C7E400EDE3AF /* SelectedBookWidget.swift */; };
@@ -190,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				EA160ED025AE9AC8003F6CC6 /* SearchView.swift */,
+				EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */,
 				EA303C6825C22C9000B2E889 /* MatchingBook.swift */,
 			);
 			path = "Search Screen";
@@ -207,7 +208,6 @@
 			isa = PBXGroup;
 			children = (
 				EAE64A8124982D7600D8025B /* BookRow.swift */,
-				EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */,
 				EAA9AE9E2485A76100030907 /* NowReadingList.swift */,
 			);
 			path = "Now Reading Screen";
@@ -455,8 +455,8 @@
 				EA0DC0EB25C230FC00EA958F /* RoundedText.swift in Sources */,
 				EA2CEDFB25A2C7E400EDE3AF /* SelectedBookWidget.swift in Sources */,
 				EA2CEE0C25A2C80900EDE3AF /* BookModel.swift in Sources */,
-				EA0DC0E125C2308800EA958F /* ProgressCircle.swift in Sources */,
 				EAC5B85525B1E761003F1AD7 /* ISBNSearcher.swift in Sources */,
+				EA1944B225C6322300C07D42 /* ProgressCircle.swift in Sources */,
 				EA2CEE0B25A2C80900EDE3AF /* BookStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -469,8 +469,8 @@
 				EA2CEE2525A2C95200EDE3AF /* SelectedBookIntent.intentdefinition in Sources */,
 				EA2CEE1A25A2C94700EDE3AF /* IntentHandler.swift in Sources */,
 				EA0DC0EC25C230FC00EA958F /* RoundedText.swift in Sources */,
+				EA1944B625C6322400C07D42 /* ProgressCircle.swift in Sources */,
 				EACB80FE25A2D3540077873A /* BookModel.swift in Sources */,
-				EA0DC0E525C2308800EA958F /* ProgressCircle.swift in Sources */,
 				EACB80FD25A2D3540077873A /* BookStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
