@@ -95,7 +95,7 @@ class BookStore: ObservableObject {
         }
         
         for (index, book) in books.enumerated() {
-            if book.completedAt != nil || book.archivedAt != nil || book.isNotStarted {
+            if book.completedAt != nil || book.archivedAt != nil || book.isDeleted || book.isNotStarted {
                 continue
             }
             
