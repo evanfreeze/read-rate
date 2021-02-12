@@ -13,9 +13,7 @@ struct Card: View {
     let content: String
     let withEdit: Bool
     let subtitle: String?
-    let callback: () -> Void
-    
-    @State private var rotationAngle = Angle(degrees: 0)
+    var isOpen: Binding<Bool>?
     
     var body: some View {
         HStack {
@@ -35,18 +33,13 @@ struct Card: View {
                 }
             }
             Spacer(minLength: 1)
-            if withEdit {
+            if withEdit && isOpen != nil {
                 Button(action: {
-                    if rotationAngle.degrees == 0 {
-                        rotationAngle.degrees += 90
-                    } else {
-                        rotationAngle.degrees = 0
-                    }
-                    callback()
+                    isOpen!.wrappedValue.toggle()
                 }) {
                     Image(systemName: "chevron.forward")
                         .font(.headline)
-                        .rotationEffect(rotationAngle)
+                        .rotationEffect(Angle(degrees: isOpen!.wrappedValue ? 90.0 : 0.0))
                         .animation(.easeInOut, value: true)
                 }
             }
@@ -56,6 +49,7 @@ struct Card: View {
         .padding(.horizontal, 20)
         .background(Color("BookBG"))
         .cornerRadius(20)
+        .animation(.easeInOut)
     }
 }
 
@@ -101,26 +95,24 @@ struct BookDetail: View {
         
         return HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 12) {
-                HStack {
-                    WebImage(url: book.covers?.medium ?? "")
-                        .scaledToFit()
-                        .frame(width: 80)
-                        .padding()
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(book.title).rounded(.title)
-                        Text(book.author).rounded(.title2).foregroundColor(.secondary)
-                        Text(book.ISBN != "" && book.ISBN != nil ? "ISBN: \(book.ISBN!)" : "Unknown ISBN").rounded(.caption, bold: false).foregroundColor(.secondary)
-                            .padding(.top, 8)
-                    }
-                }
-                
                 ScrollView {
-                    Card(title: "Today's Goal", content: book.progressDescription, withEdit: false, subtitle: goalSubtitle) {}
+                    HStack {
+                        WebImage(url: book.covers?.medium ?? "")
+                            .scaledToFit()
+                            .frame(width: 80)
+                            .padding()
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(book.title).rounded(.title)
+                            Text(book.author).rounded(.title2).foregroundColor(.secondary)
+                            Text(book.ISBN != "" && book.ISBN != nil ? "ISBN: \(book.ISBN!)" : "Unknown ISBN").rounded(.caption, bold: false).foregroundColor(.secondary)
+                                .padding(.top, 8)
+                        }
+                    }
+
+                    Card(title: "Today's Goal", content: book.progressDescription, withEdit: false, subtitle: goalSubtitle)
                     
                     VStack {
-                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.percentComplete) complete)", withEdit: true, subtitle: nil) {
-                            editingCurrentPage.toggle()
-                        }
+                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.percentComplete) complete)", withEdit: true, subtitle: nil, isOpen: $editingCurrentPage)
                         .shadow(radius: editingCurrentPage ? 3.0 : 0.0)
                         
                         if editingCurrentPage {
@@ -153,8 +145,7 @@ struct BookDetail: View {
                     .cornerRadius(20.0)
                     
                     VStack {
-                        Card(title: "Target Completion Date", content: book.displayCompletionTarget, withEdit: true, subtitle: nil) { editingTargetDate.toggle()
-                        }
+                        Card(title: "Target Completion Date", content: book.displayCompletionTarget, withEdit: true, subtitle: nil, isOpen: $editingTargetDate)
                         .shadow(radius: editingTargetDate ? 3.0 : 0.0)
                         
                         if editingTargetDate {
@@ -171,10 +162,10 @@ struct BookDetail: View {
                     .background(Color("AltBG"))
                     .cornerRadius(20.0)
                     
-                    Card(title: "Start Date", content: book.displayStartDate, withEdit: false, subtitle: nil) {}
+                    Card(title: "Start Date", content: book.displayStartDate, withEdit: false, subtitle: nil)
                     
                     if book.completedAt != nil {
-                        Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false, subtitle: nil) {}
+                        Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false, subtitle: nil)
                     }
                 }
                 
