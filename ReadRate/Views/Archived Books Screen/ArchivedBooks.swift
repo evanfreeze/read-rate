@@ -15,8 +15,8 @@ struct ArchivedBook: View {
     var body: some View {
         HStack(alignment: .center, spacing: 20.0) {
            CalendarIcon(
-               month: book.displayCompletedDate.0,
-               day: book.displayCompletedDate.1,
+               month: book.completedDateForCalendarIcon.0,
+               day: book.completedDateForCalendarIcon.1,
                headerColor: book.isCompleted ? .accentColor : .gray
            )
            VStack(alignment: .leading, spacing: 8.0) {

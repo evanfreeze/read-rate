@@ -94,7 +94,7 @@ func getWidgetDetails(for detailsEnum: WidgetDetails, book: Book) -> String {
     case .currentPage:
         return "You're on page \(book.currentPage)"
     case .percentage:
-        return "You've read \(book.displayPercentComplete)"
+        return "You've read \(book.completionPercentage.asRoundedPercent())"
     case .todaysTarget:
         return book.progressDescriptionShort
     case .pagesLeft:

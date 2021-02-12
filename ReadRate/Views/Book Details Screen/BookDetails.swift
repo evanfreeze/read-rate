@@ -111,7 +111,7 @@ struct BookDetail: View {
                     Card(title: "Today's Goal", content: book.progressDescription, withEdit: false, subtitle: goalSubtitle)
                     
                     VStack {
-                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.displayPercentComplete) complete)", withEdit: true, subtitle: nil, isOpen: $editingCurrentPage)
+                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.completionPercentage.asRoundedPercent()) complete)", withEdit: true, subtitle: nil, isOpen: $editingCurrentPage)
                         .shadow(radius: editingCurrentPage ? 3.0 : 0.0)
                         
                         if editingCurrentPage {
@@ -144,7 +144,7 @@ struct BookDetail: View {
                     .cornerRadius(20.0)
                     
                     VStack {
-                        Card(title: "Target Completion Date", content: book.displayCompletionTarget, withEdit: true, subtitle: nil, isOpen: $editingTargetDate)
+                        Card(title: "Target Completion Date", content: book.targetDate.prettyPrinted(), withEdit: true, subtitle: nil, isOpen: $editingTargetDate)
                         .shadow(radius: editingTargetDate ? 3.0 : 0.0)
                         
                         if editingTargetDate {
@@ -161,10 +161,10 @@ struct BookDetail: View {
                     .background(Color("AltBG"))
                     .cornerRadius(20.0)
                     
-                    Card(title: "Start Date", content: book.displayStartDate, withEdit: false, subtitle: nil)
+                    Card(title: "Start Date", content: book.startDate.prettyPrinted(), withEdit: false, subtitle: nil)
                     
                     if book.isCompleted {
-                        Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false, subtitle: nil)
+                        Card(title: "Finish Date", content: book.completedAt?.prettyPrinted() ?? "Not completed", withEdit: false, subtitle: nil)
                     }
                 }
                 

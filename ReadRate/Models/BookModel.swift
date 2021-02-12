@@ -82,38 +82,6 @@ struct Book: Identifiable, Codable, Comparable {
         String((dailyTargets.last?.targetPage ?? pageCount) - currentPage)
     }
     
-    var displayPercentComplete: String {
-        "\(Int((completionPercentage * 100).rounded()))%"
-    }
-    
-    var displayCompletionTarget: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter.string(from: targetDate)
-    }
-    
-    var displayStartDate: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter.string(from: startDate)
-    }
-    
-    var displayStartDateShort: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter.string(from: startDate)
-    }
-    
-    var displayFinishDate: String {
-        if isCompleted {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .long
-            return formatter.string(from: completedAt!)
-        } else {
-            return "Not completed"
-        }
-    }
-    
     var archivedDaysRead: String {
         if isCompleted {
             let daysBetweenStartAndFinish = Calendar.current.dateComponents([.day], from: startDate, to: completedAt!).day! + 1
@@ -123,11 +91,11 @@ struct Book: Identifiable, Codable, Comparable {
         } else {
             let pagesleft = pageCount - currentPage
             let pageText = pagesleft == 1 ? "page" : "pages"
-            return "Not finished, \(pagesleft) \(pageText) remaining (\(displayPercentComplete) complete)"
+            return "Not finished, \(pagesleft) \(pageText) remaining (\(completionPercentage.asRoundedPercent()) complete)"
         }
     }
     
-    var displayCompletedDate: (String, String) {
+    var completedDateForCalendarIcon: (String, String) {
         if isCompleted {
             let formatter = DateFormatter()
             formatter.dateFormat = "MMM"
@@ -153,7 +121,7 @@ struct Book: Identifiable, Codable, Comparable {
     
     var progressDescription: String {
         if isNotStarted {
-            return "Start reading on \(displayStartDate)"
+            return "Start reading on \(startDate.prettyPrinted())"
         } else if currentPage == pageCount {
             return "You finished the book — congrats!"
         } else if readEnoughToday {
@@ -165,7 +133,7 @@ struct Book: Identifiable, Codable, Comparable {
     
     var progressDescriptionShort: String {
         if isNotStarted {
-            return "Starting \(displayStartDateShort)"
+            return "Starting \(startDate.prettyPrinted(.short))"
         } else if currentPage >= pageCount {
             return "You finished the book!"
         } else if readEnoughToday {
