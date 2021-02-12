@@ -90,7 +90,7 @@ class BookStore: ObservableObject {
     public func setTodaysTargets() {
         print("setting today's target pages")
         
-        guard books.count > 0 else {
+        guard activeBooks.count > 0 else {
             return
         }
         
