@@ -14,7 +14,7 @@ enum FetchStatus {
 
 struct IdleView: View {
     var body: some View {
-        Divider().padding()
+        Divider().padding(.bottom)
     }
 }
 
@@ -38,7 +38,6 @@ struct SuccessView: View {
         Text("Found a match!").rounded(.title2)
             .padding(.bottom, 6)
         MatchingBook(result: result, action: action)
-        Text("Data from by OpenLibrary.org").rounded(.footnote, bold: false).foregroundColor(.secondary)
     }
 }
 
@@ -76,6 +75,10 @@ struct SearchView: View {
             Button(action: search) {
                 StyledButton(iconName: "magnifyingglass", label: "Search", bgColor: Color("SheetButton"))
             }
+            Text("Powered by OpenLibrary.org")
+                .rounded(.footnote, bold: false)
+                .foregroundColor(.secondary)
+                .padding(8)
             
             switch status {
             case .idle:
