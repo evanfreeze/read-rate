@@ -66,7 +66,7 @@ struct BookDetail: View {
     @State private var fetchStatus: FetchStatus = .idle
     
     var goalSubtitle: String? {
-        if book.readToday || book.isCompleted {
+        if book.readEnoughToday || book.isCompleted {
             return nil
         } else {
             return "Goal last calculated at \(book.displayLastGoalCalculatedDate)"
@@ -111,7 +111,7 @@ struct BookDetail: View {
                     Card(title: "Today's Goal", content: book.progressDescription, withEdit: false, subtitle: goalSubtitle)
                     
                     VStack {
-                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.percentComplete) complete)", withEdit: true, subtitle: nil, isOpen: $editingCurrentPage)
+                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.displayPercentComplete) complete)", withEdit: true, subtitle: nil, isOpen: $editingCurrentPage)
                         .shadow(radius: editingCurrentPage ? 3.0 : 0.0)
                         
                         if editingCurrentPage {
