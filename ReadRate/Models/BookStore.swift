@@ -38,7 +38,7 @@ class BookStore: ObservableObject {
     }
     
     var archivedBooks: [Book] {
-        books.filter({ $0.archivedAt != nil && !$0.isDeleted }).sorted(by: { $0.archivedAt! > $1.archivedAt! })
+        books.filter({ $0.isArchived && !$0.isDeleted }).sorted(by: { $0.archivedAt! > $1.archivedAt! })
     }
     
     init() {
@@ -95,17 +95,10 @@ class BookStore: ObservableObject {
         }
         
         for (index, book) in books.enumerated() {
-            if book.completedAt != nil || book.archivedAt != nil || book.isDeleted || book.isNotStarted {
-                continue
-            }
-            
-            let hasNotBeenUpdatedToday = !Calendar.current.isDateInToday(book.dailyTargets.last?.calcTime ?? Date().addingTimeInterval(60 * 60 * -48))
-            let targetDateChangedSinceLastUpdate = book.targetDate != book.dailyTargets.last?.meta.targetDate ?? book.targetDate
-            let isNotComplete = book.currentPage < book.pageCount
-            
-            if isNotComplete && (hasNotBeenUpdatedToday || targetDateChangedSinceLastUpdate) {
-                let targetMeta = DailyTargetMeta(pageCount: books[index].pageCount, currentPage: books[index].currentPage, targetDate: books[index].targetDate)
-                let todaysTarget = DailyTarget(targetPage: Int(book.nextStoppingPage)!, calcTime: Date(), meta: targetMeta)
+            if book.needsTargetUpdate {
+                let targetMeta = DailyTargetMeta(pageCount: book.pageCount, currentPage: book.currentPage, targetDate: book.targetDate)
+                let nextStoppingPage = book.currentPage + book.getPagesPerDay()
+                let todaysTarget = DailyTarget(targetPage: nextStoppingPage, calcTime: Date(), meta: targetMeta)
                 
                 books[index].dailyTargets.append(todaysTarget)
             }

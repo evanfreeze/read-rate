@@ -40,7 +40,7 @@ struct Card: View {
                     Image(systemName: "chevron.forward")
                         .font(.headline)
                         .rotationEffect(Angle(degrees: isOpen!.wrappedValue ? 90.0 : 0.0))
-                        .animation(.easeInOut, value: true)
+                        .animation(.easeInOut)
                 }
             }
         }
@@ -49,7 +49,6 @@ struct Card: View {
         .padding(.horizontal, 20)
         .background(Color("BookBG"))
         .cornerRadius(20)
-        .animation(.easeInOut)
     }
 }
 
@@ -67,7 +66,7 @@ struct BookDetail: View {
     @State private var fetchStatus: FetchStatus = .idle
     
     var goalSubtitle: String? {
-        if book.readToday || book.completedAt != nil {
+        if book.readToday || book.isCompleted {
             return nil
         } else {
             return "Goal last calculated at \(book.displayLastGoalCalculatedDate)"
@@ -164,7 +163,7 @@ struct BookDetail: View {
                     
                     Card(title: "Start Date", content: book.displayStartDate, withEdit: false, subtitle: nil)
                     
-                    if book.completedAt != nil {
+                    if book.isCompleted {
                         Card(title: "Finish Date", content: book.displayFinishDate, withEdit: false, subtitle: nil)
                     }
                 }

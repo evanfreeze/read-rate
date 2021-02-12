@@ -33,7 +33,7 @@ struct Book: Identifiable, Codable, Comparable {
             if currentPage == pageCount {
                 completedAt = Date()
             } else {
-                if completedAt != nil {
+                if isCompleted {
                     completedAt = nil
                 }
             }
@@ -50,33 +50,19 @@ struct Book: Identifiable, Codable, Comparable {
     
     // MARK: Computed Properties
     var readToday: Bool {
-        get {
-            currentPage >= dailyTargets.last?.targetPage ?? pageCount
-        }
+        currentPage >= dailyTargets.last?.targetPage ?? pageCount
     }
     
     var percentComplete: String {
-        get {
-            "\(Int((getCompletionPercentage() * 100).rounded()))%"
-        }
+        "\(Int((getCompletionPercentage() * 100).rounded()))%"
     }
     
     var pagesPerDay: String {
-        get {
-            String(getPagesPerDay())
-        }
+        String(getPagesPerDay())
     }
     
     var pagesRemainingToday: String {
-        get {
-            String((dailyTargets.last?.targetPage ?? pageCount) - currentPage)
-        }
-    }
-    
-    var nextStoppingPage: String {
-        get {
-            String(currentPage + Int(pagesPerDay)!)
-        }
+        String((dailyTargets.last?.targetPage ?? pageCount) - currentPage)
     }
     
     var displayCompletionTarget: String {
@@ -98,7 +84,7 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var displayFinishDate: String {
-        if completedAt != nil {
+        if isCompleted {
             let formatter = DateFormatter()
             formatter.dateStyle = .long
             return formatter.string(from: completedAt!)
@@ -108,7 +94,7 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var archivedDaysRead: String {
-        if completedAt != nil {
+        if isCompleted {
             let daysText = daysBetweenStartAndFinish == 1 ? "day" : "days"
             return "Read in \(daysBetweenStartAndFinish) \(daysText), about \(archivedPagesReadPerDay) pages per day"
         } else {
@@ -124,7 +110,7 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var archivedPagesReadPerDay: Int {
-        if completedAt != nil {
+        if isCompleted {
             return Int((Double(pageCount) / Double(daysBetweenStartAndFinish)).rounded())
         } else {
             return 0
@@ -132,7 +118,7 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var finishedDateShort: String {
-        if completedAt != nil {
+        if isCompleted {
             let formatter = DateFormatter()
             formatter.dateStyle = .short
             return formatter.string(from: completedAt!)
@@ -142,7 +128,7 @@ struct Book: Identifiable, Codable, Comparable {
     }
     
     var displayCompletedDate: (String, String) {
-        if completedAt != nil {
+        if isCompleted {
             let formatter = DateFormatter()
             formatter.dateFormat = "MMM"
             let month = formatter.string(from: completedAt!).uppercased()
@@ -189,12 +175,21 @@ struct Book: Identifiable, Codable, Comparable {
         }
     }
     
+    var isCompleted: Bool {
+        completedAt != nil
+    }
+    
+    var isArchived: Bool {
+        archivedAt != nil
+    }
+    
     var isDeleted: Bool {
-        if deletedAt != nil {
-            return true
-        } else {
-            return false
-        }
+        deletedAt != nil
+    }
+    
+    var isNotStarted: Bool {
+        // In the future and also not in the current day
+        Date() < startDate && !Calendar.current.isDateInToday(startDate)
     }
     
     var progressBarFillAmount: Double {
@@ -242,9 +237,15 @@ struct Book: Identifiable, Codable, Comparable {
         }
     }
     
-    var isNotStarted: Bool {
-        // In the future and also not in the current day
-        Date() < startDate && !Calendar.current.isDateInToday(startDate)
+    var needsTargetUpdate: Bool {
+        if isCompleted || isArchived || isDeleted || isNotStarted {
+            return false
+        }
+        
+        let hasNotBeenUpdatedToday = !Calendar.current.isDateInToday(dailyTargets.last?.calcTime ?? Date().addingTimeInterval(60 * 60 * -48))
+        let targetDateChangedSinceLastUpdate = targetDate != dailyTargets.last?.meta.targetDate ?? targetDate
+        
+        return hasNotBeenUpdatedToday || targetDateChangedSinceLastUpdate
     }
     
     // MARK: Methods
