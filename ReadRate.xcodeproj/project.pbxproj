@@ -538,7 +538,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelectedBookWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -563,7 +563,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelectedBookWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -586,7 +586,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelectedBookIntentsExtension/SelectedBookIntentsExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookIntentsExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -609,7 +609,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelectedBookIntentsExtension/SelectedBookIntentsExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookIntentsExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -750,7 +750,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ReadRate/Read Rate.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"ReadRate/Preview Content\"";
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				ENABLE_PREVIEWS = YES;
@@ -775,7 +775,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ReadRate/Read Rate.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"ReadRate/Preview Content\"";
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				ENABLE_PREVIEWS = YES;
