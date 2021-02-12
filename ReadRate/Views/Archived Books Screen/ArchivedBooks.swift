@@ -22,7 +22,7 @@ struct ArchivedBook: View {
            VStack(alignment: .leading, spacing: 8.0) {
                VStack(alignment: .leading, spacing: 1.0) {
                    Text(book.title)
-                       .rounded(.title2)
+                       .rounded(.body)
                        .foregroundColor(.primary)
                    Text(book.author)
                        .rounded(.subheadline)
@@ -30,7 +30,7 @@ struct ArchivedBook: View {
                }
                Text(book.archivedDaysRead)
                    .foregroundColor(.secondary)
-                   .rounded(.caption, bold: false)
+                   .rounded(.caption2, bold: false)
            }
            Spacer(minLength: 0)
            Button(action: { unarchiveBook(book: book) }) {
@@ -82,7 +82,6 @@ struct ArchivedBooks: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12.0) {
-            Text("Archived Books").rounded(.largeTitle)
             if shelf.archivedBooks.count > 0 {
                 ScrollView {
                     ForEach(shelf.archivedBooks) { book in
@@ -95,6 +94,7 @@ struct ArchivedBooks: View {
             Spacer()
         }
         .padding()
+        .navigationBarTitle("Archived Books")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
