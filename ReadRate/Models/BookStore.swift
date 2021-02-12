@@ -45,7 +45,6 @@ class BookStore: ObservableObject {
         print(bookStoreURL)
         print(appGroupURL)
         loadBookStoreJSON()
-        migrateBooks()
     }
     
     private func loadBookStoreJSON() {
@@ -104,11 +103,7 @@ class BookStore: ObservableObject {
             }
         }
     }
-    
-    private func migrateBooks() {
-
-    }
-    
+        
     static func generateRandomSampleBooks() -> [Book] {
         [bookOne, bookFour, bookTwo, bookThree]
     }
