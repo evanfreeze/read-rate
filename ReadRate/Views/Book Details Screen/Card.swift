@@ -70,17 +70,14 @@ struct Card: View {
                         Spacer()
                     }
                     Text(content).rounded(.body).foregroundColor(.secondary)
-                    VStack(alignment: .leading) {
-                        if subtitle != nil {
-                            Divider()
-                                .padding(.top, 8)
-                            Text(subtitle!)
-                                .rounded(.caption2, bold: false)
-                                .foregroundColor(.secondary)
-                                .padding(.top, 4)
-                        }
+                    if subtitle != nil {
+                        Divider()
+                            .padding(.top, 8)
+                        Text(subtitle!)
+                            .rounded(.caption2, bold: false)
+                            .foregroundColor(.secondary)
+                            .padding(.top, 4)
                     }
-                    .animation(.default)
                 }
                 Spacer(minLength: 1)
             }
