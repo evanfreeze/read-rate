@@ -30,6 +30,119 @@ struct BookDetail: View {
     }
     
     var body: some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 12) {
+                ScrollView {
+                    BookHeader(book: book)
+                    
+                    Card(
+                        title: "Today's Goal",
+                        content: book.progressDescription,
+                        subtitle: goalSubtitle
+                    )
+                    
+                    ExpandableCard(
+                        title: "Progress",
+                        content: "Page \(book.currentPage) of \(book.pageCount) (\(book.completionPercentage.asRoundedPercent()) complete)",
+                        isOpen: $editingCurrentPage,
+                        openContent: editCurrentPage
+                    )
+                    .padding(.bottom, 1)
+                    
+                    ExpandableCard(
+                        title: "Target Completion Date",
+                        content: book.targetDate.prettyPrinted(),
+                        isOpen: $editingTargetDate,
+                        openContent: editTargetDate
+                    )
+                    .padding(.bottom, 1)
+                    
+                    Card(
+                        title: "Start Date",
+                        content: book.startDate.prettyPrinted(),
+                        subtitle: nil
+                    )
+                    
+                    if book.isCompleted {
+                        Card(
+                            title: "Finish Date",
+                            content: book.completedAt?.prettyPrinted() ?? "Not completed",
+                            subtitle: nil
+                        )
+                    }
+                }
+                
+                HStack {
+                    Spacer(minLength: 0)
+                    archiveButton
+                    editButton
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal)
+                
+            }
+            .padding()
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(trailing: deleteBookButton)
+        .alert(isPresented: $showingDeleteAlert) { deleteBookAlert }
+        .sheet(isPresented: $showingEditSheet) { editBookSheet }
+    }
+    
+    var archiveButton: some View {
+        Button(action: archiveBook) {
+            StyledButton(iconName: "archivebox", label: "Archive", bgColor: Color("BookBG"))
+        }
+    }
+    
+    var editButton: some View {
+        Button(action: { showingEditSheet = true }) {
+            StyledButton(iconName: "pencil.circle", label: "Edit", bgColor: Color("BookBG"))
+        }
+    }
+    
+    var editCurrentPage: some View {
+        Group {
+            Picker("", selection: $book.currentPage) {
+                ForEach(0..<book.pageCount + 1) {
+                    Text(String($0)).tag($0)
+                }
+            }
+            .pickerStyle(WheelPickerStyle())
+            HStack {
+                Button(action: {
+                    withAnimation {
+                        book.currentPage = book.pageCount
+                        editingCurrentPage = false
+                    }
+                }) {
+                    StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color("BookBG"))
+                }
+                Button(action: {
+                    withAnimation {
+                        book.currentPage = book.dailyTargets.last?.targetPage ?? book.currentPage
+                        editingCurrentPage = false
+                    }
+                }) {
+                    StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
+                }
+            }
+        }
+        .padding(.bottom, 10.0)
+    }
+    
+    var editTargetDate: some View {
+        DatePicker(
+            "Update your target date",
+            selection: $book.targetDate,
+            in: book.startDate...,
+            displayedComponents: .date
+        )
+        .padding([.horizontal, .bottom])
+        .padding(.top, 6.0)
+    }
+    
+    var editBookSheet: some View {
         let bookISBN = Binding<String>(
             get: {
                 book.ISBN ?? ""
@@ -48,67 +161,7 @@ struct BookDetail: View {
             }
         )
         
-        return HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 12) {
-                ScrollView {
-                    HStack {
-                        WebImage(url: book.covers?.medium ?? "")
-                            .scaledToFit()
-                            .frame(width: 80)
-                            .padding()
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text(book.title).rounded(.title)
-                            Text(book.author).rounded(.title2).foregroundColor(.secondary)
-                            Text(book.ISBN != "" && book.ISBN != nil ? "ISBN: \(book.ISBN!)" : "Unknown ISBN").rounded(.caption, bold: false).foregroundColor(.secondary)
-                                .padding(.top, 8)
-                        }
-                        Spacer()
-                    }
-
-                    Card(title: "Today's Goal", content: book.progressDescription, subtitle: goalSubtitle)
-                    
-                    ExpandableCard(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.completionPercentage.asRoundedPercent()) complete)", isOpen: $editingCurrentPage, openContent: editCurrentPage)
-                        .padding(.bottom, 1)
-                    
-                    ExpandableCard(title: "Target Completion Date", content: book.targetDate.prettyPrinted(), isOpen: $editingTargetDate, openContent: editTargetDate)
-                        .padding(.bottom, 1)
-                    
-                    Card(title: "Start Date", content: book.startDate.prettyPrinted(), subtitle: nil)
-                    
-                    if book.isCompleted {
-                        Card(title: "Finish Date", content: book.completedAt?.prettyPrinted() ?? "Not completed", subtitle: nil)
-                    }
-                }
-                
-                HStack {
-                    Spacer(minLength: 0)
-                    Button(action: archiveBook) {
-                        StyledButton(iconName: "archivebox", label: "Archive", bgColor: Color("BookBG"))
-                    }
-                    Button(action: { showingEditSheet = true }) {
-                        StyledButton(iconName: "pencil.circle", label: "Edit", bgColor: Color("BookBG"))
-                    }
-                    Spacer(minLength: 0)
-                }
-                .padding(.horizontal)
-                
-            }
-            .padding()
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(trailing: Button(action: {
-            showingDeleteAlert = true
-        }) {
-            Image(systemName: "trash")
-                .foregroundColor(.red)
-        })
-        .alert(isPresented: $showingDeleteAlert) {
-            Alert(title: Text("Delete Book"), message: Text("Are you sure you want to delete this book? There's no undo."), primaryButton: .destructive(Text("Yes, delete it")) {
-                deleteBook()
-                
-            }, secondaryButton: .cancel())
-        }
-        .sheet(isPresented: $showingEditSheet) {
+        return Group {
             VStack {
                 Form {
                     Text("Edit Book")
@@ -154,45 +207,20 @@ struct BookDetail: View {
         }
     }
     
-    var editCurrentPage: some View {
-        Group {
-            Picker("", selection: $book.currentPage) {
-                ForEach(0..<book.pageCount + 1) {
-                    Text(String($0)).tag($0)
-                }
-            }
-            .pickerStyle(WheelPickerStyle())
-            HStack {
-                Button(action: {
-                    withAnimation {
-                        book.currentPage = book.pageCount
-                        editingCurrentPage = false
-                    }
-                }) {
-                    StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color("BookBG"))
-                }
-                Button(action: {
-                    withAnimation {
-                        book.currentPage = book.dailyTargets.last?.targetPage ?? book.currentPage
-                        editingCurrentPage = false                        
-                    }
-                }) {
-                    StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
-                }
-            }
-        }
-        .padding(.bottom, 10.0)
+    var deleteBookAlert: Alert {
+        Alert(title: Text("Delete Book"), message: Text("Are you sure you want to delete this book? There's no undo."), primaryButton: .destructive(Text("Yes, delete it")) {
+            deleteBook()
+            
+        }, secondaryButton: .cancel())
     }
     
-    var editTargetDate: some View {
-        DatePicker(
-            "Update your target date",
-            selection: $book.targetDate,
-            in: book.startDate...,
-            displayedComponents: .date
-        )
-        .padding([.horizontal, .bottom])
-        .padding(.top, 6.0)
+    var deleteBookButton: some View {
+        Button(action: {
+            showingDeleteAlert = true
+        }) {
+            Image(systemName: "trash")
+                .foregroundColor(.red)
+        }
     }
     
     func archiveBook() {
@@ -209,8 +237,8 @@ struct BookDetail: View {
 struct EditBookView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            BookDetail(book: .constant(BookStore().books[0]), shelf: BookStore())
-            BookDetail(book: .constant(BookStore().books[0]), shelf: BookStore())
+            BookDetail(book: .constant(bookOne), shelf: BookStore())
+            BookDetail(book: .constant(bookThree), shelf: BookStore())
                 .preferredColorScheme(.dark)
         }
     }
