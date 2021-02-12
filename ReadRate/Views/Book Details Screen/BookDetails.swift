@@ -8,50 +8,6 @@
 
 import SwiftUI
 
-struct Card: View {
-    let title: String
-    let content: String
-    let withEdit: Bool
-    let subtitle: String?
-    var isOpen: Binding<Bool>?
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(alignment: .center) {
-                    Text(title).rounded(.title3)
-                    Spacer()
-                }
-                Text(content).rounded(.body).foregroundColor(.secondary)
-                if subtitle != nil {
-                    Divider()
-                        .padding(.top, 8)
-                    Text(subtitle!)
-                        .rounded(.caption2, bold: false)
-                        .foregroundColor(.secondary)
-                        .padding(.top, 4)
-                }
-            }
-            Spacer(minLength: 1)
-            if withEdit && isOpen != nil {
-                Button(action: {
-                    isOpen!.wrappedValue.toggle()
-                }) {
-                    Image(systemName: "chevron.forward")
-                        .font(.headline)
-                        .rotationEffect(Angle(degrees: isOpen!.wrappedValue ? 90.0 : 0.0))
-                        .animation(.easeInOut)
-                }
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical)
-        .padding(.horizontal, 20)
-        .background(Color("BookBG"))
-        .cornerRadius(20)
-    }
-}
-
 struct BookDetail: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var book: Book
@@ -106,65 +62,21 @@ struct BookDetail: View {
                             Text(book.ISBN != "" && book.ISBN != nil ? "ISBN: \(book.ISBN!)" : "Unknown ISBN").rounded(.caption, bold: false).foregroundColor(.secondary)
                                 .padding(.top, 8)
                         }
+                        Spacer()
                     }
 
-                    Card(title: "Today's Goal", content: book.progressDescription, withEdit: false, subtitle: goalSubtitle)
+                    Card(title: "Today's Goal", content: book.progressDescription, subtitle: goalSubtitle)
                     
-                    VStack {
-                        Card(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.completionPercentage.asRoundedPercent()) complete)", withEdit: true, subtitle: nil, isOpen: $editingCurrentPage)
-                        .shadow(radius: editingCurrentPage ? 3.0 : 0.0)
-                        
-                        if editingCurrentPage {
-                            Group {
-                                Picker("", selection: $book.currentPage) {
-                                    ForEach(0..<book.pageCount + 1) {
-                                        Text(String($0)).tag($0)
-                                    }
-                                }
-                                .pickerStyle(WheelPickerStyle())
-                                HStack {
-                                    Button(action: {
-                                        book.currentPage = book.pageCount
-                                        editingCurrentPage = false
-                                    }) {
-                                        StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color("BookBG"))
-                                    }
-                                    Button(action: {
-                                        book.currentPage = book.dailyTargets.last?.targetPage ?? book.currentPage
-                                        editingCurrentPage = false
-                                    }) {
-                                        StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
-                                    }
-                                }
-                            }
-                            .padding(.bottom, 10.0)
-                        }
-                    }
-                    .background(Color("AltBG"))
-                    .cornerRadius(20.0)
+                    ExpandableCard(title: "Progress", content: "Page \(book.currentPage) of \(book.pageCount) (\(book.completionPercentage.asRoundedPercent()) complete)", isOpen: $editingCurrentPage, openContent: editCurrentPage)
+                        .padding(.bottom, 1)
                     
-                    VStack {
-                        Card(title: "Target Completion Date", content: book.targetDate.prettyPrinted(), withEdit: true, subtitle: nil, isOpen: $editingTargetDate)
-                        .shadow(radius: editingTargetDate ? 3.0 : 0.0)
-                        
-                        if editingTargetDate {
-                            DatePicker(
-                                "Update your target date",
-                                selection: $book.targetDate,
-                                in: book.startDate...,
-                                displayedComponents: .date
-                            )
-                            .padding([.horizontal, .bottom])
-                            .padding(.top, 6.0)
-                        }
-                    }
-                    .background(Color("AltBG"))
-                    .cornerRadius(20.0)
+                    ExpandableCard(title: "Target Completion Date", content: book.targetDate.prettyPrinted(), isOpen: $editingTargetDate, openContent: editTargetDate)
+                        .padding(.bottom, 1)
                     
-                    Card(title: "Start Date", content: book.startDate.prettyPrinted(), withEdit: false, subtitle: nil)
+                    Card(title: "Start Date", content: book.startDate.prettyPrinted(), subtitle: nil)
                     
                     if book.isCompleted {
-                        Card(title: "Finish Date", content: book.completedAt?.prettyPrinted() ?? "Not completed", withEdit: false, subtitle: nil)
+                        Card(title: "Finish Date", content: book.completedAt?.prettyPrinted() ?? "Not completed", subtitle: nil)
                     }
                 }
                 
@@ -240,6 +152,47 @@ struct BookDetail: View {
                 }
             }
         }
+    }
+    
+    var editCurrentPage: some View {
+        Group {
+            Picker("", selection: $book.currentPage) {
+                ForEach(0..<book.pageCount + 1) {
+                    Text(String($0)).tag($0)
+                }
+            }
+            .pickerStyle(WheelPickerStyle())
+            HStack {
+                Button(action: {
+                    withAnimation {
+                        book.currentPage = book.pageCount
+                        editingCurrentPage = false
+                    }
+                }) {
+                    StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color("BookBG"))
+                }
+                Button(action: {
+                    withAnimation {
+                        book.currentPage = book.dailyTargets.last?.targetPage ?? book.currentPage
+                        editingCurrentPage = false                        
+                    }
+                }) {
+                    StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
+                }
+            }
+        }
+        .padding(.bottom, 10.0)
+    }
+    
+    var editTargetDate: some View {
+        DatePicker(
+            "Update your target date",
+            selection: $book.targetDate,
+            in: book.startDate...,
+            displayedComponents: .date
+        )
+        .padding([.horizontal, .bottom])
+        .padding(.top, 6.0)
     }
     
     func archiveBook() {
