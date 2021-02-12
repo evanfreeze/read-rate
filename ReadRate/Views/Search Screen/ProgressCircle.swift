@@ -14,7 +14,7 @@ struct ProgressCircle<T: View>: View {
     let centerContent: T
     
     let circleProgressSize: CGFloat = 52.0
-    let circleLineWidth: CGFloat = 8.0
+    let circleLineWidth: CGFloat = 6.0
     
     var body: some View {
         ZStack {
