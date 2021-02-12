@@ -44,16 +44,24 @@ struct AddBook: View {
                 LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title).autocapitalization(.sentences)
                 LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author).autocapitalization(.words)
                 LabeledInput(label: "How many pages are in it?", placeholder: "Total page count", value: $pageCount).keyboardType(.numberPad)
-                LabeledInput(label: "Which page are you starting on?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)
+                LabeledInput(label: "On which page are you starting?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)
+                DatePicker(
+                    selection: $startDate,
+                    in: Date()...,
+                    displayedComponents: .date,
+                    label: { Text("When are you starting?")
+                        .rounded(.callout) }
+                )
+                .padding(.vertical, 10)
                 DatePicker(
                     selection: $targetDate,
                     in: startDate...,
                     displayedComponents: .date,
-                    label: { Text("When do you want to finish the book?")
+                    label: { Text("When do you want to finish?")
                         .rounded(.callout) }
                 )
                 .padding(.vertical, 10)
-                LabeledInput(label: "What's the book's ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
+                LabeledInput(label: "What's the ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
             }
 
             if fetchStatus == .loading {
@@ -81,7 +89,7 @@ struct AddBook: View {
             author: self.author,
             pageCount: Int(self.pageCount)!,
             currentPage: Int(self.currentPage)!,
-            startDate: Date(),
+            startDate: self.startDate,
             targetDate: self.targetDate,
             ISBN: isbn.filter("0123456789.".contains)
         )
