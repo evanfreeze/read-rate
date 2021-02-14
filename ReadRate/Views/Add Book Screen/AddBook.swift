@@ -8,21 +8,6 @@
 
 import SwiftUI
 
-struct LabeledInput: View {
-    var label: String
-    var placeholder: String
-    var value: Binding<String>
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(label)
-                .rounded(.callout)
-            TextField(placeholder, text: value)
-        }
-        .padding(.vertical, 10.0)
-    }
-}
-
 struct AddBook: View {
     var bookStore: BookStore
     
@@ -40,6 +25,10 @@ struct AddBook: View {
     @State var showingSearch = false
     @State var fetchStatus: FetchStatus = .idle
     
+    var addButtonIsDisabled: Bool {
+        title.isEmpty || author.isEmpty || pageCount.isEmpty || currentPage.isEmpty
+    }
+    
     var body: some View {
         VStack {
             Form {
@@ -55,16 +44,24 @@ struct AddBook: View {
                 LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title).autocapitalization(.sentences)
                 LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author).autocapitalization(.words)
                 LabeledInput(label: "How many pages are in it?", placeholder: "Total page count", value: $pageCount).keyboardType(.numberPad)
-                LabeledInput(label: "Which page are you starting on?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)
+                LabeledInput(label: "On which page are you starting?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)
+                DatePicker(
+                    selection: $startDate,
+                    in: Date()...,
+                    displayedComponents: .date,
+                    label: { Text("When are you starting?")
+                        .rounded(.callout) }
+                )
+                .padding(.vertical, 10)
                 DatePicker(
                     selection: $targetDate,
                     in: startDate...,
                     displayedComponents: .date,
-                    label: { Text("When do you want to finish the book?")
+                    label: { Text("When do you want to finish?")
                         .rounded(.callout) }
                 )
                 .padding(.vertical, 10)
-                LabeledInput(label: "What's the book's ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
+                LabeledInput(label: "What's the ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
             }
 
             if fetchStatus == .loading {
@@ -75,7 +72,7 @@ struct AddBook: View {
                 Button(action: addBook) {
                     StyledButton(iconName: "book", label: "Add Book", bgColor: Color("SheetButton"))
                 }
-                .disabled(shouldBeDisabled())
+                .disabled(addButtonIsDisabled)
                 .padding(.bottom, 8.0)
             }
 
@@ -85,8 +82,6 @@ struct AddBook: View {
         }
     }
     
-    
-    
     func addBook() {        
         // Creates a new book with the data from the form
         var newBook = Book(
@@ -94,9 +89,9 @@ struct AddBook: View {
             author: self.author,
             pageCount: Int(self.pageCount)!,
             currentPage: Int(self.currentPage)!,
-            startDate: Date(),
+            startDate: self.startDate,
             targetDate: self.targetDate,
-            ISBN: isbn
+            ISBN: isbn.cleanedNumeric()
         )
         
         if newBook.ISBN != nil && newBook.ISBN!.count > 0 {
@@ -118,10 +113,6 @@ struct AddBook: View {
             self.bookStore.books.append(newBook)
             self.presentationMode.wrappedValue.dismiss()
         }
-    }
-    
-    func shouldBeDisabled() -> Bool {
-        return title.isEmpty || author.isEmpty || pageCount.isEmpty || currentPage.isEmpty
     }
 }
 

@@ -10,65 +10,44 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-struct RoundedText: ViewModifier {
-    let style: Font.TextStyle
-    let bold: Bool
-    
-    func body(content: Content) -> some View {
-        if bold {
-            return content
-                .font(Font.system(style, design: .rounded).bold())
-        } else {
-            return content
-                .font(Font.system(style, design: .rounded))
-        }
-    }
-}
-
-public extension Text {
-    func rounded(_ style: Font.TextStyle = .body, bold: Bool = true) -> some View {
-        self.modifier(RoundedText(style: style, bold: bold))
-    }
-}
-
-struct ProgressCircle<T: View>: View {
-    let progress: Double
-    let progressColor: Color
-    let centerContent: T
-    
-    let circleProgressSize: CGFloat = 52.0
-    let circleLineWidth: CGFloat = 6.0
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(lineWidth: circleLineWidth)
-                .opacity(0.1)
-                .foregroundColor(progressColor)
-                .frame( width: circleProgressSize, height: circleProgressSize)
-            Circle()
-                .trim(from: 0.0, to: CGFloat(progress))
-                .stroke(style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round, lineJoin: .round))
-                .foregroundColor(progressColor)
-                .frame(width: circleProgressSize, height: circleProgressSize)
-                .rotationEffect(Angle(degrees: 270.0))
-            centerContent
-        }
-    }
-}
-
-
-
-// JUST WIDGET STUFF
-
 struct Provider: IntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        if BookStore().activeBooks.count > 0 {
-            return SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: BookStore().activeBooks)
-        } else {
-            return SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: BookStore.generateRandomSampleBooks())
+    func getBooksForWidgetFamily(for family: WidgetFamily, withPlaceholders: Bool) -> [Book] {
+        var books = [Book]()
+        let store = BookStore()
+        
+        switch family {
+        case .systemSmall:
+            books = [store.activeBooks.first ?? BookStore.generateRandomSampleBooks().first!]
+        case .systemMedium:
+            if store.activeBooks.count >= 2 {
+                books = Array(store.activeBooks.prefix(2))
+            } else {
+                books += store.activeBooks
+                if withPlaceholders {
+                    let placeholdersNeeded = 2 - store.activeBooks.count
+                    books += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
+                }
+            }
+        case .systemLarge:
+            if store.activeBooks.count >= 4 {
+                books = Array(store.activeBooks.prefix(4))
+            } else {
+                books += store.activeBooks
+                if withPlaceholders {
+                    let placeholdersNeeded = 4 - store.activeBooks.count
+                    books += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
+                }
+            }
+        @unknown default:
+            books = store.activeBooks
         }
         
+        return books
+    }
+    
+    func placeholder(in context: Context) -> SimpleEntry {
+        let booksForPlaceholder = getBooksForWidgetFamily(for: context.family, withPlaceholders: true)
+        return SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: booksForPlaceholder)
     }
 
     func getSnapshot(for configuration: SelectedBookIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -77,28 +56,7 @@ struct Provider: IntentTimelineProvider {
         if let selectedTitles = configuration.selectedBook?.map({ $0.displayString }) {
             selectedBooks = BookStore().books.filter({ selectedTitles.contains($0.title) })
         } else {
-            switch context.family {
-            case .systemSmall:
-                selectedBooks = [BookStore().activeBooks.first ?? BookStore.generateRandomSampleBooks().first!]
-            case .systemMedium:
-                if BookStore().activeBooks.count >= 2 {
-                    selectedBooks = Array(BookStore().activeBooks.prefix(2))
-                } else {
-                    selectedBooks += BookStore().activeBooks
-                    let placeholdersNeeded = 2 - BookStore().activeBooks.count
-                    selectedBooks += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
-                }
-            case .systemLarge:
-                if BookStore().activeBooks.count >= 4 {
-                    selectedBooks = Array(BookStore().activeBooks.prefix(4))
-                } else {
-                    let placeholdersNeeded = 4 - BookStore().activeBooks.count
-                    selectedBooks += BookStore().activeBooks
-                    selectedBooks += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
-                }
-            @unknown default:
-                selectedBooks = BookStore().activeBooks
-            }
+            selectedBooks = getBooksForWidgetFamily(for: context.family, withPlaceholders: true)
         }
         
         let entry = SimpleEntry(date: Date(), selectedDetails: configuration.details, selectedBooks: selectedBooks)
@@ -120,24 +78,7 @@ struct Provider: IntentTimelineProvider {
                     selectedBooks.append(book)
                 }
             } else {
-                switch context.family {
-                case .systemSmall:
-                    selectedBooks = [BookStore().activeBooks.first!]
-                case .systemMedium:
-                    if BookStore().activeBooks.count >= 2 {
-                        selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 2))
-                    } else {
-                        selectedBooks = BookStore().activeBooks
-                    }
-                case .systemLarge:
-                    if BookStore().activeBooks.count >= 4 {
-                        selectedBooks = Array(BookStore().activeBooks.prefix(upTo: 4))
-                    } else {
-                        selectedBooks = BookStore().activeBooks
-                    }
-                @unknown default:
-                    selectedBooks = BookStore().activeBooks
-                }
+                selectedBooks = getBooksForWidgetFamily(for: context.family, withPlaceholders: false)
             }
         }
         
@@ -153,11 +94,11 @@ func getWidgetDetails(for detailsEnum: WidgetDetails, book: Book) -> String {
     case .currentPage:
         return "You're on page \(book.currentPage)"
     case .percentage:
-        return "You've read \(book.percentComplete)"
+        return "You've read \(book.completionPercentage.asRoundedPercent())"
     case .todaysTarget:
         return book.progressDescriptionShort
     case .pagesLeft:
-        return "\(book.pagesRemainingToday) pages left today"
+        return "\(book.displayPagesRemainingToday) pages left today"
     case .unknown:
         return book.progressDescriptionShort
     }

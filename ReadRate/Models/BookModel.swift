@@ -33,7 +33,7 @@ struct Book: Identifiable, Codable, Comparable {
             if currentPage == pageCount {
                 completedAt = Date()
             } else {
-                if completedAt != nil {
+                if isCompleted {
                     completedAt = nil
                 }
             }
@@ -49,106 +49,55 @@ struct Book: Identifiable, Codable, Comparable {
     var covers: ISBNBook.ISBNCover?
     
     // MARK: Computed Properties
-    var readToday: Bool {
-        get {
-            currentPage >= dailyTargets.last?.targetPage ?? pageCount
-        }
+    var isCompleted: Bool {
+        completedAt != nil
     }
     
-    var percentComplete: String {
-        get {
-            "\(Int((getCompletionPercentage() * 100).rounded()))%"
-        }
+    var isArchived: Bool {
+        archivedAt != nil
     }
     
-    var pagesPerDay: String {
-        get {
-            String(getPagesPerDay())
-        }
+    var isDeleted: Bool {
+        deletedAt != nil
     }
     
-    var pagesRemainingToday: String {
-        get {
-            String((dailyTargets.last?.targetPage ?? pageCount) - currentPage)
-        }
+    var isNotStarted: Bool {
+        // In the future and also not in the current day
+        Date() < startDate && !Calendar.current.isDateInToday(startDate)
     }
     
-    var nextStoppingPage: String {
-        get {
-            String(currentPage + Int(pagesPerDay)!)
-        }
+    var readEnoughToday: Bool {
+        currentPage >= dailyTargets.last?.targetPage ?? pageCount
     }
     
-    var displayCompletionTarget: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter.string(from: targetDate)
-    }
-    
-    var displayStartDate: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter.string(from: startDate)
-    }
-    
-    var displayStartDateShort: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter.string(from: startDate)
-    }
-    
-    var displayFinishDate: String {
-        if completedAt != nil {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .long
-            return formatter.string(from: completedAt!)
-        } else {
-            return "Not completed"
-        }
-    }
-    
-    var archivedDaysRead: String {
-        if completedAt != nil {
-            let daysText = daysBetweenStartAndFinish == 1 ? "day" : "days"
-            return "Read in \(daysBetweenStartAndFinish) \(daysText), about \(archivedPagesReadPerDay) pages per day"
-        } else {
-            let pagesleft = pageCount - currentPage
-            let pageText = pagesleft == 1 ? "page" : "pages"
-            return "Not finished, \(pagesleft) \(pageText) remaining (\(percentComplete) complete)"
-        }
-    }
-    
-    var daysBetweenStartAndFinish: Int {
-        let days = Calendar.current.dateComponents([.day], from: startDate, to: completedAt!).day! + 1
-        return days
-    }
-    
-    var archivedPagesReadPerDay: Int {
-        if completedAt != nil {
-            return Int((Double(pageCount) / Double(daysBetweenStartAndFinish)).rounded())
+    var completionPercentage: Double {
+        if pageCount > 0 {
+            return Double(currentPage) / Double(pageCount)
         } else {
             return 0
         }
     }
     
-    var finishedDateShort: String {
-        if completedAt != nil {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            return formatter.string(from: completedAt!)
+    var displayPagesRemainingToday: String {
+        String((dailyTargets.last?.targetPage ?? pageCount) - currentPage)
+    }
+    
+    var archivedDaysRead: String {
+        if isCompleted {
+            let daysBetweenStartAndFinish = Calendar.current.dateComponents([.day], from: startDate, to: completedAt!).day! + 1
+            let daysText = daysBetweenStartAndFinish == 1 ? "day" : "days"
+            let archivedPagesReadPerDay = Int((Double(pageCount) / Double(daysBetweenStartAndFinish)).rounded())
+            return "Read in \(daysBetweenStartAndFinish) \(daysText), about \(archivedPagesReadPerDay) pages per day"
         } else {
-            return "N/A"
+            let pagesleft = pageCount - currentPage
+            let pageText = pagesleft == 1 ? "page" : "pages"
+            return "Not finished, \(pagesleft) \(pageText) remaining (\(completionPercentage.asRoundedPercent()) complete)"
         }
     }
     
-    var displayCompletedDate: (String, String) {
-        if completedAt != nil {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MMM"
-            let month = formatter.string(from: completedAt!).uppercased()
-            formatter.dateFormat = "d"
-            let day = formatter.string(from: completedAt!)
-            return (month, day)
+    var completedDateForCalendarIcon: (String, String) {
+        if isCompleted {
+            return (completedAt!.printMonthShort().uppercased(), completedAt!.printDayOfMonthShort())
         } else {
             return ("DNF", "--")
         }
@@ -167,10 +116,10 @@ struct Book: Identifiable, Codable, Comparable {
     
     var progressDescription: String {
         if isNotStarted {
-            return "Start reading on \(displayStartDate)"
+            return "Start reading on \(startDate.prettyPrinted())"
         } else if currentPage == pageCount {
             return "You finished the book — congrats!"
-        } else if readToday {
+        } else if readEnoughToday {
             return "You've read enough today to stay on track"
         } else {
             return "Read to page \(dailyTargets.last?.targetPage ?? pageCount) today to stay on track"
@@ -179,27 +128,18 @@ struct Book: Identifiable, Codable, Comparable {
     
     var progressDescriptionShort: String {
         if isNotStarted {
-            return "Starting \(displayStartDateShort)"
+            return "Starting \(startDate.prettyPrinted(.short))"
         } else if currentPage >= pageCount {
             return "You finished the book!"
-        } else if readToday {
+        } else if readEnoughToday {
             return "Read enough today"
         } else {
             return "Read to page \(dailyTargets.last?.targetPage ?? pageCount)"
         }
     }
     
-    var isDeleted: Bool {
-        if deletedAt != nil {
-            return true
-        } else {
-            return false
-        }
-    }
-    
     var progressBarFillAmount: Double {
         let minAmount = 0.01
-        let completionPercentage = getCompletionPercentage()
         
         if completionPercentage < minAmount {
             return minAmount
@@ -213,7 +153,7 @@ struct Book: Identifiable, Codable, Comparable {
             return .gray
         } else if currentPage == pageCount {
             return .yellow
-        } else if readToday {
+        } else if readEnoughToday {
             return .green
         } else {
             return .accentColor
@@ -230,42 +170,46 @@ struct Book: Identifiable, Codable, Comparable {
                 Image(systemName: "star.fill")
                     .foregroundColor(progressColor)
                     .font(Font.system(.body).bold())
-            } else if readToday {
+            } else if readEnoughToday {
                 Image(systemName: "checkmark")
                     .foregroundColor(progressColor)
                     .font(Font.system(.body).bold())
             } else {
-                Text(pagesRemainingToday)
+                Text(displayPagesRemainingToday)
                     .foregroundColor(progressColor)
                     .font(Font.system(.body, design: Font.Design.rounded).bold())
             }
         }
     }
     
-    var isNotStarted: Bool {
-        Date() < startDate
+    var needsTargetUpdate: Bool {
+        if isCompleted || isArchived || isDeleted || isNotStarted {
+            return false
+        }
+        
+        let hasNotBeenUpdatedToday = !Calendar.current.isDateInToday(dailyTargets.last?.calcTime ?? Date().addingTimeInterval(60 * 60 * -48))
+        let targetDateChangedSinceLastUpdate = targetDate != dailyTargets.last?.meta.targetDate ?? targetDate
+        
+        return hasNotBeenUpdatedToday || targetDateChangedSinceLastUpdate
+    }
+    
+    var completedMonthYear: String {
+        if isCompleted {
+            return completedAt!.printMonthAndYear()
+        } else {
+            return "Not Completed"
+        }
     }
     
     // MARK: Methods
-    func getCompletionPercentage() -> Double {
-        if pageCount > 0 {
-            return Double(currentPage) / Double(pageCount)
-        } else {
-            return 0
-        }
-    }
-
     func getPagesPerDay() -> Int {
         let pagesRemaining = Double(pageCount - currentPage)
         var pagesPerDay: Double
         
-        if startDate < Date() {
-            // If the start date is in the past, we should use today's date to calculate the pages to read
-            pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: Date())
-            
-        } else {
-            // If the start date is in the future, no pages need to be read today
+        if isNotStarted {
             pagesPerDay = 0
+        } else {
+            pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: Date())
         }
         
         if !pagesPerDay.isNaN && pagesPerDay.isFinite {
