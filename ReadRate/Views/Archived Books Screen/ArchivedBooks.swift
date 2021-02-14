@@ -77,6 +77,22 @@ struct NoArchivedBooks: View {
     }
 }
 
+struct MonthHeader: View {
+    var name: String
+    var count: Int
+    
+    var body: some View {
+            HStack(alignment: .firstTextBaseline) {
+            Text(name).rounded(.title2)
+            Spacer()
+            Text("\(count) \(count == 1 ? "book" : "books")")
+                .rounded(.body)
+                .foregroundColor(.secondary)
+        }
+        .padding(.top)
+    }
+}
+
 struct ArchivedBooks: View {
     @ObservedObject var shelf: BookStore
     
@@ -84,8 +100,12 @@ struct ArchivedBooks: View {
         VStack(alignment: .leading, spacing: 12.0) {
             if shelf.archivedBooks.count > 0 {
                 ScrollView {
-                    ForEach(shelf.archivedBooks) { book in
-                        ArchivedBook(book: book, shelf: shelf)
+                    ForEach(monthsWithBooks, id:\.self) { month in
+                        Section(header: MonthHeader(name: month, count: getBooksCompletedIn(month).count)) {
+                            ForEach(getBooksCompletedIn(month)) { book in
+                                ArchivedBook(book: book, shelf: shelf)
+                            }
+                        }
                     }
                 }
             } else {
@@ -96,6 +116,24 @@ struct ArchivedBooks: View {
         .padding()
         .navigationBarTitle("Archived Books")
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    var monthsWithBooks: [String] {
+        var months = [String]()
+        for book in shelf.archivedBooks.sorted(by: { (a, b) -> Bool in
+            a.completedAt ?? Date() > b.completedAt ?? Date()
+        }) {
+            if !months.contains(book.completedMonthYear) {
+                months.append(book.completedMonthYear)
+            }
+        }
+        return months
+    }
+    
+    func getBooksCompletedIn(_ month: String) -> [Book] {
+        shelf.archivedBooks.filter({ $0.completedMonthYear == month }).sorted { (a, b) -> Bool in
+            a.completedAt ?? Date() > b.completedAt ?? Date()
+        }
     }
 }
 

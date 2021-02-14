@@ -97,12 +97,7 @@ struct Book: Identifiable, Codable, Comparable {
     
     var completedDateForCalendarIcon: (String, String) {
         if isCompleted {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MMM"
-            let month = formatter.string(from: completedAt!).uppercased()
-            formatter.dateFormat = "d"
-            let day = formatter.string(from: completedAt!)
-            return (month, day)
+            return (completedAt!.printMonthShort().uppercased(), completedAt!.printDayOfMonthShort())
         } else {
             return ("DNF", "--")
         }
@@ -196,6 +191,14 @@ struct Book: Identifiable, Codable, Comparable {
         let targetDateChangedSinceLastUpdate = targetDate != dailyTargets.last?.meta.targetDate ?? targetDate
         
         return hasNotBeenUpdatedToday || targetDateChangedSinceLastUpdate
+    }
+    
+    var completedMonthYear: String {
+        if isCompleted {
+            return completedAt!.printMonthAndYear()
+        } else {
+            return "Not Completed"
+        }
     }
     
     // MARK: Methods

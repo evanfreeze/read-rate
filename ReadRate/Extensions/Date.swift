@@ -14,4 +14,22 @@ extension Date {
         formatter.dateStyle = style
         return formatter.string(from: self)
     }
+    
+    private func printDateUsing(format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+    
+    func printMonthShort() -> String {
+        printDateUsing(format: "MMM")
+    }
+    
+    func printMonthAndYear() -> String {
+        printDateUsing(format: "MMMM y")
+    }
+    
+    func printDayOfMonthShort() -> String {
+        printDateUsing(format: "d")
+    }
 }
