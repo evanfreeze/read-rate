@@ -91,7 +91,7 @@ struct AddBook: View {
             currentPage: Int(self.currentPage)!,
             startDate: self.startDate,
             targetDate: self.targetDate,
-            ISBN: isbn.filter("0123456789.".contains)
+            ISBN: isbn.cleanedNumeric()
         )
         
         if newBook.ISBN != nil && newBook.ISBN!.count > 0 {

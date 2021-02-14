@@ -99,7 +99,7 @@ struct SearchView: View {
     func search() {
         status = .loading
         let searcher = ISBNSearcher()
-        let normalizedSearchTerm = searchTerm.trimmingCharacters(in: .whitespacesAndNewlines)
+        let normalizedSearchTerm = searchTerm.cleanedNumeric()
         searcher.findBook(for: normalizedSearchTerm, success: {
             result = $0["ISBN:\(normalizedSearchTerm)"]
             status = .success
