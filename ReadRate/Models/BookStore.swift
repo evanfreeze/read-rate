@@ -95,11 +95,20 @@ class BookStore: ObservableObject {
         
         for (index, book) in books.enumerated() {
             if book.needsTargetUpdate {
-                let targetMeta = DailyTargetMeta(pageCount: book.pageCount, currentPage: book.currentPage, targetDate: book.targetDate)
-                let nextStoppingPage = book.currentPage + book.getPagesPerDay()
-                let todaysTarget = DailyTarget(targetPage: nextStoppingPage, calcTime: Date(), meta: targetMeta)
-                
-                books[index].dailyTargets.append(todaysTarget)
+                switch book.goalMode {
+                case .date:
+                    let targetMeta = DailyTargetMeta(pageCount: book.pageCount, currentPage: book.currentPage, targetDate: book.targetDate, mode: book.goalMode)
+                    let nextStoppingPage = book.currentPage + book.getPagesPerDay()
+                    let todaysTarget = DailyTarget(targetPage: nextStoppingPage, calcTime: Date(), meta: targetMeta)
+                    books[index].dailyTargets.append(todaysTarget)
+                case .rate:
+                    let daysLeftAtRate = (Double(book.pageCount) - Double(book.currentPage)) / Double(book.rateGoal!)
+                    let newTargetDate = Date().advanced(by: 60 * 60 * 24 * daysLeftAtRate)
+                    let targetMeta = DailyTargetMeta(pageCount: book.pageCount, currentPage: book.currentPage, targetDate: newTargetDate, rateGoal: book.rateGoal!, mode: book.goalMode)
+                    let targetPage = book.currentPage + book.rateGoal!
+                    let todaysTarget = DailyTarget(targetPage: targetPage, calcTime: Date(), meta: targetMeta)
+                    books[index].dailyTargets.append(todaysTarget)
+                }
             }
         }
     }

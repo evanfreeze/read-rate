@@ -15,9 +15,11 @@ struct BookDetail: View {
     
     @State private var editingTargetDate = false
     @State private var editingCurrentPage = false
+    @State private var editingRateGoal = false
     
     @State private var showingDeleteAlert = false
     @State private var showingEditSheet = false
+    @State private var showingGoalSheet = false
     
     @State private var fetchStatus: FetchStatus = .idle
     
@@ -49,19 +51,32 @@ struct BookDetail: View {
                     )
                     .padding(.bottom, 1)
                     
-                    ExpandableCard(
-                        title: "Target Completion Date",
-                        content: book.targetDate.prettyPrinted(),
-                        isOpen: $editingTargetDate,
-                        openContent: editTargetDate
-                    )
-                    .padding(.bottom, 1)
+                    switch book.goalMode {
+                    case .date:
+                        ExpandableCard(
+                            title: "Target Completion Date",
+                            content: book.targetDate.prettyPrinted(),
+                            isOpen: $editingTargetDate,
+                            openContent: editTargetDate
+                        )
+                        .padding(.bottom, 1)
+                    case .rate:
+                        ExpandableCard(
+                            title: "Reading Pace",
+                            content: "\(book.rateGoal!) pages per day",
+                            isOpen: $editingRateGoal,
+                            openContent: editRateGoal
+                        )
+                        .padding(.bottom, 1)
+                    }
                     
-                    Card(
-                        title: "Start Date",
-                        content: book.startDate.prettyPrinted(),
-                        subtitle: nil
-                    )
+                    if book.goalMode == .rate && !book.isCompleted {
+                        Card(
+                            title: "Estimated Completion Date",
+                            content: book.floatingTargetDateAtRateGoal!.prettyPrinted(),
+                            subtitle: "Based on \(book.rateGoal!) pages per day"
+                        )
+                    }
                     
                     if book.isCompleted {
                         Card(
@@ -142,6 +157,30 @@ struct BookDetail: View {
         .padding(.top, 6.0)
     }
     
+    var editRateGoal: some View {
+        let rateGoal = Binding<Int>(
+            get: {
+                book.rateGoal!
+            },
+            set: {
+                book.rateGoal = $0
+            }
+        )
+        
+        return Picker("How many pages per day?", selection: rateGoal) {
+            Text("5").tag(5)
+            Text("10").tag(10)
+            Text("15").tag(15)
+            Text("20").tag(20)
+            Text("25").tag(25)
+            Text("30").tag(30)
+            Text("50").tag(50)
+            Text("75").tag(75)
+            Text("100").tag(100)
+        }
+        .pickerStyle(WheelPickerStyle())
+    }
+    
     var editBookSheet: some View {
         let bookISBN = Binding<String>(
             get: {
@@ -158,6 +197,24 @@ struct BookDetail: View {
             },
             set: {
                 book.pageCount = Int($0) ?? 0
+            }
+        )
+        
+        let bookGoalMode = Binding<GoalMode>(
+            get: {
+                book.goalMode
+            },
+            set: {
+                book.mode = $0
+            }
+        )
+        
+        let rateGoal = Binding<Int>(
+            get: {
+                book.rateGoal!
+            },
+            set: {
+                book.rateGoal = $0
             }
         )
         
@@ -178,6 +235,21 @@ struct BookDetail: View {
                             .rounded(.callout) }
                     )
                     .padding(.vertical, 10)
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("Goal Type")
+                                .rounded(.callout)
+                            Text(book.goalMode == .date ? "Target Date" : "Pages Per Day")
+                        }
+                        Spacer()
+                        Button(action: showGoalSheet, label: {
+                            Image(systemName: "arrow.forward.circle")
+                        })
+                        .sheet(isPresented: $showingGoalSheet) {
+                            SetGoalScreen(startDate: $book.startDate, targetDate: $book.targetDate, mode: bookGoalMode, hasSetGoal: .constant(true), readingRate: rateGoal, interimRate: interimRate)
+                        }
+                    }
+                    .padding(.vertical, 10.0)
                 }
             }
             Button(action: {
@@ -186,10 +258,12 @@ struct BookDetail: View {
                     ISBNSearcher().findBook(for: book.ISBN!, success: {
                         book.covers = $0["ISBN:\(book.ISBN!)"]?.cover
                         fetchStatus = .success
+                        shelf.setTodaysTargets()
                         showingEditSheet = false
                     }, failure: {
                         print($0)
                         fetchStatus = .failure
+                        shelf.setTodaysTargets()
                         showingEditSheet = false
                     })
                 } else {
@@ -223,6 +297,24 @@ struct BookDetail: View {
         }
     }
     
+    var interimRate: String {
+        switch book.goalMode {
+        case .date:
+            let days = Double(Calendar.current.dateComponents([.day], from: book.startDate, to: book.targetDate).day!) + 1
+            let pagesRemaining = Double(book.pageCount) - Double(book.currentPage)
+            let pagesPerDay = (pagesRemaining / days).rounded()
+            if pagesPerDay.isFinite && !pagesPerDay.isNaN && days.isFinite && !days.isNaN {
+                return "\(Int(days)) \(days == 1 ? "day" : "days"), \(Int(pagesPerDay)) pages per day"
+            }
+            return "Invalid dates"
+        case .rate:
+            let daysOfReading = (Double(book.pageCount) - Double(book.currentPage)) / Double(book.rateGoal!)
+            let daysToComplete = daysOfReading * 60 * 60 * 24
+            let finishEstimate = Date().addingTimeInterval(daysToComplete)
+            return "\(book.rateGoal!) pages per day (~\(finishEstimate.prettyPrinted(.short)))"
+        }
+    }
+    
     func archiveBook() {
         book.archivedAt = Date()
         presentationMode.wrappedValue.dismiss()
@@ -231,6 +323,10 @@ struct BookDetail: View {
     func deleteBook() {
         book.deletedAt = Date()
         presentationMode.wrappedValue.dismiss()
+    }
+    
+    func showGoalSheet() {
+        showingGoalSheet = true
     }
 }
 

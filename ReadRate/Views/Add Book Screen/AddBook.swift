@@ -41,6 +41,7 @@ struct AddBook: View {
     @State var targetDate = Date()
     @State var isbn = ""
     @State var mode = GoalMode.date
+    @State var readingRate = 15
     
     @State var showingSearchSheet = false
     @State var showingGoalSheet = false
@@ -77,15 +78,7 @@ struct AddBook: View {
                         BigButton(label: "Add Manually", icon: "hand.tap")
                     }
                     .sheet(isPresented: $showingGoalSheet) {
-                        VStack() {
-                            goalDetailsForm
-                            
-                            Spacer()
-                            
-                            Button(action: setGoal, label: {
-                                StyledButton(iconName: "calendar", label: "Set Goal", bgColor: Color("SheetButton"))
-                            })
-                        }
+                        SetGoalScreen(startDate: $startDate, targetDate: $targetDate, mode: $mode, hasSetGoal: $hasSetGoal, readingRate: $readingRate, interimRate: interimRate)
                     }
                     Spacer(minLength: 0)
                 }
@@ -125,31 +118,6 @@ struct AddBook: View {
         }
     }
     
-    var goalDetailsForm: some View {
-        Form {
-            Text("Set Your Goal").rounded(.title).padding(.vertical, 8)
-            DatePicker(
-                selection: $startDate,
-                in: Date()...,
-                displayedComponents: .date,
-                label: { Text("When are you starting?")
-                    .rounded(.callout) }
-            )
-            .padding(.vertical, 10)
-            DatePicker(
-                selection: $targetDate,
-                in: startDate...,
-                displayedComponents: .date,
-                label: { Text("When do you want to finish?")
-                    .rounded(.callout) }
-            )
-            .padding(.vertical, 10)
-            Text(interimRate)
-                .rounded(.caption)
-                .padding(.vertical)
-        }
-    }
-    
     var manualEntryForm: some View {
         Form {
             Text("Book Details")
@@ -177,13 +145,21 @@ struct AddBook: View {
     }
     
     var interimRate: String {
-        let days = Double(Calendar.current.dateComponents([.day], from: startDate, to: targetDate).day!) + 1
-        let pagesRemaining = Double(pageCount) ?? 0 - (Double(currentPage) ?? 0)
-        let pagesPerDay = (pagesRemaining / days).rounded()
-        if pagesPerDay.isFinite && !pagesPerDay.isNaN && days.isFinite && !days.isNaN {
-            return "\(Int(days)) \(days == 1 ? "day" : "days"), \(Int(pagesPerDay)) pages per day"
+        switch mode {
+        case .date:
+            let days = Double(Calendar.current.dateComponents([.day], from: startDate, to: targetDate).day!) + 1
+            let pagesRemaining = Double(pageCount) ?? 0 - (Double(currentPage) ?? 0)
+            let pagesPerDay = (pagesRemaining / days).rounded()
+            if pagesPerDay.isFinite && !pagesPerDay.isNaN && days.isFinite && !days.isNaN {
+                return "\(Int(days)) \(days == 1 ? "day" : "days"), \(Int(pagesPerDay)) pages per day"
+            }
+            return "Invalid dates"
+        case .rate:
+            let daysOfReading = (Double(pageCount) ?? 0 - (Double(currentPage) ?? 0)) / Double(readingRate)
+            let daysToComplete = daysOfReading * 60 * 60 * 24
+            let finishEstimate = Date().addingTimeInterval(daysToComplete)
+            return "\(readingRate) pages per day (~\(finishEstimate.prettyPrinted(.short)))"
         }
-        return "Invalid dates"
     }
     
     func addBook() {        
@@ -196,7 +172,8 @@ struct AddBook: View {
             startDate: self.startDate,
             targetDate: self.targetDate,
             ISBN: isbn.cleanedNumeric(),
-            mode: self.mode
+            mode: self.mode,
+            rateGoal: self.mode == .rate ? readingRate : nil
         )
         
         if newBook.ISBN != nil && newBook.ISBN!.count > 0 {
@@ -226,11 +203,6 @@ struct AddBook: View {
     
     func showSearchSheet() {
         showingSearchSheet = true
-    }
-    
-    func setGoal() {
-        hasSetGoal = true
-        showingGoalSheet = false
     }
 }
 
