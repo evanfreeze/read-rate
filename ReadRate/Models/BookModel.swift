@@ -21,6 +21,11 @@ struct DailyTarget: Codable {
     var meta: DailyTargetMeta
 }
 
+enum GoalMode: String, Codable {
+    case date = "date"
+    case rate = "rate"
+}
+
 struct Book: Identifiable, Codable, Comparable {
     
     // MARK: Defined Properties
@@ -47,8 +52,13 @@ struct Book: Identifiable, Codable, Comparable {
     var deletedAt: Date?
     var ISBN: String?
     var covers: ISBNBook.ISBNCover?
+    var mode: GoalMode?
     
     // MARK: Computed Properties
+    var goalMode: GoalMode {
+        mode ?? .date
+    }
+    
     var isCompleted: Bool {
         completedAt != nil
     }

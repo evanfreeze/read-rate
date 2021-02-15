@@ -17,6 +17,7 @@ struct LabeledInput: View {
         VStack(alignment: .leading) {
             Text(label)
                 .rounded(.callout)
+                .foregroundColor(value.wrappedValue.isEmpty ? .accentColor : .primary)
             TextField(placeholder, text: value)
         }
         .padding(.vertical, 10.0)

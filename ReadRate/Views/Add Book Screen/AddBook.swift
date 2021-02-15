@@ -8,6 +8,25 @@
 
 import SwiftUI
 
+struct BigButton: View {
+    var label: String
+    var icon: String
+    
+    var body: some View {
+        VStack(spacing: 4) {
+            Image(systemName: icon).font(.largeTitle)
+                .scaledToFill()
+                .frame(width: 40, height: 40)
+            Text(label).rounded(.headline).foregroundColor(.primary)
+
+        }
+        .frame(width: 150, height: 60)
+        .padding(.vertical)
+        .background(Color("SheetButton"))
+        .cornerRadius(20)
+    }
+}
+
 struct AddBook: View {
     var bookStore: BookStore
     
@@ -21,49 +40,66 @@ struct AddBook: View {
     @State var startDate = Date()
     @State var targetDate = Date()
     @State var isbn = ""
+    @State var mode = GoalMode.date
     
-    @State var showingSearch = false
+    @State var showingSearchSheet = false
+    @State var showingGoalSheet = false
     @State var fetchStatus: FetchStatus = .idle
     
+    @State var showingForm = false
+    @State var hasSetGoal = false
+
     var addButtonIsDisabled: Bool {
         title.isEmpty || author.isEmpty || pageCount.isEmpty || currentPage.isEmpty
     }
     
     var body: some View {
-        VStack {
-            Form {
+            VStack {
+                Text("Start a New Book")
+                    .rounded(.title)
+                    .padding(.vertical, 8).padding(.top, 16)
                 HStack {
-                    Text("Start a New Book")
-                        .rounded(.title).padding(.bottom).padding(.top)
-                    Spacer()
-                    Button(action: { showingSearch = true }) {
-                        Image(systemName: "magnifyingglass.circle.fill")
-                            .font(.title2)
+                    Spacer(minLength: 0)
+                    
+                    Button(action: showSearchSheet) {
+                        BigButton(label: "Search by ISBN", icon: "magnifyingglass")
                     }
+                    .sheet(isPresented: $showingSearchSheet) {
+                        SearchView(title: $title, author: $author, pageCount: $pageCount, isbn: $isbn)
+                            .onDisappear(perform: {
+                                if !isbn.isEmpty {
+                                    showingForm = true
+                                }
+                            })
+                    }
+                    
+                    Button(action: { showingForm = true }) {
+                        BigButton(label: "Add Manually", icon: "hand.tap")
+                    }
+                    Spacer(minLength: 0)
                 }
-                LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title).autocapitalization(.sentences)
-                LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author).autocapitalization(.words)
-                LabeledInput(label: "How many pages are in it?", placeholder: "Total page count", value: $pageCount).keyboardType(.numberPad)
-                LabeledInput(label: "On which page are you starting?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)
-                DatePicker(
-                    selection: $startDate,
-                    in: Date()...,
-                    displayedComponents: .date,
-                    label: { Text("When are you starting?")
-                        .rounded(.callout) }
-                )
-                .padding(.vertical, 10)
-                DatePicker(
-                    selection: $targetDate,
-                    in: startDate...,
-                    displayedComponents: .date,
-                    label: { Text("When do you want to finish?")
-                        .rounded(.callout) }
-                )
-                .padding(.vertical, 10)
-                LabeledInput(label: "What's the ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
+                .padding(.bottom)
+                
+                if showingForm {
+                    manualEntryForm
+                        .animation(.easeInOut)
+                        .transition(.opacity)
+                    
+                    if hasSetGoal {
+                        addBookButton
+                    } else {
+                        Button(action: showGoalSheet, label: {
+                            StyledButton(iconName: "arrow.forward.circle", label: "Continue", bgColor: Color("SheetButton"))
+                        })
+                    }
+                } else {
+                    Spacer()
+                }
             }
-
+    }
+    
+    var addBookButton: some View {
+        Group {
             if fetchStatus == .loading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
@@ -72,14 +108,82 @@ struct AddBook: View {
                 Button(action: addBook) {
                     StyledButton(iconName: "book", label: "Add Book", bgColor: Color("SheetButton"))
                 }
-                .disabled(addButtonIsDisabled)
+                .disabled(addButtonIsDisabled || !hasSetGoal)
                 .padding(.bottom, 8.0)
             }
-
         }
-        .sheet(isPresented: $showingSearch) {
-            SearchView(title: $title, author: $author, pageCount: $pageCount, isbn: $isbn)
+    }
+    
+    var goalDetailsForm: some View {
+        Form {
+            Text("Set Your Goal").rounded(.title).padding(.vertical, 8)
+            DatePicker(
+                selection: $startDate,
+                in: Date()...,
+                displayedComponents: .date,
+                label: { Text("When are you starting?")
+                    .rounded(.callout) }
+            )
+            .padding(.vertical, 10)
+            DatePicker(
+                selection: $targetDate,
+                in: startDate...,
+                displayedComponents: .date,
+                label: { Text("When do you want to finish?")
+                    .rounded(.callout) }
+            )
+            .padding(.vertical, 10)
+            Text(interimRate)
+                .rounded(.caption)
+                .padding(.vertical)
         }
+    }
+    
+    var manualEntryForm: some View {
+        Form {
+            Text("Book Details")
+                .rounded(.title)
+                .padding(.vertical, 4)
+                .padding(.top, 6)
+            LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title).autocapitalization(.sentences)
+            LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author).autocapitalization(.words)
+            LabeledInput(label: "How many pages are in it?", placeholder: "Total page count", value: $pageCount).keyboardType(.numberPad)
+            LabeledInput(label: "On which page are you starting?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)
+            LabeledInput(label: "What's the ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Reading Goal")
+                        .rounded(.callout)
+                    Text(hasSetGoal ? interimRate : "Not set").rounded(.body, bold: false)
+                }
+                Spacer()
+                Button(action: showGoalSheet, label: {
+                    Image(systemName: "arrow.forward.circle")
+                })
+            }
+            .padding(.vertical, 10.0)
+            .sheet(isPresented: $showingGoalSheet) {
+                VStack() {
+                    goalDetailsForm
+                    
+                    Spacer()
+                    
+                    Button(action: setGoal, label: {
+                        StyledButton(iconName: "calendar", label: "Set Goal", bgColor: Color("SheetButton"))
+                    })
+                }
+            }
+        }
+    }
+    
+    var interimRate: String {
+        let days = Double(Calendar.current.dateComponents([.day], from: startDate, to: targetDate).day!) + 1
+        let pagesRemaining = Double(pageCount) ?? 0 - (Double(currentPage) ?? 0)
+        let pagesPerDay = (pagesRemaining / days).rounded()
+        if pagesPerDay.isFinite && !pagesPerDay.isNaN && days.isFinite && !days.isNaN {
+            return "\(Int(days)) \(days == 1 ? "day" : "days"), \(Int(pagesPerDay)) pages per day"
+        }
+        return "Invalid dates"
     }
     
     func addBook() {        
@@ -91,7 +195,8 @@ struct AddBook: View {
             currentPage: Int(self.currentPage)!,
             startDate: self.startDate,
             targetDate: self.targetDate,
-            ISBN: isbn.cleanedNumeric()
+            ISBN: isbn.cleanedNumeric(),
+            mode: self.mode
         )
         
         if newBook.ISBN != nil && newBook.ISBN!.count > 0 {
@@ -114,6 +219,19 @@ struct AddBook: View {
             self.presentationMode.wrappedValue.dismiss()
         }
     }
+    
+    func showGoalSheet() {
+        showingGoalSheet = true
+    }
+    
+    func showSearchSheet() {
+        showingSearchSheet = true
+    }
+    
+    func setGoal() {
+        hasSetGoal = true
+        showingGoalSheet = false
+    }
 }
 
 struct AddBookView_Previews: PreviewProvider {
@@ -121,7 +239,7 @@ struct AddBookView_Previews: PreviewProvider {
         Group {
             AddBook(bookStore: BookStore())
             AddBook(bookStore: BookStore())
-                .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+                .preferredColorScheme(.dark)
         }
     }
 }
