@@ -76,6 +76,17 @@ struct AddBook: View {
                     Button(action: { showingForm = true }) {
                         BigButton(label: "Add Manually", icon: "hand.tap")
                     }
+                    .sheet(isPresented: $showingGoalSheet) {
+                        VStack() {
+                            goalDetailsForm
+                            
+                            Spacer()
+                            
+                            Button(action: setGoal, label: {
+                                StyledButton(iconName: "calendar", label: "Set Goal", bgColor: Color("SheetButton"))
+                            })
+                        }
+                    }
                     Spacer(minLength: 0)
                 }
                 .padding(.bottom)
@@ -162,17 +173,6 @@ struct AddBook: View {
                 })
             }
             .padding(.vertical, 10.0)
-            .sheet(isPresented: $showingGoalSheet) {
-                VStack() {
-                    goalDetailsForm
-                    
-                    Spacer()
-                    
-                    Button(action: setGoal, label: {
-                        StyledButton(iconName: "calendar", label: "Set Goal", bgColor: Color("SheetButton"))
-                    })
-                }
-            }
         }
     }
     
