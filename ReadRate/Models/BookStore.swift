@@ -105,7 +105,8 @@ class BookStore: ObservableObject {
                     let daysLeftAtRate = (Double(book.pageCount) - Double(book.currentPage)) / Double(book.rateGoal!)
                     let newTargetDate = Date().advanced(by: 60 * 60 * 24 * daysLeftAtRate)
                     let targetMeta = DailyTargetMeta(pageCount: book.pageCount, currentPage: book.currentPage, targetDate: newTargetDate, rateGoal: book.rateGoal!, mode: book.goalMode)
-                    let targetPage = book.currentPage + book.rateGoal!
+                    let rateTargetPage = book.currentPage + book.rateGoal!
+                    let targetPage = rateTargetPage > book.pageCount ? book.pageCount : rateTargetPage
                     let todaysTarget = DailyTarget(targetPage: targetPage, calcTime: Date(), meta: targetMeta)
                     books[index].dailyTargets.append(todaysTarget)
                 }
