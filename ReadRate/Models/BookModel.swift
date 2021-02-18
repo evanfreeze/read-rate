@@ -28,7 +28,7 @@ enum GoalMode: String, Codable {
     case rate = "rate"
 }
 
-struct Book: Identifiable, Codable, Comparable {
+struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     
     // MARK: Defined Properties
     var id = UUID()

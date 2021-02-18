@@ -12,6 +12,11 @@
 		EA0DC0EB25C230FC00EA958F /* RoundedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0E925C230FC00EA958F /* RoundedText.swift */; };
 		EA0DC0EC25C230FC00EA958F /* RoundedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0DC0E925C230FC00EA958F /* RoundedText.swift */; };
 		EA160ED125AE9AC8003F6CC6 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA160ED025AE9AC8003F6CC6 /* SearchView.swift */; };
+		EA1E948125DE19B90057D122 /* PagesPerDayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1E948025DE19B90057D122 /* PagesPerDayPicker.swift */; };
+		EA1E948625DE1C520057D122 /* GoalSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1E948525DE1C520057D122 /* GoalSummary.swift */; };
+		EA1E948D25DE1CF20057D122 /* HasReadingGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1E948C25DE1CF20057D122 /* HasReadingGoal.swift */; };
+		EA1E948E25DE1CF20057D122 /* HasReadingGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1E948C25DE1CF20057D122 /* HasReadingGoal.swift */; };
+		EA1E948F25DE1CF20057D122 /* HasReadingGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1E948C25DE1CF20057D122 /* HasReadingGoal.swift */; };
 		EA2CEDF625A2C7E400EDE3AF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2CEDF525A2C7E400EDE3AF /* WidgetKit.framework */; };
 		EA2CEDF825A2C7E400EDE3AF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2CEDF725A2C7E400EDE3AF /* SwiftUI.framework */; };
 		EA2CEDFB25A2C7E400EDE3AF /* SelectedBookWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFA25A2C7E400EDE3AF /* SelectedBookWidget.swift */; };
@@ -100,6 +105,9 @@
 		EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		EA0DC0E925C230FC00EA958F /* RoundedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedText.swift; sourceTree = "<group>"; };
 		EA160ED025AE9AC8003F6CC6 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		EA1E948025DE19B90057D122 /* PagesPerDayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagesPerDayPicker.swift; sourceTree = "<group>"; };
+		EA1E948525DE1C520057D122 /* GoalSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSummary.swift; sourceTree = "<group>"; };
+		EA1E948C25DE1CF20057D122 /* HasReadingGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasReadingGoal.swift; sourceTree = "<group>"; };
 		EA2CEDF325A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectedBookWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA2CEDF525A2C7E400EDE3AF /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		EA2CEDF725A2C7E400EDE3AF /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -169,6 +177,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA1E948B25DE1CD60057D122 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				EA1E948C25DE1CF20057D122 /* HasReadingGoal.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		EA2CEDF425A2C7E400EDE3AF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +258,7 @@
 			children = (
 				EAB2D18D248BF23400BAB4E2 /* AddBook.swift */,
 				EA3BC68225DB073A00DDED4D /* SetGoalScreen.swift */,
+				EA1E948025DE19B90057D122 /* PagesPerDayPicker.swift */,
 				EA56703A25C2289F00370FB4 /* LabeledInput.swift */,
 			);
 			path = "Add Book Screen";
@@ -251,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				EA8139F625B09512008CA8AC /* WebImage.swift */,
+				EA1E948525DE1C520057D122 /* GoalSummary.swift */,
 				EA0DC0DC25C22FAA00EA958F /* ProgressCircle.swift */,
 			);
 			path = "Shared Views";
@@ -282,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				EACB810A25A363050077873A /* Read Rate.entitlements */,
+				EA1E948B25DE1CD60057D122 /* Protocols */,
 				EAB2D18F248C180B00BAB4E2 /* Extensions */,
 				EAA9AEAE2485B76900030907 /* Models */,
 				EAA9AE9A2485A76100030907 /* AppDelegate.swift */,
@@ -468,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA1E948E25DE1CF20057D122 /* HasReadingGoal.swift in Sources */,
 				EA2CEE0025A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition in Sources */,
 				EAF7BA5A25D9A02800B93865 /* String.swift in Sources */,
 				EA6A14D725D6E5C300D32B56 /* Date.swift in Sources */,
@@ -487,6 +507,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAC5B85925B1E761003F1AD7 /* ISBNSearcher.swift in Sources */,
+				EA1E948F25DE1CF20057D122 /* HasReadingGoal.swift in Sources */,
 				EA2CEE2525A2C95200EDE3AF /* SelectedBookIntent.intentdefinition in Sources */,
 				EAF7BA5E25D9A02800B93865 /* String.swift in Sources */,
 				EA6A14D325D6E5B800D32B56 /* Double.swift in Sources */,
@@ -504,12 +525,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAB2B39A259E439800CC6024 /* CalendarIcon.swift in Sources */,
+				EA1E948125DE19B90057D122 /* PagesPerDayPicker.swift in Sources */,
 				EA2CEE0125A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition in Sources */,
 				EAA9AEB02485B77900030907 /* BookModel.swift in Sources */,
+				EA1E948D25DE1CF20057D122 /* HasReadingGoal.swift in Sources */,
 				EAE64A8224982D7600D8025B /* BookRow.swift in Sources */,
 				EA2CEE2D25A2CF3F00EDE3AF /* IntentHandler.swift in Sources */,
 				EAB2D18E248BF23400BAB4E2 /* AddBook.swift in Sources */,
 				EAF7BA5625D99FB900B93865 /* String.swift in Sources */,
+				EA1E948625DE1C520057D122 /* GoalSummary.swift in Sources */,
 				EAB2D18C24885C5D00BAB4E2 /* BookStore.swift in Sources */,
 				EAA9AE9B2485A76100030907 /* AppDelegate.swift in Sources */,
 				EA303C6925C22C9000B2E889 /* MatchingBook.swift in Sources */,

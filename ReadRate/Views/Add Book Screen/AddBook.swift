@@ -78,7 +78,7 @@ struct AddBook: View {
                         BigButton(label: "Add Manually", icon: "hand.tap")
                     }
                     .sheet(isPresented: $showingGoalSheet) {
-                        SetGoalScreen(startDate: $startDate, targetDate: $targetDate, mode: $mode, hasSetGoal: $hasSetGoal, readingRate: $readingRate, interimRate: interimRate)
+                        SetGoalScreen(startDate: $startDate, targetDate: $targetDate, mode: $mode, hasSetGoal: $hasSetGoal, readingRate: $readingRate, pageCount: Int(pageCount) ?? 0, currentPage: Int(currentPage) ?? 0)
                     }
                     Spacer(minLength: 0)
                 }
@@ -133,7 +133,11 @@ struct AddBook: View {
                 VStack(alignment: .leading) {
                     Text("Reading Goal")
                         .rounded(.callout)
-                    Text(hasSetGoal ? interimRate : "Not set").rounded(.body, bold: false)
+                    if hasSetGoal {
+                        GoalSummary(goalMode: mode, startDate: startDate, targetDate: targetDate, pageCount: Int(pageCount) ?? 0, currentPage: Int(currentPage) ?? 0, rateGoal: readingRate)
+                    } else {
+                        Text("Not set")
+                    }
                 }
                 Spacer()
                 Button(action: showGoalSheet, label: {
@@ -141,24 +145,6 @@ struct AddBook: View {
                 })
             }
             .padding(.vertical, 10.0)
-        }
-    }
-    
-    var interimRate: String {
-        switch mode {
-        case .date:
-            let days = Double(Calendar.current.dateComponents([.day], from: startDate, to: targetDate).day!) + 1
-            let pagesRemaining = Double(pageCount) ?? 0 - (Double(currentPage) ?? 0)
-            let pagesPerDay = (pagesRemaining / days).rounded()
-            if pagesPerDay.isFinite && !pagesPerDay.isNaN && days.isFinite && !days.isNaN {
-                return "\(Int(days)) \(days == 1 ? "day" : "days"), \(Int(pagesPerDay)) pages per day"
-            }
-            return "Invalid dates"
-        case .rate:
-            let daysOfReading = (Double(pageCount) ?? 0 - (Double(currentPage) ?? 0)) / Double(readingRate)
-            let daysToComplete = daysOfReading * 60 * 60 * 24
-            let finishEstimate = Date().addingTimeInterval(daysToComplete)
-            return "\(readingRate) pages per day (~\(finishEstimate.prettyPrinted(.short)))"
         }
     }
     
