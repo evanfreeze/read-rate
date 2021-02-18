@@ -13,12 +13,19 @@ struct DailyTargetMeta: Codable {
     var pageCount: Int
     var currentPage: Int
     var targetDate: Date
+    var rateGoal: Int?
+    var mode: GoalMode?
 }
 
 struct DailyTarget: Codable {
     var targetPage: Int
     var calcTime: Date
     var meta: DailyTargetMeta
+}
+
+enum GoalMode: String, Codable {
+    case date = "date"
+    case rate = "rate"
 }
 
 struct Book: Identifiable, Codable, Comparable {
@@ -47,8 +54,14 @@ struct Book: Identifiable, Codable, Comparable {
     var deletedAt: Date?
     var ISBN: String?
     var covers: ISBNBook.ISBNCover?
+    var mode: GoalMode?
+    var rateGoal: Int?
     
     // MARK: Computed Properties
+    var goalMode: GoalMode {
+        mode ?? .date
+    }
+    
     var isCompleted: Bool {
         completedAt != nil
     }
@@ -75,6 +88,15 @@ struct Book: Identifiable, Codable, Comparable {
             return Double(currentPage) / Double(pageCount)
         } else {
             return 0
+        }
+    }
+    
+    var floatingTargetDateAtRateGoal: Date? {
+        if goalMode == .rate {
+            let daysLeftAtTarget = Double(pageCount - currentPage) / Double(rateGoal!)
+            return Date().advanced(by: 60 * 60 * 24 * daysLeftAtTarget)
+        } else {
+            return nil
         }
     }
     
@@ -188,9 +210,23 @@ struct Book: Identifiable, Codable, Comparable {
         }
         
         let hasNotBeenUpdatedToday = !Calendar.current.isDateInToday(dailyTargets.last?.calcTime ?? Date().addingTimeInterval(60 * 60 * -48))
-        let targetDateChangedSinceLastUpdate = targetDate != dailyTargets.last?.meta.targetDate ?? targetDate
+        let goalModeChangedSinceLastUpdate = goalMode != dailyTargets.last?.meta.mode ?? goalMode
+        var goalInputsChangedSinceLastUpdate = false
         
-        return hasNotBeenUpdatedToday || targetDateChangedSinceLastUpdate
+        switch goalMode {
+        case .date:
+            let targetDateAtLastGoalCalculation = dailyTargets.last?.meta.targetDate ?? targetDate
+            if targetDate != targetDateAtLastGoalCalculation {
+                goalInputsChangedSinceLastUpdate = true
+            }
+        case .rate:
+            let rateGoalAtLastGoalCalculation = dailyTargets.last?.meta.rateGoal ?? rateGoal
+            if rateGoal! != rateGoalAtLastGoalCalculation {
+                goalInputsChangedSinceLastUpdate = true
+            }
+        }
+        
+        return hasNotBeenUpdatedToday || goalModeChangedSinceLastUpdate || goalInputsChangedSinceLastUpdate
     }
     
     var completedMonthYear: String {

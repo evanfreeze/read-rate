@@ -29,6 +29,7 @@
 		EA2CEE2D25A2CF3F00EDE3AF /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */; };
 		EA303C6925C22C9000B2E889 /* MatchingBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA303C6825C22C9000B2E889 /* MatchingBook.swift */; };
 		EA377398259B93F2008E9789 /* ArchivedBooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA377397259B93F2008E9789 /* ArchivedBooks.swift */; };
+		EA3BC68325DB073A00DDED4D /* SetGoalScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3BC68225DB073A00DDED4D /* SetGoalScreen.swift */; };
 		EA56703B25C2289F00370FB4 /* LabeledInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA56703A25C2289F00370FB4 /* LabeledInput.swift */; };
 		EA57CE6925D6FF43002E83CC /* BookHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57CE6825D6FF43002E83CC /* BookHeader.swift */; };
 		EA6A14CB25D6E54B00D32B56 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6A14CA25D6E54B00D32B56 /* Double.swift */; };
@@ -112,6 +113,7 @@
 		EA2CEE1B25A2C94700EDE3AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA303C6825C22C9000B2E889 /* MatchingBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingBook.swift; sourceTree = "<group>"; };
 		EA377397259B93F2008E9789 /* ArchivedBooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedBooks.swift; sourceTree = "<group>"; };
+		EA3BC68225DB073A00DDED4D /* SetGoalScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGoalScreen.swift; sourceTree = "<group>"; };
 		EA56703A25C2289F00370FB4 /* LabeledInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledInput.swift; sourceTree = "<group>"; };
 		EA57CE6825D6FF43002E83CC /* BookHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookHeader.swift; sourceTree = "<group>"; };
 		EA6A14CA25D6E54B00D32B56 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				EAB2D18D248BF23400BAB4E2 /* AddBook.swift */,
+				EA3BC68225DB073A00DDED4D /* SetGoalScreen.swift */,
 				EA56703A25C2289F00370FB4 /* LabeledInput.swift */,
 			);
 			path = "Add Book Screen";
@@ -523,6 +526,7 @@
 				EA8139F725B09512008CA8AC /* WebImage.swift in Sources */,
 				EAB2D18A2488574C00BAB4E2 /* BookDetails.swift in Sources */,
 				EAA1B69E25AE9284005D6374 /* ISBNSearcher.swift in Sources */,
+				EA3BC68325DB073A00DDED4D /* SetGoalScreen.swift in Sources */,
 				EA6A14E025D6E8CB00D32B56 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -562,7 +566,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelectedBookWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -587,7 +591,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelectedBookWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -610,7 +614,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelectedBookIntentsExtension/SelectedBookIntentsExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookIntentsExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -633,7 +637,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelectedBookIntentsExtension/SelectedBookIntentsExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookIntentsExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -774,7 +778,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ReadRate/Read Rate.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"ReadRate/Preview Content\"";
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				ENABLE_PREVIEWS = YES;
@@ -799,7 +803,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ReadRate/Read Rate.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"ReadRate/Preview Content\"";
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				ENABLE_PREVIEWS = YES;
