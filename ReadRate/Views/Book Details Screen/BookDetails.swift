@@ -200,7 +200,7 @@ struct BookDetail: View {
         
         let rateGoal = Binding<Int>(
             get: {
-                book.rateGoal!
+                book.rateGoal ?? 5
             },
             set: {
                 book.rateGoal = $0
