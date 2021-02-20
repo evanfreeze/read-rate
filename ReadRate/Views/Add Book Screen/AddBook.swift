@@ -159,7 +159,7 @@ struct AddBook: View {
             targetDate: self.targetDate,
             ISBN: isbn.cleanedNumeric(),
             mode: self.mode,
-            rateGoal: self.mode == .rate ? readingRate : nil
+            rateGoal: readingRate
         )
         
         if newBook.ISBN != nil && newBook.ISBN!.count > 0 {

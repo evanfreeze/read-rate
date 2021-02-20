@@ -221,7 +221,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
             }
         case .rate:
             let rateGoalAtLastGoalCalculation = dailyTargets.last?.meta.rateGoal ?? rateGoal
-            if rateGoal! != rateGoalAtLastGoalCalculation {
+            if rateGoal != rateGoalAtLastGoalCalculation {
                 goalInputsChangedSinceLastUpdate = true
             }
         }
