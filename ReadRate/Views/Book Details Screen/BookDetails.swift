@@ -160,25 +160,14 @@ struct BookDetail: View {
     var editRateGoal: some View {
         let rateGoal = Binding<Int>(
             get: {
-                book.rateGoal!
+                book.rateGoal ?? 5
             },
             set: {
                 book.rateGoal = $0
             }
         )
         
-        return Picker("How many pages per day?", selection: rateGoal) {
-            Text("5").tag(5)
-            Text("10").tag(10)
-            Text("15").tag(15)
-            Text("20").tag(20)
-            Text("25").tag(25)
-            Text("30").tag(30)
-            Text("50").tag(50)
-            Text("75").tag(75)
-            Text("100").tag(100)
-        }
-        .pickerStyle(WheelPickerStyle())
+        return PagesPerDayPicker(selection: rateGoal)
     }
     
     var editBookSheet: some View {
@@ -246,7 +235,7 @@ struct BookDetail: View {
                             Image(systemName: "arrow.forward.circle")
                         })
                         .sheet(isPresented: $showingGoalSheet) {
-                            SetGoalScreen(startDate: $book.startDate, targetDate: $book.targetDate, mode: bookGoalMode, hasSetGoal: .constant(true), readingRate: rateGoal, interimRate: interimRate)
+                            SetGoalScreen(startDate: $book.startDate, targetDate: $book.targetDate, mode: bookGoalMode, hasSetGoal: .constant(true), readingRate: rateGoal, pageCount: book.pageCount, currentPage: book.currentPage)
                         }
                     }
                     .padding(.vertical, 10.0)
@@ -294,24 +283,6 @@ struct BookDetail: View {
         }) {
             Image(systemName: "trash")
                 .foregroundColor(.red)
-        }
-    }
-    
-    var interimRate: String {
-        switch book.goalMode {
-        case .date:
-            let days = Double(Calendar.current.dateComponents([.day], from: book.startDate, to: book.targetDate).day!) + 1
-            let pagesRemaining = Double(book.pageCount) - Double(book.currentPage)
-            let pagesPerDay = (pagesRemaining / days).rounded()
-            if pagesPerDay.isFinite && !pagesPerDay.isNaN && days.isFinite && !days.isNaN {
-                return "\(Int(days)) \(days == 1 ? "day" : "days"), \(Int(pagesPerDay)) pages per day"
-            }
-            return "Invalid dates"
-        case .rate:
-            let daysOfReading = (Double(book.pageCount) - Double(book.currentPage)) / Double(book.rateGoal!)
-            let daysToComplete = daysOfReading * 60 * 60 * 24
-            let finishEstimate = Date().addingTimeInterval(daysToComplete)
-            return "\(book.rateGoal!) pages per day (~\(finishEstimate.prettyPrinted(.short)))"
         }
     }
     

@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             // Create the SwiftUI view that provides the window contents.
-            let contentView = NowReadingList(bookStore: bookStore)
+            let contentView = NowReadingList()
             window.rootViewController = UIHostingController(rootView: contentView)
             self.window = window
             window.makeKeyAndVisible()

@@ -97,25 +97,25 @@ struct ArchivedBooks: View {
     @ObservedObject var shelf: BookStore
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12.0) {
-            if shelf.archivedBooks.count > 0 {
-                ScrollView {
-                    ForEach(monthsWithBooks, id:\.self) { month in
-                        Section(header: MonthHeader(name: month, count: getBooksCompletedIn(month).count)) {
-                            ForEach(getBooksCompletedIn(month)) { book in
-                                ArchivedBook(book: book, shelf: shelf)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 12.0) {
+                if shelf.archivedBooks.count > 0 {
+                        ForEach(monthsWithBooks, id:\.self) { month in
+                            Section(header: MonthHeader(name: month, count: getBooksCompletedIn(month).count)) {
+                                ForEach(getBooksCompletedIn(month)) { book in
+                                    ArchivedBook(book: book, shelf: shelf)
+                                }
                             }
                         }
-                    }
+                } else {
+                    NoArchivedBooks()
                 }
-            } else {
-                NoArchivedBooks()
+                Spacer()
             }
-            Spacer()
+            .padding()
+            .navigationBarTitle("Archived Books")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding()
-        .navigationBarTitle("Archived Books")
-        .navigationBarTitleDisplayMode(.inline)
     }
     
     var monthsWithBooks: [String] {

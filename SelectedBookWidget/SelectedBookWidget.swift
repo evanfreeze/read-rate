@@ -66,15 +66,17 @@ struct Provider: IntentTimelineProvider {
 
     func getTimeline(for configuration: SelectedBookIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var selectedBooks = [Book]()
+        let bookStore = BookStore()
+        bookStore.setTodaysTargets()
         
         if let legacyBook = configuration.selectedBook as Any as? BookSelection  {
-            if let book = BookStore().activeBooks.first(where: { legacyBook.displayString == $0.title }) {
+            if let book = bookStore.activeBooks.first(where: { legacyBook.displayString == $0.title }) {
                 selectedBooks.append(book)
             }
         } else {
             if let selectedTitles = configuration.selectedBook?.map({ $0.displayString }) {
                 for title in selectedTitles {
-                    let book = BookStore().activeBooks.first(where: { title == $0.title })!
+                    let book = bookStore.activeBooks.first(where: { title == $0.title })!
                     selectedBooks.append(book)
                 }
             } else {
@@ -83,7 +85,8 @@ struct Provider: IntentTimelineProvider {
         }
         
         let entry = SimpleEntry(date: Date(), selectedDetails: configuration.details, selectedBooks: selectedBooks)
-        let timeline = Timeline(entries: [entry], policy: .never)
+        let tomorrowAtMidnight = Calendar.current.startOfDay(for: Date()).advanced(by: 60*60*24+60)
+        let timeline = Timeline(entries: [entry], policy: .after(tomorrowAtMidnight))
         
         completion(timeline)
     }

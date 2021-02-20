@@ -29,14 +29,19 @@ struct StyledButton: View {
 }
 
 struct NowReadingList: View {
-    @ObservedObject var bookStore: BookStore
+    @StateObject var bookStore = BookStore()
     @State var showSheet = false
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                Text("Now Reading").rounded(.largeTitle)
-                    .padding(.top, 20.0)
+                HStack(alignment: .center) {
+                    Image(systemName: "books.vertical").font(.title).foregroundColor(.accentColor)
+                    Text("Now Reading").rounded(.largeTitle)
+                }
+                .padding(.top, 30)
+                .padding(.bottom, 0)
+
                 if bookStore.activeBooks.count > 0 {
                     ScrollView {
                         ForEach(bookStore.activeBooks) { book in
@@ -44,9 +49,9 @@ struct NowReadingList: View {
                                 destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
                                 label: {
                                     BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
+                                        .padding(.bottom, 2)
                                 })
                         }
-                        .padding(.vertical, 2.0)
                     }
                 } else {
                     Spacer()

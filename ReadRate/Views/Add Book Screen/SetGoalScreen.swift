@@ -17,38 +17,41 @@ struct SetGoalScreen: View {
     var mode: Binding<GoalMode>
     var hasSetGoal: Binding<Bool>
     var readingRate: Binding<Int>
-    var interimRate: String
+    var pageCount: Int
+    var currentPage: Int
+    
     
     // MARK:- Body
     var body: some View {
         VStack() {
-            Text("Set Your Goal").rounded(.title).padding(.vertical, 8).padding(.top, 16)
             Form {
                 Section {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("Goal Type").rounded(.title3)
+                        Text("Set Your Reading Goal").rounded(.title2)
                         Picker("Which type of goal do you want to use for this book?", selection: mode) {
                             Text("Target Date").tag(GoalMode.date)
                             Text("Pages Per Day").tag(GoalMode.rate)
                         }
                         .pickerStyle(SegmentedPickerStyle())
+                        
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(modeTitle).rounded(.title3)
+                            Text(modeDescription).rounded(.callout, bold: false).foregroundColor(.secondary)
+                        }
+                        .padding(20)
+                        .padding(.bottom, 4)
+                        .background(Color("BookBG"))
+                        .cornerRadius(20)
                     }
                     .padding(.vertical)
-                }
-                
-                Section {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(modeTitle).rounded(.title3)
-                        Text(modeDescription).rounded(.callout, bold: false).foregroundColor(.secondary)
-                    }.padding(.vertical)
                     
                     goalForm
                 }
                 Section {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Your Goal").rounded(.title3)
-                        Text(interimRate)
-                            .rounded(.callout, bold: false).foregroundColor(.secondary)
+                        Text("Summary").rounded(.title3)
+                        GoalSummary(goalMode: mode.wrappedValue, startDate: startDate.wrappedValue, targetDate: targetDate.wrappedValue, pageCount: pageCount, currentPage: currentPage, rateGoal: readingRate.wrappedValue)
+                            .foregroundColor(.secondary)
                     }
                     .padding(.vertical)
                 }
@@ -94,7 +97,7 @@ struct SetGoalScreen: View {
             case .date:
                 targetDateGoalForm
             case .rate:
-                readingRateGoalForm
+                PagesPerDayPicker(selection: readingRate)
             }
         }
     }
@@ -119,28 +122,10 @@ struct SetGoalScreen: View {
             .padding(.vertical, 10)
         }
     }
-    
-    var readingRateGoalForm: some View {
-        Group {
-            Text("How many pages do you want to read per day?")
-            Picker("How many pages do you want to read per day?", selection: readingRate) {
-                Text("5").tag(5)
-                Text("10").tag(10)
-                Text("15").tag(15)
-                Text("20").tag(20)
-                Text("25").tag(25)
-                Text("30").tag(30)
-                Text("50").tag(50)
-                Text("75").tag(75)
-                Text("100").tag(100)
-            }
-            .pickerStyle(WheelPickerStyle())
-        }
-    }
 }
 
 struct SetGoalScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SetGoalScreen(startDate: .constant(Date()), targetDate: .constant(Date().advanced(by: 60*60*24*14)), mode: .constant(.date), hasSetGoal: .constant(false), readingRate: .constant(15), interimRate: "This is where the interim rate would go")
+        SetGoalScreen(startDate: .constant(Date()), targetDate: .constant(Date().advanced(by: 60*60*24*14)), mode: .constant(.date), hasSetGoal: .constant(false), readingRate: .constant(15), pageCount: 100, currentPage: 1)
     }
 }
