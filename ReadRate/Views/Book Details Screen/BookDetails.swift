@@ -85,6 +85,11 @@ struct BookDetail: View {
                             subtitle: nil
                         )
                     }
+                    
+                    Text(ISBNText)
+                        .rounded(.caption, bold: false)
+                        .foregroundColor(.secondary)
+                        .padding(.top, 8)
                 }
                 
                 HStack {
@@ -102,6 +107,10 @@ struct BookDetail: View {
         .navigationBarItems(trailing: deleteBookButton)
         .alert(isPresented: $showingDeleteAlert) { deleteBookAlert }
         .sheet(isPresented: $showingEditSheet) { editBookSheet }
+    }
+    
+    var ISBNText: String {
+        book.ISBN != "" && book.ISBN != nil ? "ISBN: \(book.ISBN!)" : "No ISBN Entered"
     }
     
     var archiveButton: some View {

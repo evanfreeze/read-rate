@@ -26,11 +26,6 @@ struct BookHeader: View {
                     .rounded(.title2)
                     .foregroundColor(.secondary)
                 
-                Text(ISBNText)
-                    .rounded(.caption, bold: false)
-                    .foregroundColor(.secondary)
-                    .padding(.top, 8)
-                
                 Divider().padding(.vertical, 8)
                 
                 Text(startedText)
@@ -39,10 +34,6 @@ struct BookHeader: View {
             }
             Spacer()
         }
-    }
-    
-    var ISBNText: String {
-        book.ISBN != "" && book.ISBN != nil ? "ISBN: \(book.ISBN!)" : "Unknown ISBN"
     }
     
     var startedText: String {
