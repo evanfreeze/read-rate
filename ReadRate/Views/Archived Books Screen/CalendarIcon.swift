@@ -14,19 +14,21 @@ struct CalendarIcon: View {
     let headerColor: Color
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center, spacing: 0) {
             Text(month)
                 .rounded()
                 .frame(width: 40, height: 24)
                 .foregroundColor(.white)
                 .padding(.horizontal, 10)
                 .background(headerColor)
+                .dynamicTypeSize(.medium)
             Text(day)
                 .rounded(.title)
-                .frame(width: 40)
+                .frame(width: 39)
                 .padding(.horizontal, 10)
                 .padding(.bottom, 3)
                 .background(Color("CalBG"))
+                .dynamicTypeSize(.medium)
         }
         .cornerRadius(8)
         .shadow(radius: 3)
