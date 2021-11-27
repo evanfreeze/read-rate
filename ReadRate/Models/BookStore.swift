@@ -19,11 +19,6 @@ var bookThree = Book(id: UUID(), title: "Frankenstein", author: "Mary Shelley", 
 var bookFour = Book(id: UUID(), title: "Little Women", author: "Louisa May Alcott", pageCount: 320, currentPage: 190, startDate: Date(), targetDate: Date().advanced(by: TimeInterval(60*60*24*4)), dailyTargets: [DailyTarget(targetPage: 222, calcTime: Date(), meta: DailyTargetMeta(pageCount: 10, currentPage: 1, targetDate: Date().advanced(by: TimeInterval(60*60*24*2))))], archivedAt: nil, completedAt: nil, deletedAt: nil, ISBN: nil, covers: nil)
 
 class BookStore: ObservableObject {
-    let bookStoreURL = URL(
-        fileURLWithPath: "BookStore",
-        relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    ).appendingPathExtension("json")
-    
     let appGroupURL = URL(fileURLWithPath: "BookStore", relativeTo: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.evanfreeze.ReadRate")).appendingPathExtension("json")
     
     @Published var books: [Book] = [] {
@@ -42,7 +37,6 @@ class BookStore: ObservableObject {
     }
     
     init() {
-        print(bookStoreURL)
         print(appGroupURL)
         loadBookStoreJSON()
     }
@@ -58,19 +52,6 @@ class BookStore: ObservableObject {
                 print(error)
             }
         }
-        
-        guard FileManager.default.fileExists(atPath: bookStoreURL.path) else {
-            return
-        }
-        
-        do {
-            print("loading from document directory")
-            let bookStoreData = try Data(contentsOf: bookStoreURL)
-            books = try JSONDecoder().decode([Book].self, from: bookStoreData)
-            print(books)
-        } catch let error {
-            print(error)
-        }
     }
     
     private func saveBookStoreJSON() {
@@ -79,7 +60,6 @@ class BookStore: ObservableObject {
             encoder.outputFormatting = .prettyPrinted
             
             let bookStoreJSON = try encoder.encode(books)
-            try bookStoreJSON.write(to: bookStoreURL, options: .atomicWrite)
             try bookStoreJSON.write(to: appGroupURL, options: .atomicWrite)
         } catch let error {
             print(error)
