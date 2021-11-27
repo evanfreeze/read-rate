@@ -86,7 +86,7 @@ struct AddBook: View {
                 
                 if showingForm {
                     manualEntryForm
-                        .animation(.easeInOut)
+                        .animation(.easeInOut, value: 1)
                         .transition(.opacity)
                     
                     if hasSetGoal {

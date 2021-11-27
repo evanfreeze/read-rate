@@ -38,6 +38,16 @@ struct Provider: IntentTimelineProvider {
                     books += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
                 }
             }
+        case .systemExtraLarge:
+            if store.activeBooks.count >= 4 {
+                books = Array(store.activeBooks.prefix(4))
+            } else {
+                books += store.activeBooks
+                if withPlaceholders {
+                    let placeholdersNeeded = 4 - store.activeBooks.count
+                    books += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
+                }
+            }
         @unknown default:
             books = store.activeBooks
         }
