@@ -23,13 +23,16 @@ struct BookRow: View {
                     Text(book.title)
                         .rounded(.title2)
                         .foregroundColor(.primary)
+                        .multilineTextAlignment(.leading)
                     Text(book.author)
                         .rounded(.subheadline)
                         .foregroundColor(.secondary)
+                        .multilineTextAlignment(.leading)
                 }
                 Text(book.progressDescription)
                     .foregroundColor(.secondary)
                     .rounded(.caption, bold: false)
+                    .multilineTextAlignment(.leading)
             }
             Spacer(minLength: 0)
         }
