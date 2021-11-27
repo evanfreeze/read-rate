@@ -24,7 +24,7 @@ struct CalendarIcon: View {
                 .dynamicTypeSize(.medium)
             Text(day)
                 .rounded(.title)
-                .frame(width: 39)
+                .frame(width: 40)
                 .padding(.horizontal, 10)
                 .padding(.bottom, 3)
                 .background(Color("CalBG"))
