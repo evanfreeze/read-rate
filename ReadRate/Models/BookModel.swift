@@ -79,6 +79,11 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
         Date() < startDate && !Calendar.current.isDateInToday(startDate)
     }
     
+    var isOverdue: Bool {
+        // Target date has already passed and the book isn't finished, so a new target date needs to be picked
+        Date() > targetDate && !isCompleted
+    }
+    
     var readEnoughToday: Bool {
         currentPage >= dailyTargets.last?.targetPage ?? pageCount
     }
@@ -143,6 +148,8 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
             return "You finished the book — congrats!"
         } else if readEnoughToday {
             return "You've read enough today to stay on track"
+        } else if isOverdue {
+            return "Pick a new target date to get back on track"
         } else {
             return "Read to page \(dailyTargets.last?.targetPage ?? pageCount) today to stay on track"
         }
@@ -155,6 +162,8 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
             return "You finished the book!"
         } else if readEnoughToday {
             return "Read enough today"
+        } else if isOverdue {
+            return "Target date passed"
         } else {
             return "Read to page \(dailyTargets.last?.targetPage ?? pageCount)"
         }
@@ -177,6 +186,8 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
             return .yellow
         } else if readEnoughToday {
             return .green
+        } else if isOverdue {
+            return .gray
         } else {
             return .accentColor
         }
@@ -194,6 +205,10 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
                     .font(Font.system(.body).bold())
             } else if readEnoughToday {
                 Image(systemName: "checkmark")
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body).bold())
+            } else if isOverdue {
+                Image(systemName: "exclamationmark.triangle.fill")
                     .foregroundColor(progressColor)
                     .font(Font.system(.body).bold())
             } else {
