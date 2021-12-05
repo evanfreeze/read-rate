@@ -67,6 +67,8 @@ class BookStore: ObservableObject {
     }
     
     public func setTodaysTargets() {
+        loadBookStoreJSON()
+        
         print("setting today's target pages")
         
         guard activeBooks.count > 0 else {

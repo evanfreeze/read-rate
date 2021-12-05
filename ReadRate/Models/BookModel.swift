@@ -133,7 +133,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     var displayLastGoalCalculatedDate: String {
         if let lastCalculatedDate = dailyTargets.last?.calcTime {
             let formatter = DateFormatter()
-            formatter.dateStyle = .none
+            formatter.dateStyle = .medium
             formatter.timeStyle = .short
             return formatter.string(from: lastCalculatedDate)
         } else {

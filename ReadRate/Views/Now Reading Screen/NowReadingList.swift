@@ -82,7 +82,7 @@ struct NowReadingList: View {
                         StyledButton(iconName: "archivebox", label: "Archived Books", bgColor: Color("BookBG"))
                     }
                     Button(action: {
-                        self.showSheet = true
+                        showSheet = true
                     }) {
                         StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
                     }
@@ -92,13 +92,16 @@ struct NowReadingList: View {
             }
             .padding(.horizontal, 18.0)
             .onAppear() {
-                self.bookStore.setTodaysTargets()
+                bookStore.setTodaysTargets()
             }
             .navigationBarHidden(true)
             .navigationTitle("Now Reading")
         }
-        .sheet(isPresented: $showSheet, onDismiss: { self.bookStore.setTodaysTargets() }) {
-            AddBook(bookStore: self.bookStore)
+        .sheet(isPresented: $showSheet, onDismiss: { bookStore.setTodaysTargets() }) {
+            AddBook(bookStore: bookStore)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            bookStore.setTodaysTargets()
         }
     }
 }
