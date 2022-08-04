@@ -146,10 +146,10 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
             return "Start reading on \(startDate.prettyPrinted())"
         } else if currentPage == pageCount {
             return "You finished the book — congrats!"
-        } else if readEnoughToday {
-            return "You've read enough today to stay on track"
         } else if isOverdue {
             return "Pick a new target date to get back on track"
+        } else if readEnoughToday {
+            return "You've read enough today to stay on track"
         } else {
             return "Read to page \(dailyTargets.last?.targetPage ?? pageCount) today to stay on track"
         }
@@ -160,10 +160,10 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
             return "Starting \(startDate.prettyPrinted(.short))"
         } else if currentPage >= pageCount {
             return "You finished the book!"
-        } else if readEnoughToday {
-            return "Read enough today"
         } else if isOverdue {
             return "Target date passed"
+        } else if readEnoughToday {
+            return "Read enough today"
         } else {
             return "Read to page \(dailyTargets.last?.targetPage ?? pageCount)"
         }
@@ -184,10 +184,10 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
             return .gray
         } else if currentPage == pageCount {
             return .yellow
-        } else if readEnoughToday {
-            return .green
         } else if isOverdue {
             return .gray
+        } else if readEnoughToday {
+            return .green
         } else {
             return .accentColor
         }
@@ -203,12 +203,12 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
                 Image(systemName: "star.fill")
                     .foregroundColor(progressColor)
                     .font(Font.system(.body).bold())
-            } else if readEnoughToday {
-                Image(systemName: "checkmark")
-                    .foregroundColor(progressColor)
-                    .font(Font.system(.body).bold())
             } else if isOverdue {
                 Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundColor(progressColor)
+                    .font(Font.system(.body).bold())
+            } else if readEnoughToday {
+                Image(systemName: "checkmark")
                     .foregroundColor(progressColor)
                     .font(Font.system(.body).bold())
             } else {
