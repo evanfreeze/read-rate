@@ -81,7 +81,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     
     var isOverdue: Bool {
         // Target date has already passed and the book isn't finished, so a new target date needs to be picked
-        Date() > targetDate && !isCompleted
+        Date() > targetDate && !isCompleted && goalMode == .date
     }
     
     var readEnoughToday: Bool {
