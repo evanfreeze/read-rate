@@ -105,6 +105,10 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
         }
     }
     
+    var pagesRemainingToday: Int {
+        (dailyTargets.last?.targetPage ?? pageCount) - currentPage
+    }
+    
     var displayPagesRemainingToday: String {
         String((dailyTargets.last?.targetPage ?? pageCount) - currentPage)
     }

@@ -23,12 +23,12 @@
 		EA2CEDFE25A2C7E400EDE3AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA2CEDFD25A2C7E400EDE3AF /* Assets.xcassets */; };
 		EA2CEE0025A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFC25A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition */; };
 		EA2CEE0125A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFC25A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition */; };
-		EA2CEE0425A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EA2CEDF325A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EA2CEE0425A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EA2CEDF325A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EA2CEE0B25A2C80900EDE3AF /* BookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2D18B24885C5D00BAB4E2 /* BookStore.swift */; };
 		EA2CEE0C25A2C80900EDE3AF /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA9AEAF2485B77900030907 /* BookModel.swift */; };
 		EA2CEE1725A2C94700EDE3AF /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2CEE1625A2C94700EDE3AF /* Intents.framework */; };
 		EA2CEE1A25A2C94700EDE3AF /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */; };
-		EA2CEE1E25A2C94700EDE3AF /* SelectedBookIntentsExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EA2CEE1525A2C94700EDE3AF /* SelectedBookIntentsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EA2CEE1E25A2C94700EDE3AF /* SelectedBookIntentsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EA2CEE1525A2C94700EDE3AF /* SelectedBookIntentsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EA2CEE2525A2C95200EDE3AF /* SelectedBookIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEDFC25A2C7E400EDE3AF /* SelectedBookIntent.intentdefinition */; };
 		EA2CEE2925A2CF3F00EDE3AF /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */; };
 		EA2CEE2D25A2CF3F00EDE3AF /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2CEE1925A2C94700EDE3AF /* IntentHandler.swift */; };
@@ -87,16 +87,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		EA2CEE0525A2C7E400EDE3AF /* Embed App Extensions */ = {
+		EA2CEE0525A2C7E400EDE3AF /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				EA2CEE1E25A2C94700EDE3AF /* SelectedBookIntentsExtension.appex in Embed App Extensions */,
-				EA2CEE0425A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex in Embed App Extensions */,
+				EA2CEE1E25A2C94700EDE3AF /* SelectedBookIntentsExtension.appex in Embed Foundation Extensions */,
+				EA2CEE0425A2C7E400EDE3AF /* SelectedBookWidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -400,7 +400,7 @@
 				EAA9AE932485A76100030907 /* Sources */,
 				EAA9AE942485A76100030907 /* Frameworks */,
 				EAA9AE952485A76100030907 /* Resources */,
-				EA2CEE0525A2C7E400EDE3AF /* Embed App Extensions */,
+				EA2CEE0525A2C7E400EDE3AF /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -420,7 +420,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Evan Freeze";
 				TargetAttributes = {
 					EA2CEDF225A2C7E400EDE3AF = {

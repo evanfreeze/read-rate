@@ -15,9 +15,11 @@ struct Provider: IntentTimelineProvider {
         var books = [Book]()
         let store = BookStore()
         
+        let firstBookOrSample = [store.activeBooks.first ?? BookStore.generateRandomSampleBooks().first!]
+        
         switch family {
         case .systemSmall:
-            books = [store.activeBooks.first ?? BookStore.generateRandomSampleBooks().first!]
+            books = firstBookOrSample
         case .systemMedium:
             if store.activeBooks.count >= 2 {
                 books = Array(store.activeBooks.prefix(2))
@@ -48,6 +50,12 @@ struct Provider: IntentTimelineProvider {
                     books += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
                 }
             }
+        case .accessoryCircular:
+            books = firstBookOrSample
+        case .accessoryRectangular:
+            books = firstBookOrSample
+        case .accessoryInline:
+            books = store.activeBooks ?? BookStore.generateRandomSampleBooks()
         @unknown default:
             books = store.activeBooks
         }
@@ -181,6 +189,63 @@ struct RowBookView: View {
     }
 }
 
+struct AccessoryInlineView: View {
+    let books: [Book]
+    
+    var body: some View {
+        let (pageCount, bookCount) = getPagesInBooksRemaining(in: books)
+        let pageWord = pageCount == 1 ? "page" : "pages"
+        let bookWord = bookCount == 1 ? "book" : "books"
+        
+        if (pageCount > 0) {
+            return Text("📖 \(pageCount) \(pageWord) in \(bookCount) \(bookWord)")
+        }
+        return Text("☑️ Read enough")
+    }
+    
+    func getPagesInBooksRemaining(in books: [Book]) -> (Int, Int) {
+        let pageCounts = books.map{
+            (book) -> Int in
+                return book.pagesRemainingToday
+        }
+        return (pageCounts.reduce(0, +), books.count)
+    }
+}
+
+struct AccessoryCircularView: View {
+    let book: Book
+    
+    var body: some View {
+        ProgressCircle(
+            progress: book.progressBarFillAmount,
+            progressColor: book.progressColor,
+            centerContent: book.progressIcon
+        )
+    }
+}
+
+struct AccessoryRectangleView: View {
+    let book: Book
+    let selectedDetails: WidgetDetails
+    
+    var body: some View {
+        HStack {
+            ProgressView(value: book.progressBarFillAmount, total: 1.0) {
+                book.progressIcon
+            }
+                .progressViewStyle(.circular)
+                .frame(width: 40, height: 40)
+            
+            
+            VStack(alignment: .leading) {
+                Text(book.title).rounded().lineSpacing(-2).lineLimit(2)
+                Text(getWidgetDetails(for: selectedDetails, book: book)).font(.footnote).rounded().lineLimit(1).truncationMode(.tail)
+            }
+            Spacer(minLength: 0)
+        }
+    }
+}
+
 struct SelectedBookWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
     var entry: Provider.Entry
@@ -194,6 +259,12 @@ struct SelectedBookWidgetEntryView : View {
                     selectedDetails: entry.selectedDetails
                 )
                 .padding()
+            case .accessoryInline:
+                AccessoryInlineView(books: entry.selectedBooks)
+            case .accessoryCircular:
+                AccessoryCircularView(book: entry.selectedBooks.first!)
+            case .accessoryRectangular:
+                AccessoryRectangleView(book: entry.selectedBooks.first!, selectedDetails: entry.selectedDetails)
             default:
                 VStack(spacing: 1.0) {
                     Spacer()
@@ -216,14 +287,25 @@ struct SelectedBookWidgetEntryView : View {
 @main
 struct SelectedBookWidget: Widget {
     let kind: String = "SelectedBookWidget"
+    let enableLockScreenWidgets = false
+    
+    let getWidgetFamilies: () -> [WidgetFamily] = {
+        let families: [WidgetFamily] = [.systemSmall, .systemMedium, .systemLarge]
+        if #available(iOSApplicationExtension 16.0, *) {
+            let accessoryFamilies: [WidgetFamily] = [.accessoryInline, .accessoryCircular, .accessoryRectangular]
+            return families + accessoryFamilies
+        } else {
+            return families
+        }
+    }
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: SelectedBookIntent.self, provider: Provider()) { entry in
-            SelectedBookWidgetEntryView(entry: entry)
-        }
-        .configurationDisplayName("Book Progress")
-        .description("Track a book's progress and choose which information appears")
-        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+            IntentConfiguration(kind: kind, intent: SelectedBookIntent.self, provider: Provider()) { entry in
+                SelectedBookWidgetEntryView(entry: entry)
+            }
+            .configurationDisplayName("Book Progress")
+            .description("Track a book's progress and choose which information appears")
+            .supportedFamilies(getWidgetFamilies())
     }
 }
 
@@ -238,6 +320,17 @@ struct SelectedBookWidget_Previews: PreviewProvider {
             
             SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: [bookThree, bookTwo, bookOne, bookFour]))
                 .previewContext(WidgetPreviewContext(family: .systemLarge))
+            
+            if #available(iOSApplicationExtension 16.0, *) {
+                SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: [bookOne]))
+                    .previewContext(WidgetPreviewContext(family: .accessoryCircular))
+                SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: [bookOne]))
+                    .previewContext(WidgetPreviewContext(family: .accessoryInline))
+                
+                SelectedBookWidgetEntryView(entry: SimpleEntry(date: Date(), selectedDetails: .todaysTarget, selectedBooks: [bookOne]))
+                    .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
+            }
+
         }
     }
 }
