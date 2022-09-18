@@ -55,7 +55,7 @@ struct Provider: IntentTimelineProvider {
         case .accessoryRectangular:
             books = firstBookOrSample
         case .accessoryInline:
-            books = store.activeBooks ?? BookStore.generateRandomSampleBooks()
+            books = store.activeBooks
         @unknown default:
             books = store.activeBooks
         }
@@ -206,9 +206,13 @@ struct AccessoryInlineView: View {
     func getPagesInBooksRemaining(in books: [Book]) -> (Int, Int) {
         let pageCounts = books.map{
             (book) -> Int in
-                return book.pagesRemainingToday
+            return book.readEnoughToday ? 0 : book.pagesRemainingToday
         }
-        return (pageCounts.reduce(0, +), books.count)
+        let bookCount = books.filter{
+            (book) -> Bool in
+            return !book.readEnoughToday
+        }.count
+        return (pageCounts.reduce(0, +), bookCount)
     }
 }
 
