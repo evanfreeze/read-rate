@@ -24,7 +24,7 @@ struct BookDetail: View {
     @State private var fetchStatus: FetchStatus = .idle
     
     var goalSubtitle: String? {
-        if book.readEnoughToday || book.isCompleted || book.isNotStarted {
+        if book.readEnoughToday || book.isCompleted || book.isFuture {
             return nil
         } else {
             return "Goal last calculated at \(book.displayLastGoalCalculatedDate)"

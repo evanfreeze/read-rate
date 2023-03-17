@@ -102,7 +102,7 @@ struct Provider: IntentTimelineProvider {
             }
         }
         
-        let entry = SimpleEntry(date: Date(), selectedDetails: configuration.details, selectedBooks: selectedBooks)
+        let entry = SimpleEntry(date: Date(), selectedDetails: configuration.details, selectedBooks: selectedBooks.filter { book in !book.isFuture })
         let tomorrowAtMidnight = Calendar.current.startOfDay(for: Date()).advanced(by: 60*60*24+60)
         let timeline = Timeline(entries: [entry], policy: .after(tomorrowAtMidnight))
         

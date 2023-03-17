@@ -74,7 +74,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
         deletedAt != nil
     }
     
-    var isNotStarted: Bool {
+    var isFuture: Bool {
         // In the future and also not in the current day
         Date() < startDate && !Calendar.current.isDateInToday(startDate)
     }
@@ -146,7 +146,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     }
     
     var progressDescription: String {
-        if isNotStarted {
+        if isFuture {
             return "Start reading on \(startDate.prettyPrinted())"
         } else if currentPage == pageCount {
             return "You finished the book — congrats!"
@@ -160,7 +160,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     }
     
     var progressDescriptionShort: String {
-        if isNotStarted {
+        if isFuture {
             return "Starting \(startDate.prettyPrinted(.short))"
         } else if currentPage >= pageCount {
             return "You finished the book!"
@@ -184,7 +184,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     }
     
     var progressColor: Color {
-        if isNotStarted {
+        if isFuture {
             return .gray
         } else if currentPage == pageCount {
             return .yellow
@@ -199,7 +199,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     
     var progressIcon: some View {
         Group {
-            if isNotStarted {
+            if isFuture {
                 Image(systemName: "calendar")
                     .foregroundColor(progressColor)
                     .font(Font.system(.body).bold())
@@ -224,7 +224,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     }
     
     var needsTargetUpdate: Bool {
-        if isCompleted || isArchived || isDeleted || isNotStarted {
+        if isCompleted || isArchived || isDeleted || isFuture {
             return false
         }
         
@@ -261,7 +261,7 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
         let pagesRemaining = Double(pageCount - currentPage)
         var pagesPerDay: Double
         
-        if isNotStarted {
+        if isFuture {
             pagesPerDay = 0
         } else {
             pagesPerDay = pagesRemaining / getReadingDaysFromDates(start: Date())

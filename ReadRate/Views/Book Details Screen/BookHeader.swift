@@ -37,7 +37,7 @@ struct BookHeader: View {
     }
     
     var startedText: String {
-        "\(book.isNotStarted ? "Starting" : "Started") on \(book.startDate.prettyPrinted())"
+        "\(book.isFuture ? "Starting" : "Started") on \(book.startDate.prettyPrinted())"
     }
 }
 
