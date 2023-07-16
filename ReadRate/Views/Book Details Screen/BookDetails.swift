@@ -128,7 +128,7 @@ struct BookDetail: View {
     var editCurrentPage: some View {
         Group {
             Picker("", selection: $book.currentPage) {
-                ForEach(0..<book.pageCount + 1) {
+                ForEach(0..<book.pageCount + 1, id: \.self) {
                     Text(String($0)).tag($0)
                 }
             }

@@ -250,6 +250,18 @@ struct AccessoryRectangleView: View {
     }
 }
 
+extension View {
+    func widgetBackground(backgroundView: some View) -> some View {
+        if #available(iOSApplicationExtension 17.0, *) {
+            return containerBackground(for: .widget) {
+                backgroundView
+            }
+        } else {
+            return background(backgroundView)
+        }
+    }
+}
+
 struct SelectedBookWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
     var entry: Provider.Entry
@@ -284,7 +296,7 @@ struct SelectedBookWidgetEntryView : View {
                 }
                 .padding()
             }
-        }
+        }.widgetBackground(backgroundView: Color("BookBG"))
     }
 }
 
@@ -310,6 +322,7 @@ struct SelectedBookWidget: Widget {
             .configurationDisplayName("Book Progress")
             .description("Track a book's progress and choose which information appears")
             .supportedFamilies(getWidgetFamilies())
+            .contentMarginsDisabled()
     }
 }
 
