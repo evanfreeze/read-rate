@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ProgressCircle<T: View>: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     let progress: Double
     let progressColor: Color
     let centerContent: T
@@ -20,7 +22,7 @@ struct ProgressCircle<T: View>: View {
         ZStack {
             Circle()
                 .stroke(lineWidth: circleLineWidth)
-                .opacity(0.1)
+                .opacity(colorScheme == .dark ? 0.3 : 0.1)
                 .foregroundColor(progressColor)
                 .frame(width: circleProgressSize, height: circleProgressSize)
             Circle()
