@@ -11,56 +11,57 @@ import SwiftUI
 import Intents
 
 struct Provider: IntentTimelineProvider {
+    let shelf = BookStore()
+    
     func getBooksForWidgetFamily(for family: WidgetFamily, withPlaceholders: Bool) -> [Book] {
-        var books = [Book]()
-        let store = BookStore()
+        var booksForWidget = [Book]()
         
-        let firstBookOrSample = [store.activeBooks.first ?? BookStore.generateRandomSampleBooks().first!]
+        let firstBookOrSample = [shelf.activeBooks.first ?? BookStore.generateRandomSampleBooks().first!]
         
         switch family {
         case .systemSmall:
-            books = firstBookOrSample
+            booksForWidget = firstBookOrSample
         case .systemMedium:
-            if store.activeBooks.count >= 2 {
-                books = Array(store.activeBooks.prefix(2))
+            if shelf.activeBooks.count >= 2 {
+                booksForWidget = Array(shelf.activeBooks.prefix(2))
             } else {
-                books += store.activeBooks
+                booksForWidget += shelf.activeBooks
                 if withPlaceholders {
-                    let placeholdersNeeded = 2 - store.activeBooks.count
-                    books += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
+                    let placeholdersNeeded = 2 - shelf.activeBooks.count
+                    booksForWidget += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
                 }
             }
         case .systemLarge:
-            if store.activeBooks.count >= 4 {
-                books = Array(store.activeBooks.prefix(4))
+            if shelf.activeBooks.count >= 4 {
+                booksForWidget = Array(shelf.activeBooks.prefix(4))
             } else {
-                books += store.activeBooks
+                booksForWidget += shelf.activeBooks
                 if withPlaceholders {
-                    let placeholdersNeeded = 4 - store.activeBooks.count
-                    books += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
+                    let placeholdersNeeded = 4 - shelf.activeBooks.count
+                    booksForWidget += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
                 }
             }
         case .systemExtraLarge:
-            if store.activeBooks.count >= 4 {
-                books = Array(store.activeBooks.prefix(4))
+            if shelf.activeBooks.count >= 4 {
+                booksForWidget = Array(shelf.activeBooks.prefix(4))
             } else {
-                books += store.activeBooks
+                booksForWidget += shelf.activeBooks
                 if withPlaceholders {
-                    let placeholdersNeeded = 4 - store.activeBooks.count
-                    books += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
+                    let placeholdersNeeded = 4 - shelf.activeBooks.count
+                    booksForWidget += BookStore.generateRandomSampleBooks().prefix(placeholdersNeeded)
                 }
             }
         case .accessoryCircular:
-            books = firstBookOrSample
+            booksForWidget = firstBookOrSample
         case .accessoryRectangular:
-            books = firstBookOrSample
+            booksForWidget = firstBookOrSample
         case .accessoryInline:
-            books = store.activeBooks
+            booksForWidget = shelf.activeBooks
         @unknown default:
-            books = store.activeBooks
+            booksForWidget = shelf.activeBooks
         }
         
-        return books
+        return booksForWidget
     }
     
     func placeholder(in context: Context) -> SimpleEntry {
@@ -72,7 +73,7 @@ struct Provider: IntentTimelineProvider {
         var selectedBooks = [Book]()
         
         if let selectedTitles = configuration.selectedBook?.map({ $0.displayString }) {
-            selectedBooks = BookStore().books.filter({ selectedTitles.contains($0.title) })
+            selectedBooks = shelf.books.filter({ selectedTitles.contains($0.title) })
         } else {
             selectedBooks = getBooksForWidgetFamily(for: context.family, withPlaceholders: true)
         }
@@ -83,18 +84,17 @@ struct Provider: IntentTimelineProvider {
     }
 
     func getTimeline(for configuration: SelectedBookIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        shelf.readBooksAndSyncFromJSON()
         var selectedBooks = [Book]()
-        let bookStore = BookStore()
-        bookStore.setTodaysTargets()
         
         if let legacyBook = configuration.selectedBook as Any as? BookSelection  {
-            if let book = bookStore.activeBooks.first(where: { legacyBook.displayString == $0.title }) {
+            if let book = shelf.activeBooks.first(where: { legacyBook.displayString == $0.title }) {
                 selectedBooks.append(book)
             }
         } else {
             if let selectedTitles = configuration.selectedBook?.map({ $0.displayString }) {
                 for title in selectedTitles {
-                    let book = bookStore.activeBooks.first(where: { title == $0.title })!
+                    let book = shelf.activeBooks.first(where: { title == $0.title })!
                     selectedBooks.append(book)
                 }
             } else {
@@ -274,7 +274,6 @@ struct SelectedBookWidgetEntryView : View {
                     book: entry.selectedBooks.first!,
                     selectedDetails: entry.selectedDetails
                 )
-                .padding()
             case .accessoryInline:
                 AccessoryInlineView(books: entry.selectedBooks)
             case .accessoryCircular:
@@ -294,9 +293,8 @@ struct SelectedBookWidgetEntryView : View {
                     }
                     Spacer()
                 }
-                .padding()
             }
-        }.widgetBackground(backgroundView: Color("BookBG"))
+        }.widgetBackground(backgroundView: Color(.systemBackground))
     }
 }
 
@@ -322,7 +320,6 @@ struct SelectedBookWidget: Widget {
             .configurationDisplayName("Book Progress")
             .description("Track a book's progress and choose which information appears")
             .supportedFamilies(getWidgetFamilies())
-            .contentMarginsDisabled()
     }
 }
 
