@@ -23,8 +23,7 @@ class BookStore: ObservableObject {
     
     @Published var books: [Book] = [] {
         didSet {
-            saveBookStoreJSON()
-            WidgetCenter.shared.reloadAllTimelines()
+            writeBooksToJSON()
         }
     }
     
@@ -38,13 +37,12 @@ class BookStore: ObservableObject {
     
     init() {
         print(appGroupURL)
-        loadBookStoreJSON()
+        readBooksAndSyncFromJSON()
     }
     
-    private func loadBookStoreJSON() {
+    public func readBooksAndSyncFromJSON() {
         if FileManager.default.fileExists(atPath: appGroupURL.path) {
             do {
-                print("loading from app group...")
                 let bookStoreData = try Data(contentsOf: appGroupURL)
                 books = try JSONDecoder().decode([Book].self, from: bookStoreData)
                 return
@@ -54,7 +52,7 @@ class BookStore: ObservableObject {
         }
     }
     
-    private func saveBookStoreJSON() {
+    private func writeBooksToJSON() {
         do {
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
@@ -67,10 +65,6 @@ class BookStore: ObservableObject {
     }
     
     public func setTodaysTargets() {
-        loadBookStoreJSON()
-        
-        print("setting today's target pages")
-        
         guard activeBooks.count > 0 else {
             return
         }
