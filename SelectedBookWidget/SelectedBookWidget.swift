@@ -262,6 +262,16 @@ extension View {
     }
 }
 
+extension View {
+    func widgetPadding() -> some View {
+        if #available(iOSApplicationExtension 17.0, *) {
+            return padding(0)
+        } else {
+            return padding()
+        }
+    }
+}
+
 struct SelectedBookWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
     var entry: Provider.Entry
@@ -274,6 +284,7 @@ struct SelectedBookWidgetEntryView : View {
                     book: entry.selectedBooks.first!,
                     selectedDetails: entry.selectedDetails
                 )
+                .widgetPadding()
             case .accessoryInline:
                 AccessoryInlineView(books: entry.selectedBooks)
             case .accessoryCircular:
@@ -293,6 +304,7 @@ struct SelectedBookWidgetEntryView : View {
                     }
                     Spacer()
                 }
+                .widgetPadding()
             }
         }.widgetBackground(backgroundView: Color(.systemBackground))
     }
