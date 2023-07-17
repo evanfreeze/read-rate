@@ -16,6 +16,7 @@ struct BookHeader: View {
         HStack {
             WebImage(url: book.covers?.medium ?? "")
                 .scaledToFit()
+                .cornerRadius(6.0)
                 .frame(width: 80)
                 .padding()
             VStack(alignment: .leading, spacing: 0) {
