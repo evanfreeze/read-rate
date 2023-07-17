@@ -822,6 +822,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.evanfreeze.ReadRate;
 				PRODUCT_NAME = "Read Rate";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -848,6 +850,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.evanfreeze.ReadRate;
 				PRODUCT_NAME = "Read Rate";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

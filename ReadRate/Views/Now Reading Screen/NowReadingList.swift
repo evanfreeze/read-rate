@@ -13,7 +13,7 @@ struct NowReadingList: View {
     @State var showSheet = false
     
     var body: some View {
-        NavigationStack {
+        NavigationSplitView {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
                     Image(systemName: "books.vertical").font(.title).foregroundColor(.accentColor)
@@ -77,6 +77,8 @@ struct NowReadingList: View {
             }
             .navigationBarHidden(true)
             .navigationTitle("Now Reading")
+        } detail: {
+            Text("Select a book")
         }
         .sheet(isPresented: $showSheet, onDismiss: { bookStore.setTodaysTargets() }) {
             AddBook(bookStore: bookStore)
