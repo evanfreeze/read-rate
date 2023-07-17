@@ -14,13 +14,10 @@ struct StyledButton: View {
     let bgColor: Color
     
     var body: some View {
-        HStack {
-            Image(systemName: iconName)
-                .foregroundColor(.accentColor)
-            Text(label)
-                .foregroundColor(.primary)
-                .rounded()
-        }
+        Label(
+            title: { Text(label).foregroundColor(.primary).rounded() },
+            icon: { Image(systemName: iconName).foregroundColor(.accentColor) }
+        )
         .padding(.vertical, 10.0)
         .padding(.horizontal, 14.0)
         .background(bgColor)
