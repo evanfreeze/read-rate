@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct NowReadingList: View {
     @StateObject var bookStore = BookStore()
@@ -91,6 +92,9 @@ struct NowReadingList: View {
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             bookStore.setTodaysTargets()
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification), perform: { _ in
+            WidgetCenter.shared.reloadAllTimelines()
+        })
     }
 }
 
