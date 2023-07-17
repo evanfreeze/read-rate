@@ -55,7 +55,7 @@ struct FailureView: View {
 }
 
 struct SearchView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @Binding var title: String
     @Binding var author: String
     @Binding var pageCount: String
@@ -119,7 +119,7 @@ struct SearchView: View {
         author = result?.authors?.first?.name ?? ""
         pageCount = "\(result?.numberOfPages ?? 0)"
         isbn = searchTerm.trimmingCharacters(in: .whitespacesAndNewlines)
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 

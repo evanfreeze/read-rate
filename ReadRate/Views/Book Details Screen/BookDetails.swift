@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct BookDetail: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @Binding var book: Book
     @ObservedObject var shelf: BookStore
     
@@ -297,12 +297,12 @@ struct BookDetail: View {
     
     func archiveBook() {
         book.archivedAt = Date()
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
     
     func deleteBook() {
         book.deletedAt = Date()
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
     
     func showGoalSheet() {

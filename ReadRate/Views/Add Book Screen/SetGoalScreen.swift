@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SetGoalScreen: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     // MARK:- Initial Properties
     var startDate: Binding<Date>
@@ -68,7 +68,7 @@ struct SetGoalScreen: View {
     // MARK:- Methods
     func setGoal() {
         hasSetGoal.wrappedValue = true
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
     
     // MARK:- Computed Properties

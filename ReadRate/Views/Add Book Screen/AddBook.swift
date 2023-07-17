@@ -30,7 +30,7 @@ struct BigButton: View {
 struct AddBook: View {
     var bookStore: BookStore
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     @State var title = ""
     @State var author = ""
@@ -169,17 +169,17 @@ struct AddBook: View {
                 fetchStatus = .success
                 // Adds the new book to the store
                 self.bookStore.books.append(newBook)
-                self.presentationMode.wrappedValue.dismiss()
+                self.dismiss()
             }, failure: {
                 print($0)
                 fetchStatus = .failure
                 // Adds the new book to the store
                 self.bookStore.books.append(newBook)
-                self.presentationMode.wrappedValue.dismiss()
+                self.dismiss()
             })
         } else {
             self.bookStore.books.append(newBook)
-            self.presentationMode.wrappedValue.dismiss()
+            self.dismiss()
         }
     }
     
