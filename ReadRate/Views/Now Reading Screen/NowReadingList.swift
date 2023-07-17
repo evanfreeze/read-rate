@@ -13,7 +13,7 @@ struct NowReadingList: View {
     @State var showSheet = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
                     Image(systemName: "books.vertical").font(.title).foregroundColor(.accentColor)
