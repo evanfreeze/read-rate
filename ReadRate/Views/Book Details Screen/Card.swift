@@ -15,12 +15,10 @@ struct ExpandableCard<T: View>: View {
     let openContent: T
     
     var body: some View {
-        VStack {
-            Button(action: {
-                withAnimation {
-                    isOpen.wrappedValue.toggle()
-                }
-            }) {
+        DisclosureGroup(
+            isExpanded: isOpen,
+            content: { openContent.padding([.top], 10.0) },
+            label: {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(alignment: .center) {
@@ -29,30 +27,14 @@ struct ExpandableCard<T: View>: View {
                         }
                         Text(content).rounded(.body).foregroundColor(.secondary)
                     }
-                    
-                    Spacer(minLength: 1)
-                    
-                    Image(systemName: "chevron.forward")
-                        .font(.headline)
-                        .rotationEffect(Angle(degrees: isOpen.wrappedValue ? 90.0 : 0.0))
                 }
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical)
-            .padding(.horizontal, 20)
-            .background(Color("BookBG"))
-            .cornerRadius(20)
-            .shadow(radius: isOpen.wrappedValue ? 3.0 : 0.0)
-            
-            VStack {
-                if isOpen.wrappedValue {
-                    openContent
-                }
-            }
-            
-        }
-        .background(Color("AltBG"))
-        .cornerRadius(20.0)
+        )
+        .frame(maxWidth: .infinity)
+        .padding(.vertical)
+        .padding(.horizontal, 20)
+        .background(Color("BookBG"))
+        .cornerRadius(20)
     }
 }
 
@@ -102,7 +84,7 @@ struct Card_Previews: PreviewProvider {
             VStack {
                 Card(title: "Some info in a card", content: "This is the content", subtitle: "A subtitle!")
                     .padding(.vertical)
-                ExpandableCard(title: "Some info in a card", content: "This is the content", isOpen: $isOpen, openContent: content)
+                ExpandableCard(title: "Some info in a card", content: "This is the content", isOpen: $isOpen, openContent: content).padding(.vertical)
             }
         }
         

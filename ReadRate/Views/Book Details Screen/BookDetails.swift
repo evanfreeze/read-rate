@@ -140,7 +140,7 @@ struct BookDetail: View {
                         editingCurrentPage = false
                     }
                 }) {
-                    StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color("BookBG"))
+                    StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color(.tertiarySystemBackground))
                 }
                 Button(action: {
                     withAnimation {
@@ -148,11 +148,10 @@ struct BookDetail: View {
                         editingCurrentPage = false
                     }
                 }) {
-                    StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
+                    StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color(.tertiarySystemBackground))
                 }
             }
         }
-        .padding(.bottom, 10.0)
     }
     
     var editTargetDate: some View {
@@ -162,8 +161,6 @@ struct BookDetail: View {
             in: book.startDate...,
             displayedComponents: .date
         )
-        .padding([.horizontal, .bottom])
-        .padding(.top, 6.0)
     }
     
     var editRateGoal: some View {
