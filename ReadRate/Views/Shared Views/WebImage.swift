@@ -22,7 +22,9 @@ struct WebImage: View {
                     image
                         .resizable()
                 default:
-                    ProgressView()
+                    Image(systemName: "text.book.closed")
+                        .resizable()
+                        .foregroundColor(Color("PlaceholderBook"))
             }
         }
     }
