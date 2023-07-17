@@ -11,9 +11,10 @@ import SwiftUI
 struct NowReadingList: View {
     @StateObject var bookStore = BookStore()
     @State var showSheet = false
+    @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
     
     var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
                     Image(systemName: "books.vertical").font(.title).foregroundStyle(Color.accentColor)
@@ -38,17 +39,21 @@ struct NowReadingList: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        VStack(alignment: .center, spacing: 12) {
-                            Image(systemName: "books.vertical").font(.largeTitle).foregroundStyle(Color.secondary)
-                            Text("No Active Books")
-                                .rounded(.title3)
-                                .foregroundStyle(Color.secondary)
-                                
+                        if #available(iOS 17.0, *) {
+                            ContentUnavailableView("No Active Books", systemImage: "bookmark.slash", description: Text("You don't have any books in progress."))
+                        } else {
+                            VStack(alignment: .center, spacing: 12) {
+                                Image(systemName: "books.vertical").font(.largeTitle).foregroundStyle(Color.secondary)
+                                Text("No Active Books")
+                                    .rounded(.title3)
+                                    .foregroundStyle(Color.secondary)
+                                    
+                            }
+                            .frame(width: 160)
+                            .padding(30)
+                            .background(Color("BookBG"))
+                            .cornerRadius(20)
                         }
-                        .frame(width: 160)
-                        .padding(30)
-                        .background(Color("BookBG"))
-                        .cornerRadius(20)
                         
                         Spacer()
                     }

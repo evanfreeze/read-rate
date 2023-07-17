@@ -55,25 +55,31 @@ struct NoArchivedBooks: View {
     let title = "No Archived Books"
     let description = """
     Any book you archive will appear here, along with the date you completed it.
-
-    You'll also be able to unarchive any archived book from this screen.
     """
     
     var body: some View {
-        VStack(alignment: .leading) {
-            VStack(alignment: .center) {
-                Text(title).rounded(.title2)
-                    .padding(.bottom, 4)
-                Text(description).rounded(.body, bold: false).foregroundStyle(Color.secondary)
+        if #available(iOS 17.0, *) {
+            VStack {
+                ContentUnavailableView(title, systemImage: "books.vertical.fill", description: Text(description))
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 30)
-            .padding(.bottom, 45)
+            .padding(.vertical, 100)
+            .padding(.horizontal, 30)
+        } else {
+            VStack(alignment: .leading) {
+                VStack(alignment: .center) {
+                    Text(title).rounded(.title2)
+                        .padding(.bottom, 4)
+                    Text(description).rounded(.body, bold: false).foregroundStyle(Color.secondary)
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 30)
+                .padding(.bottom, 45)
+            }
+            .frame(maxWidth: .infinity)
+            .background(Color("BookBG"))
+            .cornerRadius(20)
+            .padding(.all, 20.0)
         }
-        .frame(maxWidth: .infinity)
-        .background(Color("BookBG"))
-        .cornerRadius(20)
-        .padding(.all, 20.0)
     }
 }
 
