@@ -25,12 +25,13 @@ struct NowReadingList: View {
                 if bookStore.activeBooks.count > 0 {
                     ScrollView {
                         ForEach(bookStore.activeBooks) { book in
-                            NavigationLink(
-                                destination: BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: book)!], shelf: bookStore),
-                                label: {
-                                    BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
-                                        .padding(.bottom, 2)
-                                })
+                            NavigationLink(value: book) {
+                                BookRow(book: $bookStore.books[bookStore.books.firstIndex(of: book)!])
+                                    .padding(.bottom, 2)
+                            }
+                        }
+                        .navigationDestination(for: Book.self) {
+                            BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: $0)!], shelf: bookStore)
                         }
                     }
                 } else {
