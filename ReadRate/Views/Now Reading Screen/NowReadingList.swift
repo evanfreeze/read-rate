@@ -66,7 +66,7 @@ struct NowReadingList: View {
                         }
                         .frame(width: 160)
                         .padding(30)
-                        .background(Color("BookBG"))
+                        .background(Color(.secondarySystemBackground))
                         .cornerRadius(20)
                         
                         Spacer()
@@ -79,12 +79,12 @@ struct NowReadingList: View {
                 HStack {
                     Spacer()
                     NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
-                        StyledButton(iconName: "archivebox", label: "Archived Books", bgColor: Color("BookBG"))
+                        StyledButton(iconName: "archivebox", label: "Archived Books", bgColor: Color(.secondarySystemBackground))
                     }
                     Button(action: {
                         showSheet = true
                     }) {
-                        StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
+                        StyledButton(iconName: "book", label: "Add Book", bgColor: Color(.secondarySystemBackground))
                     }
                     Spacer()
                 }

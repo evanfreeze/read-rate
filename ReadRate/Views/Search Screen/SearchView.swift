@@ -73,7 +73,7 @@ struct SearchView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
             Button(action: search) {
-                StyledButton(iconName: "magnifyingglass", label: "Search", bgColor: Color("SheetButton"))
+                StyledButton(iconName: "magnifyingglass", label: "Search", bgColor: Color(.secondarySystemBackground))
             }
             Text("Powered by OpenLibrary.org")
                 .rounded(.footnote, bold: false)

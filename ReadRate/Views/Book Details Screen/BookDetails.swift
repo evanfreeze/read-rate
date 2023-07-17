@@ -115,13 +115,13 @@ struct BookDetail: View {
     
     var archiveButton: some View {
         Button(action: archiveBook) {
-            StyledButton(iconName: "archivebox", label: "Archive", bgColor: Color("BookBG"))
+            StyledButton(iconName: "archivebox", label: "Archive", bgColor: Color(.secondarySystemBackground))
         }
     }
     
     var editButton: some View {
         Button(action: { showingEditSheet = true }) {
-            StyledButton(iconName: "pencil.circle", label: "Edit", bgColor: Color("BookBG"))
+            StyledButton(iconName: "pencil.circle", label: "Edit", bgColor: Color(.secondarySystemBackground))
         }
     }
     
@@ -140,7 +140,7 @@ struct BookDetail: View {
                         editingCurrentPage = false
                     }
                 }) {
-                    StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color("BookBG"))
+                    StyledButton(iconName: "star.circle", label: "Finish Book", bgColor: Color(.tertiarySystemFill))
                 }
                 Button(action: {
                     withAnimation {
@@ -148,7 +148,7 @@ struct BookDetail: View {
                         editingCurrentPage = false
                     }
                 }) {
-                    StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color("BookBG"))
+                    StyledButton(iconName: "checkmark.circle", label: "Today's Goal", bgColor: Color(.tertiarySystemFill))
                 }
             }
         }
@@ -273,7 +273,7 @@ struct BookDetail: View {
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding(10)
                 } else {
-                    StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("SheetButton"))
+                    StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color(.secondarySystemBackground))
                 }
             }
         }
