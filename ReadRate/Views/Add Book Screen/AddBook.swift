@@ -22,7 +22,7 @@ struct BigButton: View {
         }
         .frame(width: 150, height: 60)
         .padding(.vertical)
-        .background(Color(.secondarySystemBackground))
+        .background(Color("SheetButton"))
         .cornerRadius(20)
     }
 }
@@ -93,7 +93,7 @@ struct AddBook: View {
                         addBookButton
                     } else {
                         Button(action: showGoalSheet, label: {
-                            StyledButton(iconName: "arrow.forward.circle", label: "Continue", bgColor: Color(.secondarySystemBackground))
+                            StyledButton(iconName: "arrow.forward.circle", label: "Continue", bgColor: Color("SheetButton"))
                         })
                     }
                 } else {
@@ -110,7 +110,7 @@ struct AddBook: View {
                     .padding(10)
             } else {
                 Button(action: addBook) {
-                    StyledButton(iconName: "book", label: "Add Book", bgColor: Color(.secondarySystemBackground))
+                    StyledButton(iconName: "book", label: "Add Book", bgColor: Color("SheetButton"))
                 }
                 .disabled(addButtonIsDisabled || !hasSetGoal)
                 .padding(.bottom, 8.0)

@@ -40,7 +40,7 @@ struct SetGoalScreen: View {
                         }
                         .padding(20)
                         .padding(.bottom, 4)
-                        .background(Color(.secondarySystemBackground))
+                        .background(Color("BookBG"))
                         .cornerRadius(20)
                     }
                     .padding(.vertical)
@@ -60,7 +60,7 @@ struct SetGoalScreen: View {
             Spacer()
             
             Button(action: setGoal, label: {
-                StyledButton(iconName: "calendar", label: "Set Goal", bgColor: Color(.secondarySystemBackground))
+                StyledButton(iconName: "calendar", label: "Set Goal", bgColor: Color("SheetButton"))
             })
         }
     }

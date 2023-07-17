@@ -38,7 +38,7 @@ struct BookRow: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.all, 20.0)
-        .background(Color(.secondarySystemBackground))
+        .background(Color("BookBG"))
         .cornerRadius(20.0)
     }
 }

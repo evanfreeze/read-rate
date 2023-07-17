@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct CalendarIcon: View {
-    @Environment(\.colorScheme) var colorScheme
-    
     let month: String
     let day: String
     let headerColor: Color
@@ -29,7 +27,7 @@ struct CalendarIcon: View {
                 .frame(width: 40)
                 .padding(.horizontal, 10)
                 .padding(.bottom, 3)
-                .background(Color(colorScheme == .dark ? .secondarySystemFill : .systemBackground))
+                .background(Color("CalBG"))
                 .dynamicTypeSize(.medium)
         }
         .cornerRadius(8)

@@ -47,7 +47,7 @@ struct MatchingBook: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background(Color("SheetButton"))
         .cornerRadius(20.0)
     }
 }

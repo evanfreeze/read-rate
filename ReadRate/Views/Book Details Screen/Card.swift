@@ -40,8 +40,9 @@ struct ExpandableCard<T: View>: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical)
             .padding(.horizontal, 20)
-            .background(Color(.secondarySystemBackground))
+            .background(Color("BookBG"))
             .cornerRadius(20)
+            .shadow(radius: isOpen.wrappedValue ? 3.0 : 0.0)
             
             VStack {
                 if isOpen.wrappedValue {
@@ -50,7 +51,7 @@ struct ExpandableCard<T: View>: View {
             }
             
         }
-        .background(Color(.secondarySystemBackground))
+        .background(Color("AltBG"))
         .cornerRadius(20.0)
     }
 }
@@ -83,7 +84,7 @@ struct Card: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical)
             .padding(.horizontal, 20)
-            .background(Color(.secondarySystemBackground))
+            .background(Color("BookBG"))
             .cornerRadius(20)
         }
     }

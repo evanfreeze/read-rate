@@ -56,14 +56,14 @@ struct WebImage: View {
             case .failed:
                 failureImage
                     .resizable()
-                    .foregroundColor(Color(.secondarySystemFill))
+                    .foregroundColor(Color("PlaceholderBook"))
             default:
                 if let image = UIImage(data: loader.data) {
                     Image(uiImage: image).resizable()
                 } else {
                     failureImage
                         .resizable()
-                        .foregroundColor(Color(.secondarySystemFill))
+                        .foregroundColor(Color("PlaceholderBook"))
                 }
             }
         }

@@ -40,7 +40,7 @@ struct ArchivedBook: View {
        }
        .frame(maxWidth: .infinity)
        .padding(.all, 20.0)
-       .background(Color(.secondarySystemBackground))
+       .background(Color("BookBG"))
        .cornerRadius(20.0)
     }
     
@@ -71,7 +71,7 @@ struct NoArchivedBooks: View {
             .padding(.bottom, 45)
         }
         .frame(maxWidth: .infinity)
-        .background(Color(.secondarySystemBackground))
+        .background(Color("BookBG"))
         .cornerRadius(20)
         .padding(.all, 20.0)
     }
