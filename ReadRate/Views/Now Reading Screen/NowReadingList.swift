@@ -99,7 +99,7 @@ struct NowReadingList: View {
         }
         .sheet(isPresented: $showSheet, onDismiss: { bookStore.setTodaysTargets() }) {
             AddBook(bookStore: bookStore)
-                .presentationDetents([.fraction(0.33)])
+                .presentationDetents([.medium, .large])
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             bookStore.setTodaysTargets()
