@@ -8,26 +8,6 @@
 
 import SwiftUI
 
-struct StyledButton: View {
-    let iconName: String
-    let label: String
-    let bgColor: Color
-    
-    var body: some View {
-        HStack {
-            Image(systemName: iconName)
-                .foregroundColor(.accentColor)
-            Text(label)
-                .foregroundColor(.primary)
-                .rounded()
-        }
-        .padding(.vertical, 10.0)
-        .padding(.horizontal, 14.0)
-        .background(bgColor)
-        .cornerRadius(12.0)
-    }
-}
-
 struct NowReadingList: View {
     @StateObject var bookStore = BookStore()
     @State var showSheet = false
