@@ -65,6 +65,7 @@ struct SearchView: View {
     @State private var result: ISBNBook? = nil
     @State private var status: FetchStatus = .idle
     @State private var errorText = ""
+    @FocusState private var focused
     
     var body: some View {
         VStack {
@@ -72,6 +73,7 @@ struct SearchView: View {
             TextField("ISBN", text: $searchTerm)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
+                .focused($focused)
             Button(action: search) {
                 StyledButton(iconName: "magnifyingglass", label: "Search", bgColor: Color("SheetButton"))
             }
@@ -94,6 +96,9 @@ struct SearchView: View {
             Spacer()
         }
         .padding()
+        .onAppear {
+            focused = true
+        }
     }
     
     func search() {
