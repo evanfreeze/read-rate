@@ -25,13 +25,13 @@ struct BookHeader: View {
                 
                 Text(book.author)
                     .rounded(.title2)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(Color.secondary)
                 
                 Divider().padding(.vertical, 8)
                 
                 Text(startedText)
                     .rounded(.caption, bold: false)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(Color.secondary)
             }
             Spacer()
         }

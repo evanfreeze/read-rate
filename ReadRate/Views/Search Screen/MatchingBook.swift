@@ -24,18 +24,18 @@ struct MatchingBook: View {
                         .rounded(.title3)
                     Text(result?.authors?.first?.name ?? "Unknown Author")
                         .rounded()
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(Color.secondary)
                         .padding(.bottom, 6.0)
                     HStack(spacing: 3) {
                         Text("\(result?.numberOfPages ?? 0) pages")
                             .rounded(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(Color.secondary)
                         Text("•")
                             .rounded(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(Color.secondary)
                         Text(result?.publishDate ?? "Unknown publication date")
                             .rounded(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(Color.secondary)
                     }
                 }
                 Spacer()

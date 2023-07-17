@@ -18,7 +18,7 @@ struct CalendarIcon: View {
             Text(month)
                 .rounded()
                 .frame(width: 40, height: 24)
-                .foregroundColor(.white)
+                .foregroundStyle(Color.white)
                 .padding(.horizontal, 10)
                 .background(headerColor)
                 .dynamicTypeSize(.medium)

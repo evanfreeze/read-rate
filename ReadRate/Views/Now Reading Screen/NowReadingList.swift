@@ -16,7 +16,7 @@ struct NowReadingList: View {
         NavigationSplitView {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
-                    Image(systemName: "books.vertical").font(.title).foregroundColor(.accentColor)
+                    Image(systemName: "books.vertical").font(.title).foregroundStyle(Color.accentColor)
                     Text("Now Reading").rounded(.largeTitle)
                 }
                 .padding(.top, 30)
@@ -39,10 +39,10 @@ struct NowReadingList: View {
                     HStack {
                         Spacer()
                         VStack(alignment: .center, spacing: 12) {
-                            Image(systemName: "books.vertical").font(.largeTitle).foregroundColor(.secondary)
+                            Image(systemName: "books.vertical").font(.largeTitle).foregroundStyle(Color.secondary)
                             Text("No Active Books")
                                 .rounded(.title3)
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(Color.secondary)
                                 
                         }
                         .frame(width: 160)

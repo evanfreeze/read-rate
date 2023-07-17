@@ -22,16 +22,16 @@ struct BookRow: View {
                 VStack(alignment: .leading, spacing: 1.0) {
                     Text(book.title)
                         .rounded(.title2)
-                        .foregroundColor(.primary)
+                        .foregroundStyle(Color.primary)
                         .multilineTextAlignment(.leading)
                     Text(book.author)
                         .rounded(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(Color.secondary)
                         .multilineTextAlignment(.leading)
                 }
                 Text(book.progressDescription)
-                    .foregroundColor(.secondary)
                     .rounded(.caption, bold: false)
+                    .foregroundStyle(Color.secondary)
                     .multilineTextAlignment(.leading)
             }
             Spacer(minLength: 0)

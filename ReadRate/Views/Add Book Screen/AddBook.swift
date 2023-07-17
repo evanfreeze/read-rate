@@ -17,7 +17,7 @@ struct BigButton: View {
             Image(systemName: icon).font(.largeTitle)
                 .scaledToFill()
                 .frame(width: 40, height: 40)
-            Text(label).rounded(.headline).foregroundColor(.primary)
+            Text(label).rounded(.headline).foregroundStyle(Color.primary)
 
         }
         .frame(width: 150, height: 60)

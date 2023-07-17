@@ -23,14 +23,14 @@ struct ArchivedBook: View {
                VStack(alignment: .leading, spacing: 1.0) {
                    Text(book.title)
                        .rounded(.body)
-                       .foregroundColor(.primary)
+                       .foregroundStyle(Color.primary)
                    Text(book.author)
                        .rounded(.subheadline)
-                       .foregroundColor(.secondary)
+                       .foregroundStyle(Color.secondary)
                }
                Text(book.archivedDaysRead)
-                   .foregroundColor(.secondary)
                    .rounded(.caption2, bold: false)
+                   .foregroundStyle(Color.secondary)
            }
            Spacer(minLength: 0)
            Button(action: { unarchiveBook(book: book) }) {
@@ -64,7 +64,7 @@ struct NoArchivedBooks: View {
             VStack(alignment: .center) {
                 Text(title).rounded(.title2)
                     .padding(.bottom, 4)
-                Text(description).rounded(.body, bold: false).foregroundColor(.secondary)
+                Text(description).rounded(.body, bold: false).foregroundStyle(Color.secondary)
             }
             .padding(.horizontal, 20)
             .padding(.top, 30)
@@ -87,7 +87,7 @@ struct MonthHeader: View {
             Spacer()
             Text("\(count) \(count == 1 ? "book" : "books")")
                 .rounded(.body)
-                .foregroundColor(.secondary)
+                .foregroundStyle(Color.secondary)
         }
         .padding(.top)
     }

@@ -22,10 +22,10 @@ struct ExpandableCard<T: View>: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(alignment: .center) {
-                            Text(title).rounded(.title3).foregroundColor(.primary)
+                            Text(title).rounded(.title3).foregroundStyle(Color.primary)
                             Spacer()
                         }
-                        Text(content).rounded(.body).foregroundColor(.secondary)
+                        Text(content).rounded(.body).foregroundStyle(Color.secondary)
                     }
                 }
             }
@@ -51,13 +51,13 @@ struct Card: View {
                         Text(title).rounded(.title3)
                         Spacer()
                     }
-                    Text(content).rounded(.body).foregroundColor(.secondary)
+                    Text(content).rounded(.body).foregroundStyle(Color.secondary)
                     if subtitle != nil {
                         Divider()
                             .padding(.top, 8)
                         Text(subtitle!)
                             .rounded(.caption2, bold: false)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(Color.secondary)
                             .padding(.top, 4)
                     }
                 }

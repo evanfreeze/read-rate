@@ -88,7 +88,7 @@ struct BookDetail: View {
                     
                     Text(ISBNText)
                         .rounded(.caption, bold: false)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(Color.secondary)
                         .padding(.top, 8)
                 }
                 
@@ -288,7 +288,7 @@ struct BookDetail: View {
             showingDeleteAlert = true
         }) {
             Image(systemName: "trash")
-                .foregroundColor(.red)
+                .foregroundStyle(Color.red)
         }
     }
     

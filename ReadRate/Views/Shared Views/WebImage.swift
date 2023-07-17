@@ -17,14 +17,14 @@ struct WebImage: View {
                 case .failure:
                     Image(systemName: "text.book.closed")
                         .resizable()
-                        .foregroundColor(Color("PlaceholderBook"))
+                        .foregroundStyle(Color("PlaceholderBook"))
                 case .success(let image):
                     image
                         .resizable()
                 default:
                     Image(systemName: "text.book.closed")
                         .resizable()
-                        .foregroundColor(Color("PlaceholderBook"))
+                        .foregroundStyle(Color("PlaceholderBook"))
             }
         }
     }

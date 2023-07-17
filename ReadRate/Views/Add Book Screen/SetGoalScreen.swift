@@ -36,7 +36,7 @@ struct SetGoalScreen: View {
                         
                         VStack(alignment: .leading, spacing: 6) {
                             Text(modeTitle).rounded(.title3)
-                            Text(modeDescription).rounded(.callout, bold: false).foregroundColor(.secondary)
+                            Text(modeDescription).rounded(.callout, bold: false).foregroundStyle(Color.secondary)
                         }
                         .padding(20)
                         .padding(.bottom, 4)
@@ -51,7 +51,7 @@ struct SetGoalScreen: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Summary").rounded(.title3)
                         GoalSummary(goalMode: mode.wrappedValue, startDate: startDate.wrappedValue, targetDate: targetDate.wrappedValue, pageCount: pageCount, currentPage: currentPage, rateGoal: readingRate.wrappedValue)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(Color.secondary)
                     }
                     .padding(.vertical)
                 }

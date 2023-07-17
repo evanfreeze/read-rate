@@ -15,8 +15,8 @@ struct StyledButton: View {
     
     var body: some View {
         Label(
-            title: { Text(label).foregroundColor(.primary).rounded() },
-            icon: { Image(systemName: iconName).foregroundColor(.accentColor) }
+            title: { Text(label).rounded().foregroundStyle(Color.primary) },
+            icon: { Image(systemName: iconName).foregroundStyle(Color.accentColor) }
         )
         .padding(.vertical, 10.0)
         .padding(.horizontal, 14.0)

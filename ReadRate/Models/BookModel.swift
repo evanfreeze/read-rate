@@ -201,23 +201,23 @@ struct Book: Identifiable, Codable, Comparable, Hashable, HasReadingGoal {
         Group {
             if isFuture {
                 Image(systemName: "calendar")
-                    .foregroundColor(progressColor)
+                    .foregroundStyle(progressColor)
                     .font(Font.system(.body).bold())
             } else if currentPage == pageCount {
                 Image(systemName: "star.fill")
-                    .foregroundColor(progressColor)
+                    .foregroundStyle(progressColor)
                     .font(Font.system(.body).bold())
             } else if isOverdue {
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundColor(progressColor)
+                    .foregroundStyle(progressColor)
                     .font(Font.system(.body).bold())
             } else if readEnoughToday {
                 Image(systemName: "checkmark")
-                    .foregroundColor(progressColor)
+                    .foregroundStyle(progressColor)
                     .font(Font.system(.body).bold())
             } else {
                 Text(displayPagesRemainingToday)
-                    .foregroundColor(progressColor)
+                    .foregroundStyle(progressColor)
                     .font(Font.system(.body, design: Font.Design.rounded).bold())
             }
         }

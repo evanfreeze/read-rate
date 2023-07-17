@@ -148,11 +148,11 @@ struct SquareBookView: View {
                     .rounded(.subheadline)
                 Text(book.author)
                     .rounded(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(Color.secondary)
                     .padding(.bottom, 1.0)
                 Text(getWidgetDetails(for: selectedDetails, book: book))
                     .rounded(.caption2, bold: false)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(Color.secondary)
                     .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
             }
             Spacer(minLength: 0)
@@ -177,11 +177,11 @@ struct RowBookView: View {
                         .rounded(.subheadline)
                     Text(book.author)
                         .rounded(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(Color.secondary)
                 }
                 Text(getWidgetDetails(for: selectedDetails, book: book))
                     .rounded(.caption2, bold: false)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(Color.secondary)
                     .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
             }
             Spacer(minLength: 0)

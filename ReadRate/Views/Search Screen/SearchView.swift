@@ -50,7 +50,7 @@ struct FailureView: View {
             .padding(.bottom, 6)
         Text(errorText)
             .rounded(.subheadline, bold: false)
-            .foregroundColor(.secondary)
+            .foregroundStyle(Color.secondary)
     }
 }
 
@@ -79,7 +79,7 @@ struct SearchView: View {
             }
             Text("Powered by OpenLibrary.org")
                 .rounded(.footnote, bold: false)
-                .foregroundColor(.secondary)
+                .foregroundStyle(Color.secondary)
                 .padding(8)
             
             switch status {
