@@ -594,7 +594,7 @@
 				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -619,7 +619,7 @@
 				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -642,7 +642,7 @@
 				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookIntentsExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -665,7 +665,7 @@
 				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				INFOPLIST_FILE = SelectedBookIntentsExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -810,6 +810,7 @@
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ReadRate/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -835,6 +836,7 @@
 				DEVELOPMENT_TEAM = 4BSVL8X5HC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ReadRate/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
