@@ -28,7 +28,7 @@ enum GoalMode: String, Codable {
     case rate = "rate"
 }
 
-struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
+struct Book: Identifiable, Codable, Comparable, Hashable, HasReadingGoal {
     
     // MARK: Defined Properties
     var id = UUID()
@@ -277,6 +277,13 @@ struct Book: Identifiable, Codable, Comparable, HasReadingGoal {
     func getReadingDaysFromDates(start: Date) -> Double {
         let days = Calendar.current.dateComponents([.day], from: start, to: targetDate).day!
         return Double(days + 1)
+    }
+    
+    // MARK: Hashable Conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(startDate)
+        hasher.combine(title)
+        hasher.combine(author)
     }
     
     // MARK: Comparable Conformance
