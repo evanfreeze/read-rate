@@ -24,15 +24,14 @@ struct ProgressCircle<T: View>: View {
                 .stroke(lineWidth: circleLineWidth)
                 .opacity(colorScheme == .dark ? 0.3 : 0.1)
                 .foregroundStyle(progressColor)
-                .frame(width: circleProgressSize, height: circleProgressSize)
             Circle()
                 .trim(from: 0.0, to: CGFloat(progress))
                 .stroke(style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round, lineJoin: .round))
                 .foregroundStyle(progressColor)
-                .frame(width: circleProgressSize, height: circleProgressSize)
                 .rotationEffect(Angle(degrees: 270.0))
             centerContent
         }
+        .frame(width: circleProgressSize, height: circleProgressSize)
     }
 }
 

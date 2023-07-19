@@ -246,7 +246,6 @@ struct AccessoryRectangleView: View {
             }
                 .progressViewStyle(.circular)
                 .frame(width: 40, height: 40)
-
             
             VStack(alignment: .leading) {
                 Text(book.title).bold().rounded().lineLimit(2).lineSpacing(-4).widgetAccentable().padding(.bottom, 0.1)
@@ -270,10 +269,9 @@ extension View {
 }
 
 extension View { 
-    func widgetPadding(_ showsWidgetContainerBackground: Bool) -> some View {
+    func widgetPadding() -> some View {
         if #available(iOSApplicationExtension 17.0, *) {
-            // Don't pad if there's a background, thus the content margins are already present
-            return padding(showsWidgetContainerBackground ? 0 : 10)
+            return padding(.vertical, 4)
         } else {
             return padding()
         }
@@ -282,7 +280,6 @@ extension View {
 
 struct SelectedBookWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
-    @Environment(\.showsWidgetContainerBackground) var showsWidgetContainerBackground
     
     var entry: Provider.Entry
 
@@ -294,7 +291,7 @@ struct SelectedBookWidgetEntryView : View {
                     book: entry.selectedBooks.first!,
                     selectedDetails: entry.selectedDetails
                 )
-                .widgetPadding(showsWidgetContainerBackground)
+                .widgetPadding()
             case .accessoryInline:
                 AccessoryInlineView(books: entry.selectedBooks)
             case .accessoryCircular:
@@ -314,7 +311,7 @@ struct SelectedBookWidgetEntryView : View {
                     }
                     Spacer()
                 }
-                .widgetPadding(showsWidgetContainerBackground)
+                .widgetPadding()
             }
         }.widgetBackground(backgroundView: Color(.systemBackground))
     }
@@ -337,11 +334,11 @@ struct SelectedBookWidget: Widget {
 
     var body: some WidgetConfiguration {
             IntentConfiguration(kind: kind, intent: SelectedBookIntent.self, provider: Provider()) { entry in
-                SelectedBookWidgetEntryView(entry: entry)
-            }
-            .configurationDisplayName("Book Progress")
-            .description("Track a book's progress and choose which information appears")
-            .supportedFamilies(getWidgetFamilies())
+            SelectedBookWidgetEntryView(entry: entry)
+        }
+        .configurationDisplayName("Book Progress")
+        .description("Track a book's progress and choose which information appears")
+        .supportedFamilies(getWidgetFamilies())
     }
 }
 
