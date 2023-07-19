@@ -224,11 +224,14 @@ struct AccessoryCircularView: View {
     let book: Book
     
     var body: some View {
-        ProgressCircle(
-            progress: book.progressBarFillAmount,
-            progressColor: book.progressColor,
-            centerContent: book.progressIcon
-        )
+            ProgressCircle(
+                progress: book.progressBarFillAmount,
+                progressColor: book.progressColor,
+                centerContent: book.progressIcon
+            )
+            .padding(4.25)
+            .background(.thinMaterial)
+            .clipShape(Circle())
     }
 }
 
@@ -243,10 +246,10 @@ struct AccessoryRectangleView: View {
             }
                 .progressViewStyle(.circular)
                 .frame(width: 40, height: 40)
-            
+
             
             VStack(alignment: .leading) {
-                Text(book.title).rounded().lineSpacing(-2).lineLimit(2)
+                Text(book.title).bold().rounded().lineLimit(2).lineSpacing(-4).widgetAccentable().padding(.bottom, 0.1)
                 Text(getWidgetDetails(for: selectedDetails, book: book)).font(.footnote).rounded().lineLimit(1).truncationMode(.tail)
             }
             Spacer(minLength: 0)
@@ -266,10 +269,11 @@ extension View {
     }
 }
 
-extension View {
-    func widgetPadding() -> some View {
+extension View { 
+    func widgetPadding(_ showsWidgetContainerBackground: Bool) -> some View {
         if #available(iOSApplicationExtension 17.0, *) {
-            return padding(0)
+            // Don't pad if there's a background, thus the content margins are already present
+            return padding(showsWidgetContainerBackground ? 0 : 10)
         } else {
             return padding()
         }
@@ -278,6 +282,8 @@ extension View {
 
 struct SelectedBookWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
+    @Environment(\.showsWidgetContainerBackground) var showsWidgetContainerBackground
+    
     var entry: Provider.Entry
 
     var body: some View {
@@ -288,7 +294,7 @@ struct SelectedBookWidgetEntryView : View {
                     book: entry.selectedBooks.first!,
                     selectedDetails: entry.selectedDetails
                 )
-                .widgetPadding()
+                .widgetPadding(showsWidgetContainerBackground)
             case .accessoryInline:
                 AccessoryInlineView(books: entry.selectedBooks)
             case .accessoryCircular:
@@ -308,7 +314,7 @@ struct SelectedBookWidgetEntryView : View {
                     }
                     Spacer()
                 }
-                .widgetPadding()
+                .widgetPadding(showsWidgetContainerBackground)
             }
         }.widgetBackground(backgroundView: Color(.systemBackground))
     }
