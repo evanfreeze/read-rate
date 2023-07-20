@@ -85,6 +85,7 @@ struct Provider: IntentTimelineProvider {
 
     func getTimeline(for configuration: SelectedBookIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         shelf.readBooksAndSyncFromJSON()
+        shelf.setTodaysTargets()
         var selectedBooks = [Book]()
         
         if let legacyBook = configuration.selectedBook as Any as? BookSelection  {
@@ -102,9 +103,12 @@ struct Provider: IntentTimelineProvider {
             }
         }
         
-        let entry = SimpleEntry(date: Date(), selectedDetails: configuration.details, selectedBooks: selectedBooks.filter { book in !book.isFuture })
-        let tomorrowAtMidnight = Calendar.current.startOfDay(for: Date()).advanced(by: 60*60*24+60)
-        let timeline = Timeline(entries: [entry], policy: .after(tomorrowAtMidnight))
+        let firstEntry = SimpleEntry(date: Date(), selectedDetails: configuration.details, selectedBooks: selectedBooks.filter { book in !book.isFuture })
+
+        let tomorrowAtMidnight = Calendar.current.startOfDay(for: Date()).advanced(by: 60*60*24+30)
+        let lastEntry = SimpleEntry(date: tomorrowAtMidnight, selectedDetails: configuration.details, selectedBooks: selectedBooks.filter { book in !book.isFuture })
+        
+        let timeline = Timeline(entries: [firstEntry, lastEntry], policy: .atEnd)
         
         completion(timeline)
     }
