@@ -224,14 +224,14 @@ struct AccessoryCircularView: View {
     let book: Book
     
     var body: some View {
-            ProgressCircle(
-                progress: book.progressBarFillAmount,
-                progressColor: book.progressColor,
-                centerContent: book.progressIcon
-            )
-            .padding(4.25)
-            .background(.thinMaterial)
-            .clipShape(Circle())
+        ProgressCircle(
+            progress: book.progressBarFillAmount,
+            progressColor: book.progressColor,
+            centerContent: book.progressIcon
+        )
+        .padding(4.25)
+        .background(.thinMaterial)
+        .clipShape(Circle())
     }
 }
 
@@ -271,7 +271,7 @@ extension View {
 extension View { 
     func widgetPadding() -> some View {
         if #available(iOSApplicationExtension 17.0, *) {
-            return padding(.vertical, 4)
+            return padding(4)
         } else {
             return padding()
         }
@@ -280,7 +280,6 @@ extension View {
 
 struct SelectedBookWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
-    
     var entry: Provider.Entry
 
     var body: some View {
