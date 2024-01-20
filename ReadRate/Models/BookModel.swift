@@ -281,9 +281,10 @@ struct Book: Identifiable, Codable, Comparable, Hashable, HasReadingGoal {
     
     // MARK: Hashable Conformance
     func hash(into hasher: inout Hasher) {
-        hasher.combine(startDate)
-        hasher.combine(title)
-        hasher.combine(author)
+        hasher.combine(id)
+//        hasher.combine(startDate)
+//        hasher.combine(title)
+//        hasher.combine(author)
     }
     
     // MARK: Comparable Conformance

@@ -32,8 +32,10 @@ struct NowReadingList: View {
                                     .padding(.bottom, 2)
                             }
                         }
-                        .navigationDestination(for: Book.self) {
-                            BookDetail(book: $bookStore.books[bookStore.books.firstIndex(of: $0)!], shelf: bookStore)
+                        .navigationDestination(for: Book.self) { bookBinding in
+                            BookDetail(book: $bookStore.books.first(where: { book in
+                                book.id == bookBinding.id
+                            })!, shelf: bookStore)
                         }
                     }
                 } else {
