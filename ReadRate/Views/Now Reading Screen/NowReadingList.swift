@@ -10,6 +10,7 @@ import SwiftUI
 import WidgetKit
 
 struct NowReadingList: View {
+    @Environment(\.scenePhase) var scenePhase
     @StateObject var bookStore = BookStore()
     @State var showSheet = false
     @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
@@ -91,12 +92,14 @@ struct NowReadingList: View {
         .sheet(isPresented: $showSheet, onDismiss: { bookStore.setTodaysTargets() }) {
             AddBook(bookStore: bookStore)
         }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            bookStore.setTodaysTargets()
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                bookStore.readBooksAndSyncFromJSON()
+                bookStore.setTodaysTargets()
+            } else {
+                WidgetCenter.shared.reloadAllTimelines()
+            }
         }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification), perform: { _ in
-            WidgetCenter.shared.reloadAllTimelines()
-        })
     }
 }
 
