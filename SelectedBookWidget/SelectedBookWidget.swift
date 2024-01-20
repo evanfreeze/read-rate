@@ -103,10 +103,10 @@ struct Provider: IntentTimelineProvider {
             }
         }
         
-        let firstEntry = SimpleEntry(date: Date(), selectedDetails: configuration.details, selectedBooks: selectedBooks.filter { book in !book.isFuture })
+        let firstEntry = SimpleEntry(date: Date(), selectedDetails: configuration.details, selectedBooks: selectedBooks)
 
         let tomorrowAtMidnight = Calendar.current.startOfDay(for: Date()).advanced(by: 60*60*24+30)
-        let lastEntry = SimpleEntry(date: tomorrowAtMidnight, selectedDetails: configuration.details, selectedBooks: selectedBooks.filter { book in !book.isFuture })
+        let lastEntry = SimpleEntry(date: tomorrowAtMidnight, selectedDetails: configuration.details, selectedBooks: selectedBooks)
         
         let timeline = Timeline(entries: [firstEntry, lastEntry], policy: .atEnd)
         
@@ -197,7 +197,7 @@ struct AccessoryInlineView: View {
     let books: [Book]
     
     var body: some View {
-        let (pageCount, bookCount) = getPagesInBooksRemaining(in: books)
+        let (pageCount, bookCount) = getPagesInBooksRemaining(in: books.filter { !$0.isFuture })
         let pageWord = pageCount == 1 ? "page" : "pages"
         let bookWord = bookCount == 1 ? "book" : "books"
         
