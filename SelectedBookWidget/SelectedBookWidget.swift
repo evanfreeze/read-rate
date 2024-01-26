@@ -95,8 +95,9 @@ struct Provider: IntentTimelineProvider {
         } else {
             if let selectedTitles = configuration.selectedBook?.map({ $0.displayString }) {
                 for title in selectedTitles {
-                    let book = shelf.activeBooks.first(where: { title == $0.title })!
-                    selectedBooks.append(book)
+                    if let book = shelf.activeBooks.first(where: { title == $0.title }) {
+                        selectedBooks.append(book)
+                    }
                 }
             } else {
                 selectedBooks = getBooksForWidgetFamily(for: context.family, withPlaceholders: false)
