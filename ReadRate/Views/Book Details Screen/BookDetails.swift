@@ -195,6 +195,13 @@ struct BookDetail: View {
             }
         )
         
+        let bookCurrentPage = Binding<String>(
+            get: {
+                "\(book.currentPage)"
+            },
+            set: { _ in }
+        )
+        
         let bookGoalMode = Binding<GoalMode>(
             get: {
                 book.goalMode
@@ -241,7 +248,7 @@ struct BookDetail: View {
                             Image(systemName: "arrow.forward.circle")
                         })
                         .sheet(isPresented: $showingGoalSheet) {
-                            SetGoalScreen(startDate: $book.startDate, targetDate: $book.targetDate, mode: bookGoalMode, hasSetGoal: .constant(true), readingRate: rateGoal, pageCount: book.pageCount, currentPage: book.currentPage)
+                            SetGoalScreen(startDate: $book.startDate, targetDate: $book.targetDate, mode: bookGoalMode, hasSetGoal: .constant(true), readingRate: rateGoal, pageCount: bookPageCount, currentPage: bookCurrentPage)
                         }
                     }
                     .padding(.vertical, 10.0)

@@ -17,8 +17,8 @@ struct SetGoalScreen: View {
     var mode: Binding<GoalMode>
     var hasSetGoal: Binding<Bool>
     var readingRate: Binding<Int>
-    var pageCount: Int
-    var currentPage: Int
+    var pageCount: Binding<String>
+    var currentPage: Binding<String>
     
     
     // MARK:- Body
@@ -50,7 +50,7 @@ struct SetGoalScreen: View {
                 Section {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Summary").rounded(.title3)
-                        GoalSummary(goalMode: mode.wrappedValue, startDate: startDate.wrappedValue, targetDate: targetDate.wrappedValue, pageCount: pageCount, currentPage: currentPage, rateGoal: readingRate.wrappedValue)
+                        GoalSummary(goalMode: mode.wrappedValue, startDate: startDate.wrappedValue, targetDate: targetDate.wrappedValue, pageCount: Int(pageCount.wrappedValue) ?? 0, currentPage: Int(currentPage.wrappedValue) ?? 0, rateGoal: readingRate.wrappedValue)
                             .foregroundStyle(Color.secondary)
                     }
                     .padding(.vertical)
@@ -126,6 +126,6 @@ struct SetGoalScreen: View {
 
 struct SetGoalScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SetGoalScreen(startDate: .constant(Date()), targetDate: .constant(Date().advanced(by: 60*60*24*14)), mode: .constant(.date), hasSetGoal: .constant(false), readingRate: .constant(15), pageCount: 100, currentPage: 1)
+        SetGoalScreen(startDate: .constant(Date()), targetDate: .constant(Date().advanced(by: 60*60*24*14)), mode: .constant(.date), hasSetGoal: .constant(false), readingRate: .constant(15), pageCount: .constant("100"), currentPage: .constant("1"))
     }
 }

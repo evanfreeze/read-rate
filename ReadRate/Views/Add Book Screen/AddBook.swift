@@ -78,7 +78,7 @@ struct AddBook: View {
                         BigButton(label: "Add Manually", icon: "hand.tap")
                     }
                     .sheet(isPresented: $showingGoalSheet) {
-                        SetGoalScreen(startDate: $startDate, targetDate: $targetDate, mode: $mode, hasSetGoal: $hasSetGoal, readingRate: $readingRate, pageCount: Int(pageCount) ?? 0, currentPage: Int(currentPage) ?? 0)
+                        SetGoalScreen(startDate: $startDate, targetDate: $targetDate, mode: $mode, hasSetGoal: $hasSetGoal, readingRate: $readingRate, pageCount: $pageCount, currentPage: $currentPage)
                     }
                     Spacer(minLength: 0)
                 }
