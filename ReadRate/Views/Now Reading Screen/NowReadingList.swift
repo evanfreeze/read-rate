@@ -13,10 +13,9 @@ struct NowReadingList: View {
     @Environment(\.scenePhase) var scenePhase
     @StateObject var bookStore = BookStore()
     @State var showSheet = false
-    @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
     
     var body: some View {
-        NavigationSplitView(columnVisibility: $columnVisibility) {
+        NavigationStack {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
                     Image(systemName: "books.vertical").font(.title).foregroundStyle(Color.accentColor)
@@ -43,57 +42,33 @@ struct NowReadingList: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        if #available(iOS 17.0, *) {
-                            ContentUnavailableView("No Active Books", systemImage: "bookmark.slash", description: Text("You don't have any books in progress."))
-                        } else {
-                            VStack(alignment: .center, spacing: 12) {
-                                Image(systemName: "books.vertical").font(.largeTitle).foregroundStyle(Color.secondary)
-                                Text("No Active Books")
-                                    .rounded(.title3)
-                                    .foregroundStyle(Color.secondary)
-                                    
-                            }
-                            .frame(width: 160)
-                            .padding(30)
-                            .background(Color("BookBG"))
-                            .cornerRadius(20)
-                        }
-                        
+                        ContentUnavailableView("No Active Books", systemImage: "bookmark.slash", description: Text("You don't have any books in progress."))
                         Spacer()
                     }
                     Spacer()
                 }
-                
                 Spacer()
-                
-                HStack {
-                    Spacer()
-                    NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
-                        StyledButton(iconName: "archivebox", label: "Archived Books", bgColor: Color("BookBG"))
-                    }
-                    Button(action: {
-                        showSheet = true
-                    }) {
-                        StyledButton(iconName: "book", label: "Add Book", bgColor: Color("BookBG"))
-                    }
-                    Spacer()
-                }
-                .padding(.bottom)
             }
             .padding(.horizontal, 18.0)
-            .onAppear() {
-                bookStore.setTodaysTargets()
-            }
             .navigationBarHidden(true)
             .navigationTitle("Now Reading")
-        } detail: {
-            Text("Select a book")
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
+                        Button("View Archived Books", systemImage: "archivebox", action: {})
+                    }
+                    Spacer()
+                    Button("Add Book", systemImage: "plus", action: {
+                        showSheet = true
+                    })
+                }
+            }
         }
         .sheet(isPresented: $showSheet, onDismiss: { bookStore.setTodaysTargets() }) {
             AddBook(bookStore: bookStore)
         }
-        .onChange(of: scenePhase) { newPhase in
-            if newPhase == .active {
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
                 bookStore.readBooksAndSyncFromJSON()
                 bookStore.setTodaysTargets()
             } else {
