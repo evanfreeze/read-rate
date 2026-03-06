@@ -22,10 +22,15 @@ struct ExpandableCard<T: View>: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(alignment: .center) {
-                            Text(title).rounded(.title3).foregroundStyle(Color.primary)
+                            Text(title)
+                                .font(.title3)
+                                .bold()
+                                .foregroundStyle(Color.primary)
                             Spacer()
                         }
-                        Text(content).rounded(.body).foregroundStyle(Color.secondary)
+                        Text(content)
+                            .font(.body)
+                            .foregroundStyle(Color.secondary)
                     }
                 }
             }
@@ -33,8 +38,9 @@ struct ExpandableCard<T: View>: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical)
         .padding(.horizontal, 20)
-        .background(Color("BookBG"))
-        .cornerRadius(20)
+        .background(LinearGradient(colors: [Color.clear, Color.secondary.opacity(0.2)], startPoint: .bottom, endPoint: .topTrailing))
+        .background(.background)
+        .cornerRadius(30)
     }
 }
 
@@ -48,15 +54,19 @@ struct Card: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .center) {
-                        Text(title).rounded(.title3)
+                        Text(title)
+                            .font(.title3)
+                            .bold()
                         Spacer()
                     }
-                    Text(content).rounded(.body).foregroundStyle(Color.secondary)
+                    Text(content)
+                        .font(.body)
+                        .foregroundStyle(Color.secondary)
                     if subtitle != nil {
                         Divider()
                             .padding(.top, 8)
                         Text(subtitle!)
-                            .rounded(.caption2, bold: false)
+                            .font(.caption2)
                             .foregroundStyle(Color.secondary)
                             .padding(.top, 4)
                     }
@@ -66,8 +76,9 @@ struct Card: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical)
             .padding(.horizontal, 20)
-            .background(Color("BookBG"))
-            .cornerRadius(20)
+            .background(LinearGradient(colors: [Color.clear, Color.secondary.opacity(0.2)], startPoint: .bottom, endPoint: .topTrailing))
+            .background(.background)
+            .cornerRadius(30)
         }
     }
 }

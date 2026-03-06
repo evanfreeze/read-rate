@@ -41,7 +41,7 @@ struct WebImage: View {
      @StateObject private var loader: ImageLoader
      var failureImage: Image
 
-     init(url: String, failureImage: Image = Image(systemName: "text.book.closed")) {
+     init(url: String, failureImage: Image = Image(systemName: "book.pages.fill")) {
          _loader = StateObject(wrappedValue: ImageLoader(url: url))
          self.failureImage = failureImage
      }
@@ -56,14 +56,14 @@ struct WebImage: View {
              case .failed:
                  failureImage
                      .resizable()
-                     .foregroundColor(Color("PlaceholderBook"))
+                     .foregroundStyle(.tertiary)
              default:
                  if let image = UIImage(data: loader.data) {
                      Image(uiImage: image).resizable()
                  } else {
                      failureImage
                          .resizable()
-                         .foregroundColor(Color("PlaceholderBook"))
+                         .foregroundStyle(.tertiary)
                  }
              }
          }

@@ -68,8 +68,8 @@ struct SearchView: View {
     @FocusState private var focused
     
     var body: some View {
-        VStack {
-            Text("Search by ISBN").rounded(.title)
+        VStack(alignment: .center) {
+            Text("Search by ISBN").font(.title).bold()
             TextField("ISBN", text: $searchTerm)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)

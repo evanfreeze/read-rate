@@ -21,16 +21,18 @@ struct BookHeader: View {
                 .padding()
             VStack(alignment: .leading, spacing: 0) {
                 Text(book.title)
-                    .rounded(.title)
+                    .font(.title2)
+                    .bold()
                 
                 Text(book.author)
-                    .rounded(.title2)
+                    .font(.title3)
+                    .bold()
                     .foregroundStyle(Color.secondary)
                 
                 Divider().padding(.vertical, 8)
                 
                 Text(startedText)
-                    .rounded(.caption, bold: false)
+                    .font(.caption)
                     .foregroundStyle(Color.secondary)
             }
             Spacer()

@@ -14,7 +14,7 @@ struct MatchingBook: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 14) {
+            HStack(spacing: 12) {
                 WebImage(url: result?.cover?.medium ?? "")
                     .scaledToFit()
                     .cornerRadius(6.0)
@@ -39,10 +39,9 @@ struct MatchingBook: View {
                     }
                 }
                 Spacer()
-                Button(action: action) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title)
-                }
+                Button("Select book", systemImage: "plus.circle.fill", action: action)
+                    .labelStyle(.iconOnly)
+                    .font(.title)
             }
         }
         .frame(maxWidth: .infinity)

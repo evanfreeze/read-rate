@@ -7,23 +7,15 @@
 //
 
 import SwiftUI
-import WidgetKit
 
 struct NowReadingList: View {
-    @Environment(\.scenePhase) var scenePhase
-    @StateObject var bookStore = BookStore()
+    @ObservedObject var bookStore: BookStore
+    
     @State var showSheet = false
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                HStack(alignment: .center) {
-                    Image(systemName: "books.vertical").font(.title).foregroundStyle(Color.accentColor)
-                    Text("Now Reading").rounded(.largeTitle)
-                }
-                .padding(.top, 30)
-                .padding(.bottom, 0)
-
                 if bookStore.activeBooks.count > 0 {
                     ScrollView {
                         ForEach(bookStore.activeBooks) { book in
@@ -49,30 +41,17 @@ struct NowReadingList: View {
                 }
                 Spacer()
             }
-            .padding(.horizontal, 18.0)
-            .navigationBarHidden(true)
+            .padding(18.0)
             .navigationTitle("Now Reading")
+            .sheet(isPresented: $showSheet, onDismiss: { bookStore.setTodaysTargets() }) {
+                AddBook(bookStore: bookStore)
+            }
             .toolbar {
-                ToolbarItemGroup(placement: .bottomBar) {
-                    NavigationLink(destination: ArchivedBooks(shelf: bookStore)) {
-                        Button("View Archived Books", systemImage: "archivebox", action: {})
-                    }
-                    Spacer()
+                ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("Add Book", systemImage: "plus", action: {
                         showSheet = true
                     })
                 }
-            }
-        }
-        .sheet(isPresented: $showSheet, onDismiss: { bookStore.setTodaysTargets() }) {
-            AddBook(bookStore: bookStore)
-        }
-        .onChange(of: scenePhase) {
-            if scenePhase == .active {
-                bookStore.readBooksAndSyncFromJSON()
-                bookStore.setTodaysTargets()
-            } else {
-                WidgetCenter.shared.reloadAllTimelines()
             }
         }
     }

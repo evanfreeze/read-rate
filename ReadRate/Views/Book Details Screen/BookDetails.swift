@@ -27,14 +27,14 @@ struct BookDetail: View {
         if book.readEnoughToday || book.isCompleted || book.isFuture {
             return nil
         } else {
-            return "Goal last calculated at \(book.displayLastGoalCalculatedDate)"
+            return "Goal last calculated on \(book.displayLastGoalCalculatedDate)"
         }
     }
     
     var body: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 12) {
-                ScrollView {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12) {
                     BookHeader(book: book)
                     
                     Card(
@@ -44,7 +44,7 @@ struct BookDetail: View {
                     )
                     
                     ExpandableCard(
-                        title: "Progress",
+                        title: "Your Progress",
                         content: "Page \(book.currentPage) of \(book.pageCount) (\(book.completionPercentage.asRoundedPercent()) complete)",
                         isOpen: $editingCurrentPage,
                         openContent: editCurrentPage
@@ -54,7 +54,7 @@ struct BookDetail: View {
                     switch book.goalMode {
                     case .date:
                         ExpandableCard(
-                            title: "Target Completion Date",
+                            title: "Target Date",
                             content: book.targetDate.prettyPrinted(),
                             isOpen: $editingTargetDate,
                             openContent: editTargetDate
@@ -86,25 +86,25 @@ struct BookDetail: View {
                         )
                     }
                     
-                    Text(ISBNText)
-                        .rounded(.caption, bold: false)
-                        .foregroundStyle(Color.secondary)
-                        .padding(.top, 8)
+                    HStack(alignment: .center) {
+                        Text(ISBNText)
+                            .font(.caption)
+                            .foregroundStyle(Color.secondary)
+                            .padding(.top, 8)
+                    }
+                    .frame(maxWidth: .infinity)
                 }
-                
-                HStack {
-                    Spacer(minLength: 0)
-                    archiveButton
-                    editButton
-                    Spacer(minLength: 0)
-                }
-                .padding(.horizontal)
-                
+                .padding()
             }
-            .padding()
+            .scrollEdgeEffectStyle(.soft, for: .all)
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(trailing: deleteBookButton)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                editButton
+                archiveButton
+                deleteBookButton
+            }
+        }
         .alert(isPresented: $showingDeleteAlert) { deleteBookAlert }
         .sheet(isPresented: $showingEditSheet) { editBookSheet }
     }
@@ -114,15 +114,11 @@ struct BookDetail: View {
     }
     
     var archiveButton: some View {
-        Button(action: archiveBook) {
-            StyledButton(iconName: "archivebox", label: "Archive", bgColor: Color("BookBG"))
-        }
+        Button("Archive Book", systemImage: "archivebox", action: archiveBook)
     }
     
     var editButton: some View {
-        Button(action: { showingEditSheet = true }) {
-            StyledButton(iconName: "pencil.circle", label: "Edit", bgColor: Color("BookBG"))
-        }
+        Button("Edit Book", systemImage: "pencil", action: { showingEditSheet = true })
     }
     
     var editCurrentPage: some View {
@@ -220,23 +216,31 @@ struct BookDetail: View {
             }
         )
         
-        return Group {
+        return NavigationView {
             VStack {
                 Form {
-                    Text("Edit Book")
-                        .rounded(.title).padding(.bottom).padding(.top)
-                    LabeledInput(label: "Title", placeholder: "The name of the book", value: $book.title)
+                    LabeledInput(label: "Title", placeholder: "Book title", value: $book.title)
+                        .textInputAutocapitalization(.sentences)
+                    
                     LabeledInput(label: "Author", placeholder: "Who wrote the book", value: $book.author)
-                    LabeledInput(label: "The book's ISBN", placeholder: "ISBN (used to find cover art)", value: bookISBN).keyboardType(.numberPad)
-                    LabeledInput(label: "Page Count", placeholder: "Total number of pages in the book", value: bookPageCount)
+                        .textInputAutocapitalization(.words)
+                    
+                    LabeledInput(label: "ISBN (Optional, used to find cover art)", placeholder: "ISBN", value: bookISBN)
                         .keyboardType(.numberPad)
+                    
+                    LabeledInput(label: "Page Count", placeholder: "Number of pages in the book", value: bookPageCount)
+                        .keyboardType(.numberPad)
+                    
                     DatePicker(
                         selection: $book.startDate,
                         displayedComponents: .date,
-                        label: { Text("Start Date")
-                            .rounded(.callout) }
+                        label: {
+                            Text("Start Date")
+                                .font(.callout)
+                                .bold()
+                        }
                     )
-                    .padding(.vertical, 10)
+                    
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Goal Type")
@@ -244,40 +248,50 @@ struct BookDetail: View {
                             Text(book.goalMode == .date ? "Target Date" : "Pages Per Day")
                         }
                         Spacer()
-                        Button(action: showGoalSheet, label: {
-                            Image(systemName: "arrow.forward.circle")
-                        })
-                        .sheet(isPresented: $showingGoalSheet) {
-                            SetGoalScreen(startDate: $book.startDate, targetDate: $book.targetDate, mode: bookGoalMode, hasSetGoal: .constant(true), readingRate: rateGoal, pageCount: bookPageCount, currentPage: bookCurrentPage)
-                        }
+                        Button("Edit Reading Goal", systemImage: "chevron.forward", action: showGoalSheet)
+                            .labelStyle(.iconOnly)
+                            .buttonStyle(.glass)
+                            .sheet(isPresented: $showingGoalSheet) {
+                                SetGoalScreen(startDate: $book.startDate, targetDate: $book.targetDate, mode: bookGoalMode, hasSetGoal: .constant(true), readingRate: rateGoal, pageCount: bookPageCount, currentPage: bookCurrentPage)
+                            }
                     }
                     .padding(.vertical, 10.0)
                 }
             }
-            Button(action: {
-                if book.ISBN != nil {
-                    fetchStatus = .loading
-                    ISBNSearcher().findBook(for: book.ISBN!, success: {
-                        book.covers = $0["ISBN:\(book.ISBN!)"]?.cover
-                        fetchStatus = .success
-                        shelf.setTodaysTargets()
+            .navigationTitle("Edit Book")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel Editing", systemImage: "xmark") {
                         showingEditSheet = false
-                    }, failure: {
-                        print($0)
-                        fetchStatus = .failure
-                        shelf.setTodaysTargets()
-                        showingEditSheet = false
-                    })
-                } else {
-                    showingEditSheet = false
+                    }
                 }
-            }) {
-                if fetchStatus == .loading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .padding(10)
-                } else {
-                    StyledButton(iconName: "checkmark.circle", label: "Update Book", bgColor: Color("SheetButton"))
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(action: {
+                        if book.ISBN != nil {
+                            fetchStatus = .loading
+                            ISBNSearcher().findBook(for: book.ISBN!, success: {
+                                book.covers = $0["ISBN:\(book.ISBN!)"]?.cover
+                                fetchStatus = .success
+                                shelf.setTodaysTargets()
+                                showingEditSheet = false
+                            }, failure: {
+                                print($0)
+                                fetchStatus = .failure
+                                shelf.setTodaysTargets()
+                                showingEditSheet = false
+                            })
+                        } else {
+                            showingEditSheet = false
+                        }
+                    }) {
+                        if fetchStatus == .loading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .padding(10)
+                        } else {
+                            StyledButton(iconName: "checkmark", label: "Update Book", bgColor: Color("SheetButton"))
+                        }
+                    }
                 }
             }
         }

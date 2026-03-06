@@ -27,18 +27,19 @@ struct SetGoalScreen: View {
             Form {
                 Section {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("Set Your Reading Goal").rounded(.title2)
+                        Text("Set Your Reading Goal").font(.title3).bold()
                         Picker("Which type of goal do you want to use for this book?", selection: mode) {
                             Text("Target Date").tag(GoalMode.date)
                             Text("Pages Per Day").tag(GoalMode.rate)
                         }
                         .pickerStyle(SegmentedPickerStyle())
                         
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(modeTitle).rounded(.title3)
-                            Text(modeDescription).rounded(.callout, bold: false).foregroundStyle(Color.secondary)
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(modeTitle).font(.default).bold()
+                            Text(modeDescription).font(.callout).foregroundStyle(Color.secondary)
                         }
-                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .padding(18)
                         .padding(.bottom, 4)
                         .background(Color("BookBG"))
                         .cornerRadius(20)
@@ -48,8 +49,8 @@ struct SetGoalScreen: View {
                     goalForm
                 }
                 Section {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Summary").rounded(.title3)
+                    VStack(alignment: .leading) {
+                        Text("Your Plan").font(.title3).bold()
                         GoalSummary(goalMode: mode.wrappedValue, startDate: startDate.wrappedValue, targetDate: targetDate.wrappedValue, pageCount: Int(pageCount.wrappedValue) ?? 0, currentPage: Int(currentPage.wrappedValue) ?? 0, rateGoal: readingRate.wrappedValue)
                             .foregroundStyle(Color.secondary)
                     }
@@ -84,9 +85,9 @@ struct SetGoalScreen: View {
     var modeDescription: String {
         switch mode.wrappedValue {
         case .date:
-            return "Pick when you want to finish the book and the app will adjust your pages per day to keep you on track"
+            return "Pick when you want to finish the book and the app will adjust your pages per day to keep you on track."
         case .rate:
-            return "Pick how many pages you want to read per day and the app will adjust your expected completion date based on that rate"
+            return "Pick how many pages you want to read per day and the app will adjust your expected completion date based on that rate."
         }
     }
     
@@ -108,18 +109,16 @@ struct SetGoalScreen: View {
                 selection: startDate,
                 in: Date()...,
                 displayedComponents: .date,
-                label: { Text("When are you starting?")
-                    .rounded(.callout) }
+                label: { Text("When will you start?")
+                    .font(.callout) }
             )
-            .padding(.vertical, 10)
             DatePicker(
                 selection: targetDate,
                 in: startDate.wrappedValue...,
                 displayedComponents: .date,
-                label: { Text("When do you want to finish?")
-                    .rounded(.callout) }
+                label: { Text("When will you finish?")
+                    .font(.callout) }
             )
-            .padding(.vertical, 10)
         }
     }
 }

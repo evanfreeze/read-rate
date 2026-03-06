@@ -89,13 +89,13 @@ struct MonthHeader: View {
     
     var body: some View {
             HStack(alignment: .firstTextBaseline) {
-            Text(name).rounded(.title2)
-            Spacer()
-            Text("\(count) \(count == 1 ? "book" : "books")")
-                .rounded(.body)
-                .foregroundStyle(Color.secondary)
-        }
-        .padding(.top)
+                Text(name).font(.title2).bold()
+                Spacer()
+                Text("\(count) \(count == 1 ? "book" : "books")")
+                    .font(.body)
+                    .bold()
+                    .foregroundStyle(Color.secondary)
+            }
     }
 }
 
@@ -103,9 +103,10 @@ struct ArchivedBooks: View {
     @ObservedObject var shelf: BookStore
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 12.0) {
-                if shelf.archivedBooks.count > 0 {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12.0) {
+                    if shelf.archivedBooks.count > 0 {
                         ForEach(monthsWithBooks, id:\.self) { month in
                             Section(header: MonthHeader(name: month, count: getBooksCompletedIn(month).count)) {
                                 ForEach(getBooksCompletedIn(month)) { book in
@@ -113,14 +114,15 @@ struct ArchivedBooks: View {
                                 }
                             }
                         }
-                } else {
-                    NoArchivedBooks()
+                    } else {
+                        NoArchivedBooks()
+                    }
+                    Spacer()
                 }
-                Spacer()
+                .padding()
             }
-            .padding()
-            .navigationBarTitle("Archived Books")
-            .navigationBarTitleDisplayMode(.inline)
+            .scrollEdgeEffectStyle(.soft, for: .all)
+            .navigationBarTitle("Archive")
         }
     }
     

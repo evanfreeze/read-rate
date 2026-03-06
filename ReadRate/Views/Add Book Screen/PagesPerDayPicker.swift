@@ -13,7 +13,6 @@ struct PagesPerDayPicker: View {
     
     var body: some View {
         Group {
-            Text("How many pages per day?")
             Picker("How many pages per day?", selection: selection) {
                 Text("5").tag(5)
                 Text("10").tag(10)
@@ -25,7 +24,7 @@ struct PagesPerDayPicker: View {
                 Text("75").tag(75)
                 Text("100").tag(100)
             }
-            .pickerStyle(WheelPickerStyle())
+            .pickerStyle(.menu)
         }
     }
 }

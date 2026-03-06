@@ -17,7 +17,7 @@ struct StyledButton: View {
         Label(
             title: {
                 Text(label)
-                    .rounded()
+                    .bold()
                     .foregroundStyle(Color.primary)
             },
             icon: {
@@ -28,7 +28,7 @@ struct StyledButton: View {
         .padding(.vertical, 10.0)
         .padding(.horizontal, 14.0)
         .background(bgColor)
-        .cornerRadius(12.0)
+        .cornerRadius(.infinity)
     }
 }
 

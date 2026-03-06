@@ -22,7 +22,7 @@ struct ProgressCircle<T: View>: View {
         ZStack {
             Circle()
                 .stroke(lineWidth: circleLineWidth)
-                .opacity(colorScheme == .dark ? 0.3 : 0.1)
+                .opacity(colorScheme == .dark ? 0.3 : 0.2)
                 .foregroundStyle(progressColor)
             Circle()
                 .trim(from: 0.0, to: CGFloat(progress))

@@ -21,16 +21,18 @@ struct BookRow: View {
             VStack(alignment: .leading, spacing: 8.0) {
                 VStack(alignment: .leading, spacing: 1.0) {
                     Text(book.title)
-                        .rounded(.title2)
+                        .font(.headline)
+                        .bold()
                         .foregroundStyle(Color.primary)
                         .multilineTextAlignment(.leading)
                     Text(book.author)
-                        .rounded(.subheadline)
+                        .font(.subheadline)
+                        .bold()
                         .foregroundStyle(Color.secondary)
                         .multilineTextAlignment(.leading)
                 }
                 Text(book.progressDescription)
-                    .rounded(.caption, bold: false)
+                    .font(.caption)
                     .foregroundStyle(Color.secondary)
                     .multilineTextAlignment(.leading)
             }
@@ -38,8 +40,9 @@ struct BookRow: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.all, 20.0)
-        .background(Color("BookBG"))
-        .cornerRadius(20.0)
+        .background(LinearGradient(colors: [Color.clear, book.progressColor.opacity(0.1)], startPoint: .bottom, endPoint: .topTrailing))
+        .background(.background)
+        .cornerRadius(30)
     }
 }
 

@@ -47,7 +47,7 @@ struct AddBook: View {
     @State var showingGoalSheet = false
     @State var fetchStatus: FetchStatus = .idle
     
-    @State var showingForm = false
+    @State var showingForm = true
     @State var hasSetGoal = false
 
     var addButtonIsDisabled: Bool {
@@ -55,15 +55,48 @@ struct AddBook: View {
     }
     
     var body: some View {
-            VStack {
-                Text("Start a New Book")
-                    .rounded(.title)
-                    .padding(.vertical, 8).padding(.top, 16)
+        NavigationView {
+            Form {
+                LabeledInput(label: "What's the title of the book?", placeholder: "Book title", value: $title).autocapitalization(.sentences)
+                LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author).autocapitalization(.words)
+                LabeledInput(label: "How many pages are in it?", placeholder: "Total page count", value: $pageCount).keyboardType(.numberPad)
+                LabeledInput(label: "On which page are you starting?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)
+                LabeledInput(label: "What's the ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
                 HStack {
-                    Spacer(minLength: 0)
-                    
-                    Button(action: showSearchSheet) {
-                        BigButton(label: "Search by ISBN", icon: "magnifyingglass")
+                    VStack(alignment: .leading) {
+                        Text("Reading Goal")
+                            .font(.callout).bold()
+                        if hasSetGoal {
+                            GoalSummary(goalMode: mode, startDate: startDate, targetDate: targetDate, pageCount: Int(pageCount) ?? 0, currentPage: Int(currentPage) ?? 0, rateGoal: readingRate)
+                        } else {
+                            Text("Not set").foregroundStyle(.tertiary).padding(.top, 2)
+                        }
+                    }
+                    Spacer()
+                    if hasSetGoal {
+                        Button("Edit Reading Goal", systemImage: "pencil", action: showGoalSheet)
+                            .labelStyle(.iconOnly)
+                            .buttonStyle(.glass)
+                    } else {
+                        Button("Set Reading Goal", systemImage: "chevron.forward", action: showGoalSheet)
+                            .labelStyle(.iconOnly)
+                            .buttonStyle(.glassProminent)
+                    }
+                }
+                .sheet(isPresented: $showingGoalSheet) {
+                    SetGoalScreen(startDate: $startDate, targetDate: $targetDate, mode: $mode, hasSetGoal: $hasSetGoal, readingRate: $readingRate, pageCount: $pageCount, currentPage: $currentPage)
+                }
+            }
+            .navigationTitle("Add Book")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel Adding Book", systemImage: "xmark") {
+                        self.dismiss()
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Search by ISBN", systemImage: "magnifyingglass") {
+                        showingSearchSheet = true
                     }
                     .sheet(isPresented: $showingSearchSheet) {
                         SearchView(title: $title, author: $author, pageCount: $pageCount, isbn: $isbn)
@@ -73,33 +106,14 @@ struct AddBook: View {
                                 }
                             })
                     }
-                    
-                    Button(action: { showingForm = true }) {
-                        BigButton(label: "Add Manually", icon: "hand.tap")
-                    }
-                    .sheet(isPresented: $showingGoalSheet) {
-                        SetGoalScreen(startDate: $startDate, targetDate: $targetDate, mode: $mode, hasSetGoal: $hasSetGoal, readingRate: $readingRate, pageCount: $pageCount, currentPage: $currentPage)
-                    }
-                    Spacer(minLength: 0)
                 }
-                .padding(.bottom)
-                
-                if showingForm {
-                    manualEntryForm
-                        .animation(.easeInOut, value: 1)
-                        .transition(.opacity)
-                    
-                    if hasSetGoal {
-                        addBookButton
-                    } else {
-                        Button(action: showGoalSheet, label: {
-                            StyledButton(iconName: "arrow.forward.circle", label: "Continue", bgColor: Color("SheetButton"))
-                        })
-                    }
-                } else {
-                    Spacer()
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Add Book", systemImage: "checkmark", action: addBook)
+                        .disabled(addButtonIsDisabled || !hasSetGoal)
                 }
             }
+        }
+        
     }
     
     var addBookButton: some View {
@@ -115,36 +129,6 @@ struct AddBook: View {
                 .disabled(addButtonIsDisabled || !hasSetGoal)
                 .padding(.bottom, 8.0)
             }
-        }
-    }
-    
-    var manualEntryForm: some View {
-        Form {
-            Text("Book Details")
-                .rounded(.title)
-                .padding(.vertical, 4)
-                .padding(.top, 6)
-            LabeledInput(label: "What's the name of the book?", placeholder: "Book title", value: $title).autocapitalization(.sentences)
-            LabeledInput(label: "Who's the author?", placeholder: "Author's name", value: $author).autocapitalization(.words)
-            LabeledInput(label: "How many pages are in it?", placeholder: "Total page count", value: $pageCount).keyboardType(.numberPad)
-            LabeledInput(label: "On which page are you starting?", placeholder: "Starting page", value: $currentPage).keyboardType(.numberPad)
-            LabeledInput(label: "What's the ISBN? (Optional)", placeholder: "ISBN (used to find cover art)", value: $isbn).keyboardType(.numberPad)
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("Reading Goal")
-                        .rounded(.callout)
-                    if hasSetGoal {
-                        GoalSummary(goalMode: mode, startDate: startDate, targetDate: targetDate, pageCount: Int(pageCount) ?? 0, currentPage: Int(currentPage) ?? 0, rateGoal: readingRate)
-                    } else {
-                        Text("Not set")
-                    }
-                }
-                Spacer()
-                Button(action: showGoalSheet, label: {
-                    Image(systemName: "arrow.forward.circle")
-                })
-            }
-            .padding(.vertical, 10.0)
         }
     }
     

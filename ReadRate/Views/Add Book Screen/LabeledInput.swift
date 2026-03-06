@@ -16,11 +16,10 @@ struct LabeledInput: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(label)
-                .rounded(.callout)
-                .foregroundStyle(value.wrappedValue.isEmpty ? Color.accentColor : .primary)
+                .font(.callout)
+                .bold()
             TextField(placeholder, text: value)
         }
-        .padding(.vertical, 10.0)
     }
 }
 
